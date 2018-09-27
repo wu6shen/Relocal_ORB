@@ -127,9 +127,6 @@ public:
 
 protected:
 
-    //Relocal inilization
-    void RelocalInilization();
-
     // Main tracking function. It is independent of the input sensor.
     void Track();
 
@@ -234,6 +231,15 @@ protected:
     //Relocal
     vector<vector<pair<double, int> > > matches;
     vector<pair<MapPoint*, MapPoint*> > match_points;
+
+    //Relocal inilization
+    void FixPointInitialization();
+	void RelocalInitialization();
+
+	//Test PnP error with five point
+	void CompareError();
+	
+
 };
 
 } //namespace ORB_SLAM

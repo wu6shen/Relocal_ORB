@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="relocal" targetName="relocal" />
       <config projectName="relocal" targetName="main" />
+      <config projectName="relocal" targetName="relocal" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -12,7 +12,21 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b54972dc-fb54-4b9c-9b71-14f04db0d48c" name="Default" comment="" />
+    <list default="true" id="b54972dc-fb54-4b9c-9b71-14f04db0d48c" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.kinect-mappoint-test.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Registration.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/System.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/System.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Tracking.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Tracking.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kinect-mappoint-test" beforeDir="false" afterPath="$PROJECT_DIR$/kinect-mappoint-test" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/main.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MapDrawer.cc" beforeDir="false" afterPath="$PROJECT_DIR$/src/MapDrawer.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Optimizer.cc" beforeDir="false" afterPath="$PROJECT_DIR$/src/Optimizer.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Registration.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/System.cc" beforeDir="false" afterPath="$PROJECT_DIR$/src/System.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tracking.cc" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tracking.cc" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,15 +52,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Registration.cc" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Registration.cc">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="16">
-                  <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="Initializer.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Initializer.h">
               <provider selected="true" editor-type-id="text-editor">
@@ -65,18 +70,9 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Map.h" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Map.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/include/Map.h">
               <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-          <file leaf-file-name="Registration.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/include/Registration.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1552">
-                  <caret line="97" column="48" selection-start-line="97" selection-start-column="48" selection-end-line="97" selection-end-column="48" />
-                </state>
-              </provider>
             </entry>
           </file>
           <file leaf-file-name="Frame.h" pinned="false" current-in-tab="false">
@@ -91,17 +87,17 @@
           <file leaf-file-name="System.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/System.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2528">
-                  <caret line="158" selection-start-line="158" selection-end-line="158" />
+                <state relative-caret-position="3072">
+                  <caret line="192" column="54" selection-start-line="192" selection-start-column="54" selection-end-line="192" selection-end-column="54" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Tracking.h" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Tracking.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Tracking.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="493">
-                  <caret line="235" column="45" selection-start-line="235" selection-start-column="45" selection-end-line="235" selection-end-column="45" />
+                <state relative-caret-position="3712">
+                  <caret line="232" column="45" selection-start-line="232" selection-start-column="45" selection-end-line="232" selection-end-column="45" />
                 </state>
               </provider>
             </entry>
@@ -125,80 +121,74 @@
           <file leaf-file-name="main.cc" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/main.cc">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="656">
-                  <caret line="228" column="10" selection-start-line="228" selection-start-column="10" selection-end-line="228" selection-end-column="10" />
+                <state relative-caret-position="2192">
+                  <caret line="147" column="55" selection-start-line="147" selection-start-column="55" selection-end-line="147" selection-end-column="55" />
+                  <folding>
+                    <element signature="e#0#19#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Tracking.cc" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/Tracking.cc">
+          <file leaf-file-name="DenseStorage.h" pinned="false" current-in-tab="false">
+            <entry file="file:///usr/include/eigen3/Eigen/src/Core/DenseStorage.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="384">
-                  <caret line="516" column="26" selection-start-line="516" selection-start-column="26" selection-end-line="516" selection-end-column="26" />
+                <state relative-caret-position="167">
+                  <caret line="191" selection-start-line="191" selection-end-line="191" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MapPoint.cc" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/MapPoint.cc">
+          <file leaf-file-name="se3quat.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Thirdparty/g2o/g2o/types/se3quat.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="448">
-                  <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
+                <state relative-caret-position="174">
+                  <caret line="40" selection-start-line="40" selection-end-line="40" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Sim3Solver.cc" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Sim3Solver.cc">
+          <file leaf-file-name="base_vertex.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Thirdparty/g2o/g2o/core/base_vertex.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="680">
-                  <caret line="323" selection-start-line="323" selection-end-line="323" />
+                <state relative-caret-position="182">
+                  <caret line="95" selection-start-line="95" selection-end-line="95" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Initializer.cc" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Initializer.cc">
+          <file leaf-file-name="System.cc" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/System.cc">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-675">
-                  <caret line="658" column="18" selection-start-line="658" selection-start-column="18" selection-end-line="658" selection-end-column="18" />
+                <state relative-caret-position="432">
+                  <caret line="27" selection-start-line="27" selection-end-line="27" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Optimizer.cc" pinned="false" current-in-tab="false">
+          <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="848">
+                  <caret line="53" column="22" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Optimizer.cc" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Optimizer.cc">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="680">
-                  <caret line="588" selection-start-line="588" selection-end-line="588" />
+                <state relative-caret-position="174">
+                  <caret line="188" selection-start-line="188" selection-end-line="188" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="KeyFrame.cc" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/KeyFrame.cc">
+          <file leaf-file-name="Tracking.cc" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Tracking.cc">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4448">
-                  <caret line="278" selection-start-line="278" selection-end-line="278" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="FrameDrawer.cc" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/FrameDrawer.cc">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3216">
-                  <caret line="201" selection-start-line="201" selection-end-line="201" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ORBmatcher.cc" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/ORBmatcher.cc">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="8">
-                  <caret line="528" column="36" selection-start-line="528" selection-start-column="36" selection-end-line="528" selection-end-column="36" />
+                <state relative-caret-position="14192">
+                  <caret line="887" column="29" selection-start-line="887" selection-start-column="29" selection-end-line="887" selection-end-column="29" />
                 </state>
               </provider>
             </entry>
@@ -206,8 +196,8 @@
           <file leaf-file-name="MapDrawer.cc" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/MapDrawer.cc">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="624">
-                  <caret line="92" column="4" selection-start-line="92" selection-start-column="4" selection-end-line="92" selection-end-column="4" />
+                <state relative-caret-position="1264">
+                  <caret line="79" column="33" selection-start-line="79" selection-start-column="33" selection-end-line="79" selection-end-column="33" />
                   <folding>
                     <element signature="e#8609#8630#0" expanded="true" />
                   </folding>
@@ -228,6 +218,9 @@
       <replace />
     </replaceStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -240,18 +233,13 @@
         <option value="$PROJECT_DIR$/Kinectv2.yaml" />
         <option value="$PROJECT_DIR$/src/FrameDrawer.cc" />
         <option value="$PROJECT_DIR$/src/Sim3Solver.cc" />
-        <option value="$PROJECT_DIR$/include/System.h" />
-        <option value="$PROJECT_DIR$/include/Registration.h" />
-        <option value="$PROJECT_DIR$/src/Registration.cc" />
         <option value="$PROJECT_DIR$/include/Frame.h" />
         <option value="$PROJECT_DIR$/src/Frame.cc" />
         <option value="$PROJECT_DIR$/src/KeyFrame.cc" />
         <option value="$PROJECT_DIR$/include/MapPoint.h" />
         <option value="$PROJECT_DIR$/src/MapPoint.cc" />
         <option value="$PROJECT_DIR$/src/LocalMapping.cc" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/PnPsolver.cc" />
-        <option value="$PROJECT_DIR$/src/System.cc" />
         <option value="$PROJECT_DIR$/src/Optimizer.cc" />
         <option value="$PROJECT_DIR$/src/Initializer.cc" />
         <option value="$PROJECT_DIR$/include/Initializer.h" />
@@ -259,8 +247,13 @@
         <option value="$PROJECT_DIR$/src/ORBmatcher.cc" />
         <option value="$PROJECT_DIR$/include/Tracking.h" />
         <option value="$PROJECT_DIR$/src/Tracking.cc" />
-        <option value="$PROJECT_DIR$/main.cc" />
+        <option value="$PROJECT_DIR$/include/System.h" />
+        <option value="$PROJECT_DIR$/include/Registration.h" />
         <option value="$PROJECT_DIR$/src/MapDrawer.cc" />
+        <option value="$PROJECT_DIR$/src/Registration.cc" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/System.cc" />
+        <option value="$PROJECT_DIR$/main.cc" />
       </list>
     </option>
   </component>
@@ -275,11 +268,11 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-30" />
-    <option name="y" value="-6" />
-    <option name="width" value="1916" />
-    <option name="height" value="970" />
+    <option name="y" value="24" />
+    <option name="width" value="1914" />
+    <option name="height" value="934" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -296,17 +289,18 @@
             <path>
               <item name="relocal" type="b2602c69:ProjectViewProjectNode" />
               <item name="Relocal-ORB" type="462c0819:PsiDirectoryNode" />
-              <item name="include" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="relocal" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Relocal-ORB" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="relocal" type="b2602c69:ProjectViewProjectNode" />
               <item name="Relocal-ORB" type="462c0819:PsiDirectoryNode" />
               <item name="Thirdparty" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="relocal" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Relocal-ORB" type="462c0819:PsiDirectoryNode" />
+              <item name="Thirdparty" type="462c0819:PsiDirectoryNode" />
+              <item name="DBoW2" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -388,12 +382,13 @@
       <workItem from="1535954436500" duration="22106000" />
       <workItem from="1536048115141" duration="1709000" />
       <workItem from="1536116913834" duration="888000" />
-      <workItem from="1536145231639" duration="9717000" />
+      <workItem from="1536145231639" duration="74162000" />
+      <workItem from="1537254256200" duration="2244000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="437708000" />
+    <option name="totallyTimeSpent" value="504397000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -405,46 +400,45 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-11" width="1922" height="1018" extended-state="6" />
-    <editor active="true" />
+    <frame x="-1" y="-14" width="1922" height="1095" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14232999" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3291714" />
-      <window_info active="true" anchor="bottom" id="CMake" order="11" visible="true" weight="0.13280363" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32635984" />
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.14539748" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007907" side_tool="true" weight="0.32984293" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49920928" weight="0.3291714" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32984293" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49920928" weight="0.39895287" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49920928" weight="0.39853558" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32690126" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="bottom" id="CMake" order="11" visible="true" weight="0.13280363" />
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.14606741" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.14232999" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1427816" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3291714" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49920928" weight="0.3291714" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49920928" weight="0.39954597" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49920928" weight="0.39895287" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32984293" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007907" side_tool="true" weight="0.32984293" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.3280363" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32690126" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -456,7 +450,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="22" />
+      <option name="time" value="24" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
@@ -465,27 +459,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/include/eigen3/Eigen/src/Core/MapBase.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2672">
-          <caret line="167" selection-start-line="167" selection-end-line="167" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/pcl-1.8/pcl/registration/registration.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="501" column="31" selection-start-line="501" selection-start-column="31" selection-end-line="501" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/pcl-1.8/pcl/registration/impl/ia_fpcs.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="340" column="18" selection-start-line="340" selection-start-column="18" selection-end-line="340" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/include/pcl-1.8/pcl/registration/ia_fpcs.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1216">
@@ -554,24 +527,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/eigen3/Eigen/src/Core/DenseStorage.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="127" selection-start-line="127" selection-end-line="127" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/pcl-pcl-1.8.1/kdtree/include/pcl/kdtree/impl/kdtree_flann.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="768">
           <caret line="193" selection-start-line="193" selection-end-line="193" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/Registration.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1552">
-          <caret line="97" column="48" selection-start-line="97" selection-start-column="48" selection-end-line="97" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -617,9 +576,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Map.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/MapDrawer.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -644,24 +600,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="4" column="48" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/LocalMapping.cc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1280">
           <caret line="80" selection-start-line="80" selection-end-line="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/System.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2528">
-          <caret line="158" selection-start-line="158" selection-end-line="158" />
         </state>
       </provider>
     </entry>
@@ -700,13 +642,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/System.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2264">
-          <caret line="665" column="8" selection-start-line="665" selection-start-column="8" selection-end-line="665" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/Initializer.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="864">
@@ -735,13 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/FrameDrawer.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3216">
-          <caret line="201" selection-start-line="201" selection-end-line="201" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/ORBmatcher.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1552">
@@ -752,20 +680,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Registration.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Optimizer.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="588" selection-start-line="588" selection-end-line="588" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Initializer.cc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-675">
@@ -773,45 +687,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Sim3Solver.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="323" selection-start-line="323" selection-end-line="323" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/Tracking.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="235" column="45" selection-start-line="235" selection-start-column="45" selection-end-line="235" selection-end-column="45" />
+        <state relative-caret-position="3712">
+          <caret line="232" column="45" selection-start-line="232" selection-start-column="45" selection-end-line="232" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MapPoint.cc">
+    <entry file="file://$PROJECT_DIR$/src/FrameDrawer.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="656">
-          <caret line="228" column="10" selection-start-line="228" selection-start-column="10" selection-end-line="228" selection-end-column="10" />
+        <state relative-caret-position="2230">
+          <caret line="201" selection-start-line="201" selection-end-line="201" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ORBmatcher.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8">
-          <caret line="528" column="36" selection-start-line="528" selection-start-column="36" selection-end-line="528" selection-end-column="36" />
+        <state relative-caret-position="200">
+          <caret line="348" column="5" selection-start-line="348" selection-start-column="5" selection-end-line="348" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Relocal.cc">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/System.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3072">
+          <caret line="192" column="54" selection-start-line="192" selection-start-column="54" selection-end-line="192" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MapPoint.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Sim3Solver.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5168">
+          <caret line="323" selection-start-line="323" selection-end-line="323" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Registration.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2320">
+          <caret line="145" column="29" selection-start-line="145" selection-start-column="29" selection-end-line="145" selection-end-column="29" />
+          <folding>
+            <element signature="e#41#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Registration.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="52" column="49" selection-start-line="52" selection-start-column="49" selection-end-line="52" selection-end-column="49" />
+          <folding>
+            <element signature="e#104#132#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MapDrawer.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="92" column="4" selection-start-line="92" selection-start-column="4" selection-end-line="92" selection-end-column="4" />
+        <state relative-caret-position="1264">
+          <caret line="79" column="33" selection-start-line="79" selection-start-column="33" selection-end-line="79" selection-end-column="33" />
           <folding>
             <element signature="e#8609#8630#0" expanded="true" />
           </folding>
@@ -820,8 +764,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tracking.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="516" column="26" selection-start-line="516" selection-start-column="26" selection-end-line="516" selection-end-column="26" />
+        <state relative-caret-position="14192">
+          <caret line="887" column="29" selection-start-line="887" selection-start-column="29" selection-end-line="887" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="848">
+          <caret line="53" column="22" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/System.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Map.h">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2192">
+          <caret line="147" column="55" selection-start-line="147" selection-start-column="55" selection-end-line="147" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/eigen3/Eigen/src/Core/DenseStorage.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="191" selection-start-line="191" selection-end-line="191" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Thirdparty/g2o/g2o/types/se3quat.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Thirdparty/g2o/g2o/core/base_vertex.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="95" selection-start-line="95" selection-end-line="95" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Optimizer.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="188" selection-start-line="188" selection-end-line="188" />
         </state>
       </provider>
     </entry>

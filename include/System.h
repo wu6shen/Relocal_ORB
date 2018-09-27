@@ -35,7 +35,7 @@
 #include "KeyFrameDatabase.h"
 #include "ORBVocabulary.h"
 #include "Viewer.h"
-#include "Registration.h"
+//#include "Registration.h"
 
 namespace ORB_SLAM2
 {
@@ -189,9 +189,8 @@ private:
     std::mutex mMutexState;
 
     /** test*/
-    pcl::FPCS::FPCSRegistration test;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr source, target;
-
+    //pcl::FPCS::FPCSRegistration test;
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr source, target;
 };
 
 }// namespace ORB_SLAM

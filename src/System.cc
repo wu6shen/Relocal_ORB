@@ -25,7 +25,6 @@
 #include <thread>
 #include <pangolin/pangolin.h>
 #include <iomanip>
-
 namespace ORB_SLAM2
 {
 
@@ -142,35 +141,12 @@ System::System(const string &strSettingsFile, const string &strMapFile, const st
     mpKeyFrameDatabase = new KeyFrameDatabase(*mpVocabulary);
 
     //Create the Map
-    source = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
-    target = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+    //source = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+    //target = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
     mpMap = new Map();
     mpLastMap = new Map();
     SetReferenceMap(strMapFile);
-    /**
 
-    std::string map_file_test = "/home/wu6shen/Computer-Vision/Project/Relocal-ORB/kinect-mappoint-test";
-    SetCurrentMap(map_file_test);
-    test.SetInputSourceCloud(target);
-    test.SetInputTargetCloud(source);
-
-    pcl::PointCloud<pcl::PointXYZ>::Ptr result(new pcl::PointCloud<pcl::PointXYZ>);
-    test.Align(result);
-
-    Eigen::Matrix3f rot = test.GetRotation();
-    Eigen::Vector3f offset = test.GetOffset();
-    float scale = test.GetScale();
-
-    std::vector<MapPoint*> all = mpLastMap->GetAllMapPoints();
-    for (size_t i = 0; i < all.size(); i++) {
-        MapPoint* np = all[i];
-        cv::Mat now = np->GetWorldPos();
-        Eigen::Vector3f noweigen(now.at<float>(0), now.at<float>(1), now.at<float>(2));
-        noweigen = scale * rot * noweigen + offset;
-        for (int j = 0; j < 3; j++) now.at<float>(j) = noweigen(j);
-        np->SetWorldPos(now);
-    }
-     */
 
     //Create Drawers. These are used by the Viewer
     mpFrameDrawer = new FrameDrawer(mpMap);
@@ -207,6 +183,65 @@ System::System(const string &strSettingsFile, const string &strMapFile, const st
 
     mpLoopCloser->SetTracker(mpTracker);
     mpLoopCloser->SetLocalMapper(mpLocalMapper);
+    /* test registration
+        std::string map_file_test = "/home/wu6shen/Computer-Vision/Project/Relocal-ORB/kinect-mappoint-test";
+    SetCurrentMap(map_file_test);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr tt = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+    int point_vis[2000];
+    vector<MapPoint*> all_points = mpMap->GetAllMapPoints();
+    memset(point_vis, 0, sizeof(point_vis));
+    pcl::KdTreeFLANN<pcl::PointXYZ> kd_tree;
+    //kd_tree.setInputCloud(target);
+    std::vector<int> inds;
+    std::vector<float> dists;
+    int cnt_point = 0;
+    for (size_t i = 0; i < target->size(); i++) {
+        if (!point_vis[i]) {
+            cnt_point++;
+            tt->push_back(target->points[i]);
+            kd_tree.radiusSearch(target->points[i], 4.0 / 1000, inds, dists);
+            for (size_t j = 0; j < inds.size(); j++) {
+                if (inds[j] != i) {
+                    point_vis[inds[j]] = 1;
+                }
+            }
+        } else{
+            all_points[i]->SetWorldPos(cv::Mat(3, 1, CV_32F));
+        }
+    }
+    //std::cout << cnt_point << std::endl;
+    test.last = mpLastMap->GetAllMapPoints();
+    test.current = mpMap->GetAllMapPoints();
+    test.last_map = mpLastMap;
+    test.new_map = mpMap;
+    for (size_t i = 0; i < test.current.size(); i++) {
+        for (int j = 0; j < 3; j++) source->points[i].data[j] = test.current[i]->GetWorldPos().at<float>(j);
+    }
+    for (size_t i = 0; i < test.last.size(); i++) {
+        for (int j = 0; j < 3; j++) target->points[i].data[j] = test.last[i]->GetWorldPos().at<float>(j);
+    }
+
+    test.SetInputSourceCloud(target);
+    test.SetInputTargetCloud(source);
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr result(new pcl::PointCloud<pcl::PointXYZ>);
+    test.Align(result);
+
+    Eigen::Matrix3f rot = test.GetRotation();
+    Eigen::Vector3f offset = test.GetOffset();
+    float scale = test.GetScale();
+
+    std::vector<MapPoint*> all = mpLastMap->GetAllMapPoints();
+    for (size_t i = 0; i < all.size(); i++) {
+        MapPoint* np = all[i];
+        cv::Mat now = np->GetWorldPos();
+        Eigen::Vector3f noweigen(now.at<float>(0), now.at<float>(1), now.at<float>(2));
+        noweigen = scale * rot * noweigen + offset;
+        for (int j = 0; j < 3; j++) now.at<float>(j) = noweigen(j);
+        np->SetWorldPos(now);
+    }
+     */
+
 }
 
 cv::Mat System::TrackStereo(const cv::Mat &imLeft, const cv::Mat &imRight, const double &timestamp)
@@ -619,7 +654,7 @@ void System::SetCurrentMap(const std::string &mapfile) {
         curPos.at<float>(0) = x;
         curPos.at<float>(1) = y;
         curPos.at<float>(2) = z;
-        source->push_back(pcl::PointXYZ(x,y,z));
+        //source->push_back(pcl::PointXYZ(x,y,z));
 
         getline(in, str);
         const char* cStr = str.c_str();
@@ -631,7 +666,7 @@ void System::SetCurrentMap(const std::string &mapfile) {
             offset++;
             curDescriptor.at<int32_t>(i) = now;
         }
-        MapPoint* pNewReferencePoint = new MapPoint(curPos, curDescriptor, mpLastMap);
+        MapPoint* pNewReferencePoint = new MapPoint(curPos, curDescriptor, mpMap);
         mpMap->AddMapPoint(pNewReferencePoint);
     }
 }
@@ -649,7 +684,7 @@ void System::SetReferenceMap(const std::string &mapfile) {
         curPos.at<float>(1) = y;
         curPos.at<float>(2) = z;
 
-        target->push_back(pcl::PointXYZ(x,y,z));
+        //target->push_back(pcl::PointXYZ(x,y,z));
         getline(in, str);
         const char* cStr = str.c_str();
         int offset = 0, len = strlen(cStr);
@@ -663,7 +698,7 @@ void System::SetReferenceMap(const std::string &mapfile) {
         MapPoint* pNewReferencePoint = new MapPoint(curPos, curDescriptor, mpLastMap);
         mpLastMap->AddMapPoint(pNewReferencePoint);
         cnt++;
-        if (cnt >= 400) break;
+        //if (cnt >= 400) break;
     }
 }
 

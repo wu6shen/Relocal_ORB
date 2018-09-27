@@ -2,8 +2,8 @@
 // Created by wu6shen on 18-8-12.
 //
 
-#include <pcl/common/distances.h>
 #include <vector>
+#include <pcl/common/distances.h>
 #include <pcl/kdtree/kdtree_flann.h>
 #include <pcl/common/transforms.h>
 #include <pcl/point_cloud.h>
@@ -11,6 +11,7 @@
 #include <opencv2/core.hpp>
 #include <opencv/cv.hpp>
 #include "Registration.h"
+#include "ORBmatcher.h"
 
 namespace pcl {
     namespace FPCS {
@@ -24,21 +25,30 @@ namespace pcl {
                 }
             }
 
+            for (size_t i = 0; i < input_target_->size(); i++) {
+                if (fabs(input_target_->points[i].x - current[i]->GetWorldPos().at<float>(0))>0.5) {
+                    for (int j = 0; j < 3; j++) std::cout << input_target_->points[i].data[j] << " ";
+                    puts("");
+                    std::cout << current[i]->GetWorldPos() << std::endl;
+                }
+            }
+
+
             int max_inlier_num = 0;
             double error = 0;
 
-            for (int i = 0; i < iterations_; i++) {
+            for (int i = 0; i < iterations_ * 5; i++) {
                 std::cout << "Registration stopped. Iteration #" << i << std::endl;
                 target_candidate_basis_ = PointCloud<Set4>::Ptr(new PointCloud<Set4>);
                 ratio_ = 1;
                 bool next = false;
-                while (!registration(max_dist * overlap_ * ratio_)) {
-                    if (ratio_ < .25) {
+                while (!registration(max_dist * 0.5 * ratio_)) {
+                    if (ratio_ < .1) {
                         ratio_ = 1;
                         next = true;
                         break;
                     }
-                    ratio_ /= 1.2;
+                    ratio_ /= 2;
                 }
 
                 if (next) continue;
@@ -76,21 +86,31 @@ namespace pcl {
                     kd_tree.setInputCloud(copy_target_);
                     int vis[3000];
                     memset(vis, 0, sizeof(vis));
+                    vector<MapPoint*> ref, nref;
 
                     for (size_t p = 0; p < copy_source_->size(); p++) {
                         std::vector<int> inds;
                         std::vector<float> dists;
                         kd_tree.radiusSearch(copy_source_->points[p], DELTA, inds, dists);
+                        cv::Mat des1 = last[p]->GetDescriptor();
                         if (inds.size() > 0) {
                             if (inds.size() == 1 || dists[0] < dists[1] / 1.2) {
+                                cv::Mat des2 = current[inds[0]]->GetDescriptor();
                                 if (vis[inds[0]]) continue;
+                                ref.push_back(last[p]);
+                                nref.push_back(current[inds[0]]);
+                                //std::cout << current[0]->GetWorldPos() << std::endl;
+                                //for (int j = 0; j < 3; j++) {
+                                    //std::cout << input_target_->points[0].data[j] << " ";
+                                //}
+                                //std::cout << pcl::euclideanDistance(copy_source_->points[p], copy_target_->points[inds[0]]) << std::endl;
                                 vis[inds[0]] = 1;
                                 inlier_num++;
                                 //pairs.push_back(std::make_pair(p, inds[0]));
                                 err += dists[0];
                             }
                         } else {
-                            kd_tree.radiusSearch(copy_source_->points[p], 5 * DELTA, inds, dists);
+                            //kd_tree.radiusSearch(copy_source_->points[p], 50 * DELTA, inds, dists);
                             /**
                             if (current_scale < 0.5) {
                                 for (auto id : inds) {
@@ -99,7 +119,8 @@ namespace pcl {
                                 std::cout << std::endl;
                             }
                              */
-                            if (inds.size() > 0 && vis[inds[0]] == 0) inlier_numb++, vis[inds[0]] = 1;
+                            //if (inds.size() > 0 && vis[inds[0]] == 0) inlier_numb++, vis[inds[0]] = 1;
+                            //if (inds.size() == 0) inlier_num--;
                         }
                         /**
                         for (size_t q = 0; q < copy_target_->size(); q++) {
@@ -120,6 +141,12 @@ namespace pcl {
                     */
 
                     if (inlier_num + inlier_numb / 10 > max_inlier_num) {
+                        for (int i = 0; i < 4; i++) {
+                            //ref.push_back(last[basis_[i]]);
+                            //nref.push_back(current[target_candidate_basis_->points[id][i]]);
+                        }
+                        last_map->SetReferenceMapPoints(ref);
+                        new_map->SetReferenceMapPoints(nref);
                         max_inlier_num = inlier_num + inlier_numb / 10;
                         std::cout << "Now LinerNum: " << inlier_num << " " << inlier_numb << std::endl;
 
@@ -168,7 +195,7 @@ namespace pcl {
             /** search second point*/
             for (size_t i = 0; i < indexs.size(); i++) {
                 double current_dist = euclideanDistance(input_source_->points[basis[0]], input_source_->points[indexs[i]]);
-                if (current_dist > dist * MIN_DELTA / 2) {
+                if (current_dist > dist * MIN_DELTA / 1.2) {
                     basis.p2_index_ = indexs[i];
                     //basis->push_back(input_source_->points[indexs[i]]);
                     //std::cout << indexs[i] << " ";
@@ -188,7 +215,7 @@ namespace pcl {
             for (size_t i = 0; i < indexs.size(); i++) {
                 double current_dist1 = euclideanDistance(input_source_->points[basis[1]], input_source_->points[indexs[i]]);
                 double current_dist0 = euclideanDistance(input_source_->points[basis[0]], input_source_->points[indexs[i]]);
-                if (current_dist1 > dist * MIN_DELTA / 2 && current_dist0 > dist * MIN_DELTA / 2 && current_dist1 > 1e-3) {
+                if (current_dist1 > dist * MIN_DELTA / 1.2 && current_dist0 > dist * MIN_DELTA / 1.2 && current_dist1 > 1e-3) {
                     //std::cout << indexs[i] << " ";
                     basis.p3_index_ = indexs[i];
                     //basis->push_back(input_source_->points[indexs[i]]);
@@ -207,14 +234,15 @@ namespace pcl {
 
             float max_dist = 0;
 
-            for (size_t i = 0; i < input_source_->size(); i++) {
+            for (size_t j = 0; j < indexs.size(); j++) {
+                int i = indexs[j];
                 double dist0 = euclideanDistance(input_source_->points[basis[0]], input_source_->points[i]);
                 double dist1 = euclideanDistance(input_source_->points[basis[1]], input_source_->points[i]);
                 double dist2 = euclideanDistance(input_source_->points[basis[2]], input_source_->points[i]);
 
-                if (dist0 < 1e-6 || dist0 < dist * MIN_DELTA / 2 ||
-                    dist1 < 1e-6 || dist1 < dist * MIN_DELTA / 2 ||
-                    dist2 < 1e-6 || dist2 < dist * MIN_DELTA / 2 ) {
+                if (dist0 < 1e-6 || dist0 < dist * MIN_DELTA / 1.2 ||
+                    dist1 < 1e-6 || dist1 < dist * MIN_DELTA / 1.2 ||
+                    dist2 < 1e-6 || dist2 < dist * MIN_DELTA / 1.2 ) {
                     continue;
                 }
 
@@ -320,7 +348,12 @@ namespace pcl {
 
         int FPCSRegistration::findTargetCandidateBasis() {
 
+            target_candidate_basis_->clear();
             PointXYZ e = getCross(input_source_->points[basis_[0]], input_source_->points[basis_[1]], input_source_->points[basis_[2]], input_source_->points[basis_[3]]);
+            cv::Mat des1 = last[basis_[0]]->GetDescriptor();
+            cv::Mat des2 = last[basis_[1]]->GetDescriptor();
+            cv::Mat des3 = last[basis_[2]]->GetDescriptor();
+            cv::Mat des4 = last[basis_[3]]->GetDescriptor();
             if (e.x == -1e9 && e.y == -1e9 && e.z == -1e9) return 0;
 
             float d1 = euclideanDistance(input_source_->points[basis_.p1_index_], input_source_->points[basis_.p2_index_]);
@@ -341,11 +374,12 @@ namespace pcl {
                 e2_set[i] = PointCloud<PointXYZ>::Ptr(new PointCloud<PointXYZ>);
             }
 
-
             for (size_t i1 = 0; i1 < input_target_->size(); ++i1)
             {
+                cv::Mat di1 = current[i1]->GetDescriptor();
                 for (size_t i2 = 0; i2 < input_target_->size(); ++i2)
                 {
+                    cv::Mat di2 = current[i2]->GetDescriptor();
                     std::pair<int,int> p;
                     float dist = pcl::euclideanDistance(input_target_->points[i1], input_target_->points[i2]);
                     p.first = i1;
@@ -354,6 +388,10 @@ namespace pcl {
                     float scale2 = dist / d2;
                     int index1 = scale1 * 10;
                     int index2 = scale2 * 10;
+                    int dist1 = ORBmatcher::DescriptorDistance(di1, des1);
+                    int dist2 = ORBmatcher::DescriptorDistance(di2, des2);
+                    int dist3 = ORBmatcher::DescriptorDistance(di1, des3);
+                    int dist4 = ORBmatcher::DescriptorDistance(di2, des4);
                     //if(dist >= d1 * MIN_DELTA && dist <= d1 * MAX_DELTA)
                     //{
                     if (index1 >= 1 && index1 < 100) {
@@ -392,7 +430,7 @@ namespace pcl {
 
             //if (pairs1.size() < 1 || pairs2.size() < 1) return 0;
 
-            for (int si = 5; si < 20; si++) {
+            for (int si = 7; si < 8; si++) {
                 if (pairs1[si].size() < 1 || pairs2[si].size() < 1) continue;
                 std::cout << e1_set[si]->size() << std::endl;
                 pcl::KdTreeFLANN<PointXYZ> kd_tree;
@@ -402,7 +440,7 @@ namespace pcl {
                     std::vector<int> inds;
                     std::vector<float> dists;
                     PointXYZ e2 = e2_set[si]->points[i];
-                    kd_tree.radiusSearch(e2, std::min(DELTA, DELTA * si * 0.1), inds, dists);
+                    kd_tree.radiusSearch(e2, std::min(DELTA * 2, DELTA * si * 0.5), inds, dists);
 
                     for (size_t j = 0; j < inds.size(); ++j) {
                         Set4 Ui(-27, -27, -27, -27);
@@ -414,7 +452,9 @@ namespace pcl {
                             if (indexx != -1) {
                                 Ui.p3_index_ = pairs2[si][indexx].first;
                                 Ui.p4_index_ = pairs2[si][indexx].second;
-                                if (check(Ui, std::min(DELTA, DELTA * si * 0.1))) {
+                                if (check(Ui, std::min(DELTA * 2, DELTA * si * 0.5))) {
+                                    float len = pcl::euclideanDistance(input_target_->points[Ui[0]], input_target_->points[Ui[1]]);
+                                    if (len / d1 < 0.5) std::cout << "---" << len << std::endl;
                                     /**
                                     {
                                         for (int p = 0; p < 4; p++) std::cout << Ui[p] << " ";
@@ -428,7 +468,7 @@ namespace pcl {
                     }
                 }
             }
-            std::cout << target_candidate_basis_->size() << std::endl;
+            std::cout << "---" << target_candidate_basis_->size() << std::endl;
 
 
             if (target_candidate_basis_->size() < 1) return 0;
@@ -617,15 +657,32 @@ namespace pcl {
         }
 
         void FPCSRegistration::estimateSim(const int corr_index, float &scale, Eigen::Matrix3f &rotation, Eigen::Vector3f &offset) {
-            cv::Mat P1(3, 3, CV_32F), P2(3, 3, CV_32F);
+            cv::Mat P1(3, 4, CV_32F), P2(3, 4, CV_32F);
             cv::Mat pt1(3, 1, CV_32F), pt2(3, 1, CV_32F);
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 3; j++) {
                     pt2.at<float>(j) = input_source_->points[basis_[i]].data[j];
                     pt1.at<float>(j) = input_target_->points[target_candidate_basis_->points[corr_index][i]].data[j];
                 }
                 pt1.copyTo(P1.col(i));
                 pt2.copyTo(P2.col(i));
+            }
+            float len1 = 0, len2 = 0, len3 = 0, len4 = 0;
+            for (int i = 0; i < 3; i++) {
+                len1 += pow(P1.at<float>(i, 0) - P1.at<float>(i, 1), 2);
+                len2 += pow(P2.at<float>(i, 0) - P2.at<float>(i, 1), 2);
+                len3 += pow(P1.at<float>(i, 2) - P1.at<float>(i, 3), 2);
+                len4 += pow(P2.at<float>(i, 2) - P2.at<float>(i, 3), 2);
+            }
+            len1 = sqrt(len1);
+            len2 = sqrt(len2);
+            len3 = sqrt(len3);
+            len4 = sqrt(len4);
+            if (len2 / len1 < 0.4) {
+                Set4 now = target_candidate_basis_->points[corr_index];
+                std::cout << input_target_->points[now[0]].x <<" " << input_target_->points[now[0]].y << " " << input_target_->points[now[0]].z << std::endl;
+                std::cout << input_target_->points[now[1]].x <<" " << input_target_->points[now[1]].y << " " << input_target_->points[now[1]].z << std::endl;
+                std::cout << "-=-" <<len1 << " " << len2 << " " << len2 / len1 << std::endl;
             }
 
             cv::Mat Pr1(P1.size(), P1.type());
@@ -686,6 +743,8 @@ namespace pcl {
 
             cv::Mat P3 = R12 * Pr2;
 
+            /*
+             */
             double nom = Pr1.dot(P3);
             cv::Mat aux_P3(P3.size(),P3.type());
             aux_P3=P3;
@@ -701,15 +760,27 @@ namespace pcl {
             }
 
             scale = (float)nom/den;
+            //scale = (len2+len4) / (len1+len3);
             cv::Mat offset_cv = cv::Mat(1, 3, P1.type());
             offset_cv = O1 - scale * R12 * O2;
             Eigen::Matrix4f T;
+            for (int i = 0; i < 3; i++) {
+                pt1 = P1.col(i);
+                pt2 = P2.col(i);
+                pt2 = scale * R12 * pt2 + offset_cv;
+                double error = 0;
+                for (int j = 0; j < 3; j++) error += abs(pt1.at<float>(j) - pt2.at<float>(j));
+                if (error > 0.1) {
+                    scale = 0;
+                }
+            }
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     rotation(i, j) = R12.at<float>(i, j);
                 }
                 offset(i) = offset_cv.at<float>(i);
             }
+            if (scale < 0.7) offset(1) = 100000;
         }
     }
 }

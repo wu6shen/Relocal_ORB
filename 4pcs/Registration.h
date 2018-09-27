@@ -8,10 +8,12 @@
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
 #include <Eigen/Core>
+#include "MapPoint.h"
 
 #define DELTA 0.01
 #define MIN_DELTA (1 - DELTA/1.5)
 #define MAX_DELTA (1 + DELTA/1.5)
+using namespace ORB_SLAM2;
 
 
 namespace pcl {
@@ -85,6 +87,11 @@ namespace pcl {
             float GetScale() { return scale_; }
 
             int Align(PointCloud<PointXYZ>::Ptr &output);
+
+            vector<MapPoint*> last;
+            vector<MapPoint*> current;
+            Map *last_map;
+            Map *new_map;
 
         private:
             int iterations_;

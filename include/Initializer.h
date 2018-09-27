@@ -42,10 +42,6 @@ public:
     bool Initialize(const Frame &CurrentFrame, const vector<int> &vMatches12,
                     cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated);
 
-    bool Initialize(const Frame &CurrentFrame, const vector<int> &vMatches12,
-                    cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated, vector<bool> &vbInliers);
-
-
     void Triangulate(const cv::KeyPoint &kp1, const cv::KeyPoint &kp2, const cv::Mat &P1, const cv::Mat &P2, cv::Mat &x3D);
 
 private:
@@ -96,6 +92,10 @@ private:
 
     // Ransac sets
     vector<vector<size_t> > mvSets;   
+
+//Relocal
+public:
+	void CompareError(const Frame &last, const Frame &current, vector<pair<int, int> > &matches12, vector<bool> &inliers, cv::Mat &F);
 
 };
 

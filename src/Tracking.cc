@@ -28,6 +28,7 @@
 #include"FrameDrawer.h"
 #include"Converter.h"
 #include"Map.h"
+#include "Frame.h"
 #include"Initializer.h"
 
 #include"Optimizer.h"
@@ -413,7 +414,7 @@ void Tracking::testMatch(const cv::Mat &im) {
 
 }
 
-void Tracking::RelocalInilization() {
+void Tracking::FixPointInitialization() {
     std::cout << "inilization .......\n";
     ORBmatcher matcher(0.8, true);
     vector<MapPoint*> vpMatches;
@@ -481,6 +482,133 @@ void Tracking::RelocalInilization() {
     std::cout << "initialize done!" << std::endl;
 }
 
+void Tracking::RelocalInitialization() {
+
+	ORBmatcher matcher(0.9, true);
+
+	if (!mpInitializer) {
+		if (mCurrentFrame.mvKeys.size() > 100) {
+            mInitialFrame = Frame(mCurrentFrame);
+            mLastFrame = Frame(mCurrentFrame);
+            mvbPrevMatched.resize(mCurrentFrame.mvKeysUn.size());
+            for(size_t i=0; i<mCurrentFrame.mvKeysUn.size(); i++)
+                mvbPrevMatched[i]=mCurrentFrame.mvKeysUn[i].pt;
+
+            if(mpInitializer)
+                delete mpInitializer;
+
+            mpInitializer =  new Initializer(mCurrentFrame,1.0,200);
+
+            fill(mvIniMatches.begin(),mvIniMatches.end(),-1);
+
+			vector<MapPoint*> vpMatches;
+			matcher.SearchByLastMap(mpLastMap, mCurrentFrame, vpMatches);
+			PnPsolver *psolver = new PnPsolver(mCurrentFrame, vpMatches);
+			int inliers_num = 0;
+			bool isok = false;
+			vector<bool>inliers;
+			psolver->SetRansacParameters(0.99, 5, 300, 4, 0.03, 5.991);
+			cv::Mat Tcw = psolver->iterate(100, isok, inliers, inliers_num);
+
+			for (int i = 0; i < mCurrentFrame.N; i++) {
+				if (!inliers[i]) {
+					vpMatches[i] = static_cast<MapPoint*>(NULL);
+				} else {
+				std::cout << mCurrentFrame.mvKeys[i].pt.x << " " << mCurrentFrame.mvKeys[i].pt.y << std::endl;
+				}
+			}
+
+			mInitialFrame.mvpMapPoints = vpMatches;
+			mInitialFrame.SetPose(Tcw);
+
+			std::cout << "---" <<inliers_num << std::endl;
+
+            return;
+		}
+	} else {
+		if (mCurrentFrame.mvKeys.size() <= 100) {
+            delete mpInitializer;
+            mpInitializer = static_cast<Initializer*>(NULL);
+            fill(mvIniMatches.begin(),mvIniMatches.end(),-1);
+            return;
+		}
+
+        int nmatches = matcher.SearchForInitialization(mInitialFrame,mCurrentFrame,mvbPrevMatched,mvIniMatches,100);
+
+		vector<MapPoint*> vpMatches;
+		vpMatches.resize(mCurrentFrame.N);
+		for (auto &mp : vpMatches) mp = static_cast<MapPoint*>(NULL);
+		int match_num = 0;
+		for (int i = 0; i < mInitialFrame.N; i++) {
+			int j = mvIniMatches[i];
+			cv::Mat des1 = mInitialFrame.mDescriptors.row(i);
+			int best_dist = 256, better_dist = 256;
+			if (mInitialFrame.mvpMapPoints[i]) {
+				int id = 0, id2 = 0;
+				for (int j = 0; j < mCurrentFrame.N; j++) {
+					cv::Mat des2 = mCurrentFrame.mDescriptors.row(j);
+					int dist = ORBmatcher::DescriptorDistance(des1, des2);
+					if (best_dist > dist)  {
+						better_dist = best_dist;
+						best_dist = dist;
+						id2 = id;
+						id = j;
+					} else if (dist < better_dist) {
+						better_dist = dist;
+						id2 = j;
+					}
+				}
+				vpMatches[id] = mInitialFrame.mvpMapPoints[i];
+				std::cout << mCurrentFrame.mvKeys[id].pt.x << " " << mCurrentFrame.mvKeys[id].pt.y << std::endl;
+				std::cout << mCurrentFrame.mvKeys[id2].pt.x << " " << mCurrentFrame.mvKeys[id2].pt.y << std::endl;
+				std::cout << j << " " << best_dist << " " << better_dist << std::endl;
+			}
+		}
+		std::cout << match_num << std::endl;
+		PnPsolver *psolver = new PnPsolver(mCurrentFrame, vpMatches);
+		int inliers_num = 0;
+		bool isok = false;
+		vector<bool>inliers;
+		psolver->SetRansacParameters(0.99, 4, 300, 4, 0.03, 5.991);
+		cv::Mat Tcw = psolver->iterate(100, isok, inliers, inliers_num);
+		cv::Mat Rwi = mInitialFrame.GetRotationInverse();
+		cv::Mat twi = mInitialFrame.GetCameraCenter();
+		cv::Mat Rcw = Tcw.rowRange(0, 3).colRange(0, 3);
+		cv::Mat tcw = Tcw.rowRange(0, 3).col(3);
+		cv::Mat Rci = Rcw * Rwi;
+		cv::Mat tci = Rcw * twi + tcw;
+		cv::Mat tci_c(3, 3, CV_32F);
+		tci_c.at<float>(0, 1) = -tci.at<float>(2);
+		tci_c.at<float>(1, 0) = tci.at<float>(2);
+		tci_c.at<float>(0, 2) = tci.at<float>(1);
+		tci_c.at<float>(2, 0) = -tci.at<float>(1);
+		tci_c.at<float>(1, 2) = -tci.at<float>(0);
+		tci_c.at<float>(2, 1) = tci.at<float>(0);
+		tci_c.at<float>(0, 0) = tci_c.at<float>(1, 1) = tci_c.at<float>(2, 2) = 0;
+		cv::Mat F = mK.inv().t() * tci_c * Rci * mK.inv();
+		for (size_t i = 0; i < mvIniMatches.size(); i++) {
+			int id = mvIniMatches[i];
+			if (id != -1) {
+				cv::Mat p1(3, 1, CV_32F);
+				cv::Mat p2(3, 1, CV_32F);
+				p1.at<float>(0) = mInitialFrame.mvKeys[i].pt.x;
+				p1.at<float>(1) = mInitialFrame.mvKeys[i].pt.y;
+				p1.at<float>(2) = 1;
+				p2.at<float>(0) = mCurrentFrame.mvKeys[id].pt.x;
+				p2.at<float>(1) = mCurrentFrame.mvKeys[id].pt.y;
+				p2.at<float>(2) = 1;
+				std::cout << p1.t() * F * p2 << " ";
+			}
+		}
+		std::cout << std::endl;
+		std::cout << Rci << std::endl;
+		std::cout << tci << std::endl;
+		std::cout << inliers_num << std::endl;
+		while (1);
+	}
+
+}
+
 cv::Mat Tracking::RelocalUsePnP(const cv::Mat &im, int pnpFlag) {
     if(mState==NO_IMAGES_YET)
     {
@@ -504,170 +632,110 @@ cv::Mat Tracking::RelocalUsePnP(const cv::Mat &im, int pnpFlag) {
             cvtColor(mImGray,mImGray,CV_BGRA2GRAY);
     }
 
-    mCurrentFrame = Frame(mImGray,0,mpIniORBextractor,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
+	mLastProcessedState = mState;
 
-    /**
-    if (mState == NOT_INITIALIZED) {
-        RelocalInilization();
-        return cv::Mat();
-    }
-     */
+	if (mState == NOT_INITIALIZED)
+		mCurrentFrame = Frame(mImGray,0,mpIniORBextractor,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
+	else 
+		mCurrentFrame = Frame(mImGray,0,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
 
     if (mState == NOT_INITIALIZED) {
-        if (!mpInitializer) {
+        RelocalInitialization();
+        mpFrameDrawer->Update(this);
+		if (mState != OK)
+			return cv::Mat();
+	} else {
+		/*
+		   while (1);
+		   */
 
-            mInitialFrame = Frame(mCurrentFrame);
-            mLastFrame = Frame(mCurrentFrame);
-            mvbPrevMatched.resize(mCurrentFrame.mvKeysUn.size());
-            for (size_t i = 0; i < mCurrentFrame.mvKeysUn.size(); i++)
-                mvbPrevMatched[i] = mCurrentFrame.mvKeysUn[i].pt;
+		bool isok = false;
 
-            if (mpInitializer)
-                delete mpInitializer;
+		if (mState == OK) {
+			CheckReplacedInLastFrame();
 
-            /////////////relocal test////
-            matches.resize(mCurrentFrame.N);
-            vector<vector<pair<int, int>> > curMatch;
+			if (mVelocity.empty() || mCurrentFrame.mnId < mnLastRelocFrameId + 2) {
+				isok = TrackReferenceKeyFrame();
+			} else {
+				isok = TrackWithMotionModel();
+				if (!isok) isok = TrackReferenceKeyFrame();
+			}
+		} else {
+			isok = Relocalization();
+		}
 
-            ORBmatcher matcher(0.8, true);
-            matcher.SearchByLastMap(mpLastMap, mCurrentFrame, curMatch);
-            for (int i = 0; i < mCurrentFrame.N; i++) {
-                for (int j = 0; j < 5; j++) if (curMatch[i][j].first < 100) {
-                    matches[i].push_back(make_pair(1.0 * curMatch[i][0].first / curMatch[i][j].first, curMatch[i][j].second));
-                }
-            }
-            /////////////relocal test////
+		mCurrentFrame.mpReferenceKF = mpReferenceKF;
 
-            mpInitializer = new Initializer(mCurrentFrame, 1.0, 200);
+		if (isok) {
+			isok = TrackLocalMap();
+		}
 
-            fill(mvIniMatches.begin(), mvIniMatches.end(), -1);
+		if (isok) {
+			mState = OK;
+		} else mState = LOST;
 
-            return cv::Mat();
-        } else {
+		mpFrameDrawer->Update(this);
 
-            // Try to initialize
-            if ((int) mCurrentFrame.mvKeys.size() <= 100) {
-                delete mpInitializer;
-                mpInitializer = static_cast<Initializer *>(NULL);
-                fill(mvIniMatches.begin(), mvIniMatches.end(), -1);
-                return cv::Mat();
-            }
+		if (isok) {
+			if (!mLastFrame.mTcw.empty()) {
+				cv::Mat LastTwc = cv::Mat::eye(4, 4, CV_32F);
+				mLastFrame.GetRotationInverse().copyTo(LastTwc.rowRange(0, 3).colRange(0, 3));
+				mLastFrame.GetCameraCenter().copyTo(LastTwc.rowRange(0, 3).col(3));
+				mVelocity = mCurrentFrame.mTcw * LastTwc;
+			} else {
+				mVelocity = cv::Mat();
+			}
 
-            // Find correspondences
-            ORBmatcher matcher(0.9, true);
-            int nmatches = matcher.SearchForInitialization(mInitialFrame, mCurrentFrame, mvbPrevMatched, mvIniMatches, 100);
-            std::cout << nmatches << std::endl;
+			mpMapDrawer->SetCurrentCameraPose(mCurrentFrame.mTcw);
 
-            // Check if there are enough correspondences
-            if (nmatches < 100) {
-                delete mpInitializer;
-                mpInitializer = static_cast<Initializer *>(NULL);
-                return cv::Mat();
-            }
+			// Clean the outlier
+			for (int i = 0; i < mCurrentFrame.N; i++) {
+				MapPoint *pMP = mCurrentFrame.mvpMapPoints[i];
+				if (pMP && pMP->Observations() < 1) {
+					mCurrentFrame.mvbOutlier[i] = false;
+					mCurrentFrame.mvpMapPoints[i] = static_cast<MapPoint*>(NULL);
+				}
+			}
 
-            cv::Mat Rcw; // Current Camera Rotation
-            cv::Mat tcw; // Current Camera Translation
-            vector<bool> vbTriangulated; // Triangulated Correspondences (mvIniMatches)
-            vector<bool> vbIniliers;
+			if (NeedNewKeyFrame()) {
+				CreateNewKeyFrame();
+			}
 
-            if (mpInitializer->Initialize(mCurrentFrame, mvIniMatches, Rcw, tcw, mvIniP3D, vbTriangulated, vbIniliers)) {
-                vector<MapPoint*> mvpref, allpoint;
-                allpoint = mpLastMap->GetAllMapPoints();
-                for (size_t i = 0, iend = mvIniMatches.size(); i < iend; i++) {
-                    if (mvIniMatches[i] >= 0 && !vbTriangulated[i]) {
-                        mvIniMatches[i] = -1;
-                        nmatches--;
-                    }
-                    sort(matches[i].begin(), matches[i].end());
-                    matches[i][0] = matches[i][matches[i].size() - 1];
-                    matches[i][1] = matches[i][matches[i].size() - 2];
-                    if (matches[i][0].first * 0.8 < matches[i][1].first) continue;
-                    for (size_t  j = 0; j < 2; j++) {
-                        std::cout << matches[i][j].first << " ";
-                    }
-                    std::cout << std::endl;
-                    if (matches[i][0].first > 5) {
-                        mvpref.push_back(allpoint[matches[i][0].second]);
-                    }
-                }
-                mpLastMap->SetReferenceMapPoints(mvpref);
+			for (int i = 0; i < mCurrentFrame.N; i++) {
+				if (mCurrentFrame.mvpMapPoints[i] && mCurrentFrame.mvbOutlier[i]) {
+					mCurrentFrame.mvpMapPoints[i] = static_cast<MapPoint*>(NULL);
+				}
+			}
 
-                // Set Frame Poses
-                mInitialFrame.SetPose(cv::Mat::eye(4, 4, CV_32F));
-                cv::Mat Tcw = cv::Mat::eye(4, 4, CV_32F);
-                Rcw.copyTo(Tcw.rowRange(0, 3).colRange(0, 3));
-                tcw.copyTo(Tcw.rowRange(0, 3).col(3));
-                mCurrentFrame.SetPose(Tcw);
+		}
 
-                CreateInitialMapMonocular();
+		if (mState == LOST) {
+			////
+		}
 
-                vector<size_t> indexs;
-                cv::Mat P1(3, 3, CV_32F), P2(3, 3, CV_32F);
-                cv::Mat pt1(3, 1, CV_32F), pt2(3, 1, CV_32F);
-                for (size_t i = 0; i < mInitialFrame.N; i++) {
-                    int id = mvIniMatches[i];
-                    if (mvIniMatches[i] >= 0 && mCurrentFrame.mvpMapPoints[id] && !mCurrentFrame.mvbOutlier[id]) {
-                        if (matches[i][0].first * 0.8 < matches[i][1].first || matches[i][0].first < 5) continue;
-                        indexs.push_back(i);
-                    }
-                }
-                for (size_t i = 0; i < indexs.size(); i++) {
-                    cv::Mat l1 = mCurrentFrame.mvpMapPoints[mvIniMatches[indexs[i]]]->GetWorldPos();
-                    cv::Mat l2 = allpoint[matches[indexs[i]][0].second]->GetWorldPos();
-                    match_points.push_back(make_pair(mCurrentFrame.mvpMapPoints[mvIniMatches[indexs[i]]], allpoint[matches[indexs[i]][0].second]));
-                    for (size_t j = i + 1; j < indexs.size(); j++) {
-                        cv::Mat r1 = mCurrentFrame.mvpMapPoints[mvIniMatches[indexs[j]]]->GetWorldPos();
-                        cv::Mat r2 = allpoint[matches[indexs[j]][0].second]->GetWorldPos();
-                        float len1 = 0, len2 = 0;
-                        for (int k = 0; k < 3; k++) {
-                            len1 += pow(l1.at<float>(k) - r1.at<float>(k), 2);
-                            len2 += pow(l2.at<float>(k) - r2.at<float>(k), 2);
-                        }
-                        len1 = sqrt(len1);
-                        len2 = sqrt(len2);
-                        std::cout << len1 << " " << len1 / len2 <<  " ";
-                    }
-                    puts("");
-                }
-            }
+		if (!mCurrentFrame.mpReferenceKF)
+			mCurrentFrame.mpReferenceKF = mpReferenceKF;
 
-            /////////////relocal test////
-            vector<vector<pair<int, int>> > curMatch;
+		mLastFrame = Frame(mCurrentFrame);
+	}
 
-            matcher.SearchByLastMap(mpLastMap, mCurrentFrame, curMatch);
-            for (size_t i = 0; i < mvIniMatches.size(); i++) if (mvIniMatches[i] >= 0 && vbIniliers[i]) {
-                int id = mvIniMatches[i];
-                cv::Mat dcur = mCurrentFrame.mDescriptors.row(id);
-                int num = 0;
-                for (int j = 0; j < mCurrentFrame.N; j++) {
-                    cv::Mat dref = mCurrentFrame.mDescriptors.row(j);
-                    int dist = ORBmatcher::DescriptorDistance(dcur, dref);
-                    if (dist < 50) num++;
-                }
-                if (num > 10) continue;
-                for (int j = 0; j < 5; j++) if (curMatch[id][j].first < 100) {
-                    double score = 1.0 * curMatch[id][0].first / curMatch[id][j].first;
-                    int nid = curMatch[id][j].second, flag = 0;
-                    for (size_t k = 0; k < matches[i].size(); k++) {
-                        if (matches[i][k].second == nid) {
-                            matches[i][k].first += score;
-                            flag = 1;
-                            break;
-                        }
-                    }
-                    if (!flag) {
-                        matches[i].push_back(make_pair(score, nid));
-                    }
-                }
-            }
-            /////////////relocal test////
+	if (!mCurrentFrame.mTcw.empty()) {
+		cv::Mat Tcr = mCurrentFrame.mTcw * mCurrentFrame.mpReferenceKF->GetPoseInverse();
+		mlRelativeFramePoses.push_back(Tcr);
+		mlpReferences.push_back(mpReferenceKF);
+		mlFrameTimes.push_back(mCurrentFrame.mTimeStamp);
+		mlbLost.push_back(mState==LOST);
+	} else {
+		mlRelativeFramePoses.push_back(mlRelativeFramePoses.back());
+		mlpReferences.push_back(mlpReferences.back());
+		mlFrameTimes.push_back(mlFrameTimes.back());
+		mlbLost.push_back(mState==LOST);
+	}
 
-            return cv::Mat();
-        }
-    }
-    /*
-    while (1);
-    */
+	return cv::Mat();
+
+	
+	///////////////////////////
 
     ORBmatcher matcher(0.9, true);
     vector<MapPoint*> vpMatches;
@@ -784,7 +852,7 @@ cv::Mat Tracking::RelocalUsePnP(const cv::Mat &im, int pnpFlag) {
         std::cout << pKF->mnId << std::endl;
     }
     mvpLocalMapPoints.clear();
-    for (size_t i = 0; i < mCurrentFrame.N; i++) {
+    for (int i = 0; i < mCurrentFrame.N; i++) {
         MapPoint *pPoint = mCurrentFrame.mvpMapPoints[i];
 
         if (pPoint && !mCurrentFrame.mvbOutlier[i]) {
@@ -1059,6 +1127,54 @@ void Tracking::Track()
         if(!mCurrentFrame.mpReferenceKF)
             mCurrentFrame.mpReferenceKF = mpReferenceKF;
 
+		//Relocal Start
+		vector<pair<int, int> > matches12;
+		vector<bool> inliers;
+		cv::Mat F, mF(3, 3, CV_32F), Rcl(3, 3, CV_32F), tcl(3, 1, CV_32F);
+		cv::Mat Rcw = mCurrentFrame.mTcw.rowRange(0, 3).colRange(0, 3);
+		cv::Mat tcw = mCurrentFrame.mTcw.rowRange(0, 3).col(3);
+		cv::Mat Rwl = mLastFrame.GetRotationInverse();
+		cv::Mat twl = mLastFrame.GetCameraCenter();
+		Rcl = Rcw * Rwl;
+		tcl = Rcw * twl + tcw;
+		cv::Mat Tcl(3, 3, CV_32F);
+		
+		Tcl.at<float>(0, 1) = -tcl.at<float>(2);
+		Tcl.at<float>(1, 0) = tcl.at<float>(2);
+		Tcl.at<float>(0, 2) = tcl.at<float>(1);
+		Tcl.at<float>(2, 0) = -tcl.at<float>(1);
+		Tcl.at<float>(1, 2) = -tcl.at<float>(0);
+		Tcl.at<float>(2, 1) = tcl.at<float>(0);
+		Tcl.at<float>(0, 0) = Tcl.at<float>(1, 1) = Tcl.at<float>(2, 2) = 0;
+
+		mF = mK.inv().t() * Tcl * Rcl * mK.inv();
+
+		Initializer *p_ini = new Initializer(mLastFrame, 1.0, 200);
+		p_ini->CompareError(mLastFrame, mCurrentFrame, matches12, inliers, F);
+		float error1 = 0, error2 = 0;
+		int num = 0;
+		for (int i = 0; i < matches12.size(); i++) {
+			if (inliers[i]) {
+				num++;
+				int l = matches12[i].first;
+				int r = matches12[i].second;
+				cv::Mat p1(1, 3, CV_32F);
+				cv::Mat p2(1, 3, CV_32F);
+				p1.at<float>(0) = mLastFrame.mvKeysUn[l].pt.x;
+				p1.at<float>(1) = mLastFrame.mvKeysUn[l].pt.y;
+				p1.at<float>(2) = 1;
+				p2.at<float>(0) = mCurrentFrame.mvKeysUn[r].pt.x;
+				p2.at<float>(1) = mCurrentFrame.mvKeysUn[r].pt.y;
+				p2.at<float>(2) = 1;
+				cv::Mat e1 = p1 * F * p2.t();
+				cv::Mat e2 = p1 * mF * p2.t();
+				error1 += e1.at<float>(0);
+				error2 += e2.at<float>(0);
+			}
+		}
+		std::cout << "Inlier num " << num << " e1 : " << error1/ num << " e2 : " << error2 / num << std::endl;
+		//Relocal End
+
         mLastFrame = Frame(mCurrentFrame);
     }
 
@@ -1176,7 +1292,6 @@ void Tracking::MonocularInitialization()
         ORBmatcher matcher(0.9,true);
         int nmatches = matcher.SearchForInitialization(mInitialFrame,mCurrentFrame,mvbPrevMatched,mvIniMatches,100);
 
-        std:cout << nmatches << std::endl;
         // Check if there are enough correspondences
         if(nmatches<100)
         {
@@ -1232,7 +1347,6 @@ void Tracking::CreateInitialMapMonocular()
         if(mvIniMatches[i]<0)
             continue;
 
-
         //Create MapPoint.
         cv::Mat worldPos(mvIniP3D[i]);
 
@@ -1253,10 +1367,8 @@ void Tracking::CreateInitialMapMonocular()
 
         //Add to Map
         mpMap->AddMapPoint(pMP);
-
     }
 
-    std::cout << mpMap->GetAllMapPoints().size() << std::endl;
     // Update Connections
     pKFini->UpdateConnections();
     pKFcur->UpdateConnections();

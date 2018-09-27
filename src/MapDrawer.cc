@@ -76,7 +76,7 @@ void MapDrawer::DrawMapPoints()
         }
         glEnd();
 
-        glPointSize(mPointSize * 2);
+        glPointSize(mPointSize * 4);
         glBegin(GL_POINTS);
         glColor3f(1.0, 0.0, 0.0);
 
@@ -90,8 +90,8 @@ void MapDrawer::DrawMapPoints()
 
         glEnd();
     }
-    */
 
+    */
     const vector<MapPoint *> &vpMPs = mpMap->GetAllMapPoints();
     const vector<MapPoint *> &vpRefMPs = mpMap->GetReferenceMapPoints();
 

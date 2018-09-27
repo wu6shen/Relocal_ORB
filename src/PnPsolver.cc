@@ -138,6 +138,9 @@ void PnPsolver::SetRansacParameters(double probability, int minInliers, int maxI
         nMinInliers=minSet;
     mRansacMinInliers = nMinInliers;
 
+	std::cout << "All : " << N << std::endl;
+	std::cout << "Min Inlier Num : " << mRansacMinInliers << std::endl;
+
     if(mRansacEpsilon<(float)mRansacMinInliers/N)
         mRansacEpsilon=(float)mRansacMinInliers/N;
 
