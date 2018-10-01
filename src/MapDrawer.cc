@@ -100,7 +100,7 @@ void MapDrawer::DrawMapPoints()
         set<MapPoint *> spRefMPs(vpRefMPs.begin(), vpRefMPs.end());
 
 
-        glPointSize(mPointSize * 1);
+        glPointSize(mPointSize);
         glBegin(GL_POINTS);
         glColor3f(0.0, 0.0, 0.0);
 
@@ -112,7 +112,7 @@ void MapDrawer::DrawMapPoints()
         }
         glEnd();
 
-        glPointSize(mPointSize * 2);
+        glPointSize(mPointSize);
         glBegin(GL_POINTS);
         glColor3f(1.0, 0.0, 0.0);
 

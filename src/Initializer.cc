@@ -717,7 +717,6 @@ bool Initializer::ReconstructH(vector<bool> &vbMatchesInliers, cv::Mat &H21, cv:
         }
     }
 
-
     if(secondBestGood<0.75*bestGood && bestParallax>=minParallax && bestGood>minTriangulated && bestGood>0.9*N)
     {
         vR[bestSolutionIdx].copyTo(R21);
@@ -852,15 +851,16 @@ int Initializer::CheckRT(const cv::Mat &R, const cv::Mat &t, const vector<cv::Ke
         float dist2 = cv::norm(normal2);
 
         float cosParallax = normal1.dot(normal2)/(dist1*dist2);
+		//if (cosParallax >= 0.99999) continue;
 
         // Check depth in front of first camera (only if enough parallax, as "infinite" points can easily go to negative depth)
-        if(p3dC1.at<float>(2)<=0 && cosParallax<0.99998)
+        if(p3dC1.at<float>(2)<=0 && cosParallax < 0.99998)
             continue;
 
         // Check depth in front of second camera (only if enough parallax, as "infinite" points can easily go to negative depth)
         cv::Mat p3dC2 = R*p3dC1+t;
 
-        if(p3dC2.at<float>(2)<=0 && cosParallax<0.99998)
+        if(p3dC2.at<float>(2)<=0 && cosParallax < 0.99998)
             continue;
 
         // Check reprojection error in first image
@@ -965,7 +965,6 @@ void Initializer::CompareError(const Frame &last, const Frame &current, vector<p
 	}
 
 	const int N = mvMatches12.size();
-	std::cout << N << std::endl;
 
     vector<size_t> vAllIndices;
     vAllIndices.reserve(N);

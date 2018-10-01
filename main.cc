@@ -140,6 +140,24 @@ void RunSlam() {
     SLAM.Shutdown();
 }
 
+void RunSlamUseCamera() {
+    ORB_SLAM2::System SLAM(m_input->voc_file, m_input->setting_file, ORB_SLAM2::System::MONOCULAR, true);
+	cv::VideoCapture capture(0);
+
+	while (1) {
+		cv::Mat im;
+		capture >> im;
+		if (im.empty()) {
+			puts("No!----");
+			break;
+		} else {
+			SLAM.TrackMonocular(im, 0);
+		}
+		//cv::waitKey(10);
+	}
+    SLAM.Save(m_input->map_save_file);
+    SLAM.Shutdown();
+}
 /**
 void TestMYFPCS() {
     PointCloud<PointXYZ>::Ptr cloud_source_ptr(new PointCloud<PointXYZ>), cloud_target_ptr(new PointCloud<PointXYZ>), cloud_result_ptr(new PointCloud<PointXYZ>), cloud_temp_ptr(new PointCloud<PointXYZ>);

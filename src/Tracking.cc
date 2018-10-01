@@ -1127,7 +1127,7 @@ void Tracking::Track()
         if(!mCurrentFrame.mpReferenceKF)
             mCurrentFrame.mpReferenceKF = mpReferenceKF;
 
-		//Relocal Start
+		/**Relocal Start
 		vector<pair<int, int> > matches12;
 		vector<bool> inliers;
 		cv::Mat F, mF(3, 3, CV_32F), Rcl(3, 3, CV_32F), tcl(3, 1, CV_32F);
@@ -1173,7 +1173,7 @@ void Tracking::Track()
 			}
 		}
 		std::cout << "Inlier num " << num << " e1 : " << error1/ num << " e2 : " << error2 / num << std::endl;
-		//Relocal End
+		Relocal End**/
 
         mLastFrame = Frame(mCurrentFrame);
     }
@@ -1261,6 +1261,7 @@ void Tracking::MonocularInitialization()
         // Set Reference Frame
         if(mCurrentFrame.mvKeys.size()>100)
         {
+			std::cout << "Initialize keypoint num : " << mCurrentFrame.mvKeys.size() << std::endl;
             mInitialFrame = Frame(mCurrentFrame);
             mLastFrame = Frame(mCurrentFrame);
             mvbPrevMatched.resize(mCurrentFrame.mvKeysUn.size());
@@ -1291,6 +1292,7 @@ void Tracking::MonocularInitialization()
         // Find correspondences
         ORBmatcher matcher(0.9,true);
         int nmatches = matcher.SearchForInitialization(mInitialFrame,mCurrentFrame,mvbPrevMatched,mvIniMatches,100);
+		std::cout << "Matches num:" << nmatches << std::endl;
 
         // Check if there are enough correspondences
         if(nmatches<100)

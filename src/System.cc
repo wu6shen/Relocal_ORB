@@ -22,6 +22,7 @@
 
 #include "System.h"
 #include "Converter.h"
+#include"Optimizer.h"
 #include <thread>
 #include <pangolin/pangolin.h>
 #include <iomanip>
@@ -628,6 +629,7 @@ vector<cv::KeyPoint> System::GetTrackedKeyPointsUn()
 
 void System::Save(const string &filename) {
     ofstream f;
+	Optimizer::GlobalBundleAdjustemnt(mpMap, 100);
     f.open(filename.c_str());
     std::vector<MapPoint*> allPoints = mpMap->GetAllMapPoints();
     for (auto point : allPoints) {
