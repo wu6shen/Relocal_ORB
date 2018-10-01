@@ -147,6 +147,7 @@ System::System(const string &strSettingsFile, const string &strMapFile, const st
     mpMap = new Map();
     mpLastMap = new Map();
     SetReferenceMap(strMapFile);
+	mpLastMap->ComputeBoW(mpVocabulary);
 
 
     //Create Drawers. These are used by the Viewer

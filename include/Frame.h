@@ -208,6 +208,11 @@ private:
     cv::Mat mtcw;
     cv::Mat mRwc;
     cv::Mat mOw; //==mtwc
+
+//Relocal
+public:
+	std::vector<MapPoint*> mvpLastMapPoints;
+
 };
 
 }// namespace ORB_SLAM

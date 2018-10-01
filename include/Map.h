@@ -21,6 +21,9 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "Thirdparty/DBoW2/DBoW2/BowVector.h"
+#include "Thirdparty/DBoW2/DBoW2/FeatureVector.h"
+#include "ORBVocabulary.h"
 #include "MapPoint.h"
 #include "KeyFrame.h"
 #include <set>
@@ -78,6 +81,12 @@ protected:
     int mnBigChangeIdx;
 
     std::mutex mMutexMap;
+
+	//Relocal
+public:
+	DBoW2::BowVector mBowVec;
+	DBoW2::FeatureVector mFeatVec;
+	void ComputeBoW(ORBVocabulary *pVoc);
 };
 
 } //namespace ORB_SLAM

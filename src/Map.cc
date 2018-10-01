@@ -130,4 +130,13 @@ void Map::clear()
     mvpKeyFrameOrigins.clear();
 }
 
+void Map::ComputeBoW(ORBVocabulary *pVoc) {
+	std::vector<cv::Mat> descriptors;
+	descriptors.reserve(mspMapPoints.size());
+	for (auto mp : mspMapPoints) {
+		descriptors.push_back(mp->GetDescriptor());
+	}
+	pVoc->transform(descriptors, mBowVec, mFeatVec, 4);
+}
+
 } //namespace ORB_SLAM

@@ -97,6 +97,14 @@ private:
 public:
 	void CompareError(const Frame &last, const Frame &current, vector<pair<int, int> > &matches12, vector<bool> &inliers, cv::Mat &F);
 
+    bool InitializeWithMap(const Frame &CurrentFrame, const vector<int> &vMatches12,
+                    cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated);
+
+    Initializer(Map *pLastMap, const Frame &ReferenceFrame, float sigma = 1.0, int iterations = 200);
+
+protected:
+	Map *mpLastMap;
+	vector<MapPoint*> mvpLastMapPoints;
 };
 
 } //namespace ORB_SLAM

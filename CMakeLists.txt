@@ -45,6 +45,7 @@ add_library(relocal src/Converter.cc
 					src/Tracking.cc
 					src/Viewer.cc
                     src/System.cc
+					src/PoseSolver.cc
                     src/Relocal.cc)
 
 target_link_libraries(relocal

@@ -41,6 +41,19 @@ Initializer::Initializer(const Frame &ReferenceFrame, float sigma, int iteration
     mMaxIterations = iterations;
 }
 
+Initializer::Initializer(Map *pLastMap, const Frame &ReferenceFrame, float sigma, int iterations) {
+    mK = ReferenceFrame.mK.clone();
+
+    mvKeys1 = ReferenceFrame.mvKeysUn;
+
+    mSigma = sigma;
+    mSigma2 = sigma*sigma;
+    mMaxIterations = iterations;
+
+	mpLastMap = pLastMap;
+	mvpLastMapPoints = ReferenceFrame.mvpLastMapPoints;
+}
+
 bool Initializer::Initialize(const Frame &CurrentFrame, const vector<int> &vMatches12, cv::Mat &R21, cv::Mat &t21,
                              vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated)
 {
@@ -1002,6 +1015,23 @@ void Initializer::CompareError(const Frame &last, const Frame &current, vector<p
 
 	matches12 = mvMatches12;
 	inliers = vbMatchesInliersF;
+}
+
+bool Initializer::InitializeWithMap(const Frame &CurrentFrame, const vector<int> &vMatches12,
+		cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated) {
+	mvKeys2 = CurrentFrame.mvKeysUn;
+	mvMatches12.clear();
+	mvMatches12.reserve(mvKeys2.size());
+	mvbMatched1.resize(mvKeys1.size());
+	for (size_t i = 0; i < vMatches12.size(); i++) {
+		if (vMatches12[i] >= 0 && mvpLastMapPoints[i]) {
+			mvMatches12.push_back(make_pair(i, vMatches12[i]));
+			mvbMatched1[i] = true;
+		} else {
+			mvbMatched1[i] = false;
+		}
+	}
+
 }
 
 } //namespace ORB_SLAM
