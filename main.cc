@@ -307,6 +307,6 @@ void TestPCLFPCS() {
 
 int main(int argc, char *argv[]) {
 	getInput(argv[1]);
-    RunSlam();
+    RunRelocal();
     //TestMYFPCS();
 }

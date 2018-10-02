@@ -85,12 +85,15 @@ public:
     // Project MapPoints into KeyFrame using a given Sim3 and search for duplicated MapPoints.
     int Fuse(KeyFrame* pKF, cv::Mat Scw, const std::vector<MapPoint*> &vpPoints, float th, vector<MapPoint *> &vpReplacePoint);
 
+	//Relocal
     int SearchByLastMap(Map *pMap, Frame &F, vector<MapPoint*> &vpMatches);
     int SearchByLastMap(Map *pMap, Frame &F, vector<vector<pair<int, int>> > &matches);
     int SearchByProjection(Map *pMap, Frame &F, vector<MapPoint*> &vpMatches, const float th=15, const float bestTH=TH_LOW);
     int SearchByBoW(Frame &last, Frame &F, vector<MapPoint*> &vpMatches);
     int SearchByBF(Frame &last, Frame &F, vector<MapPoint*> &vpMatches);
     int SearchByBF(Frame &last, Frame &F, vector<cv::DMatch> &matches);
+	int SearchByBoW(Map *pMap, Frame &F, vector<MapPoint*> &vpMatches);
+	//Relocal END
 
 public:
 

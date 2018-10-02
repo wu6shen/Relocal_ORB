@@ -2100,4 +2100,70 @@ int ORBmatcher::DescriptorDistance(const cv::Mat &a, const cv::Mat &b)
     return dist;
 }
 
+//Relocal
+int ORBmatcher::SearchByBoW(Map *pMap, Frame &F, vector<MapPoint*> &vpMatches) {
+
+	const vector<MapPoint*> vpMapPointsM = pMap->GetAllMapPoints();
+	vpMatches = vector<MapPoint*>(F.N, static_cast<MapPoint*>(NULL));
+
+	const DBoW2::FeatureVector &vFeatVecM = pMap->mFeatVec;
+
+	int nmatches = 0;
+
+	auto Mit = vFeatVecM.begin();
+	auto Mend = vFeatVecM.end();
+	auto Fit = F.mFeatVec.begin();
+	auto Fend = F.mFeatVec.end();
+
+	while (Mit != Mend && Fit != Fend) {
+		if (Mit->first == Fit->first) {
+			const vector<unsigned int> vIndicesM = Mit->second;
+			const vector<unsigned int> vIndicesF = Fit->second;
+
+			for (size_t iM = 0; iM < vIndicesM.size(); iM++) {
+				const unsigned int realIdxM = vIndicesM[iM];
+
+				MapPoint *pMP = vpMapPointsM[realIdxM];
+
+				if (!pMP) continue;
+				
+				const cv::Mat &dM = pMP->GetDescriptor();
+				int bestDist1 = 256, bestDist2 = 256, bestIdxF = -1;
+
+				for (size_t iF = 0; iF < vIndicesF.size(); iF++) {
+					const unsigned int realIdxF = vIndicesF[iF];
+
+					if (vpMatches[realIdxF]) continue;
+
+					const cv::Mat &dF = F.mDescriptors.row(realIdxF);
+
+					const int dist = DescriptorDistance(dM, dF);
+
+					if (dist < bestDist1) {
+						bestDist2 = bestDist1;
+						bestDist1 = dist;
+						bestIdxF = realIdxF;
+					} else {
+						bestDist2 = dist;
+					}
+				}
+
+				if (bestDist1 <= 100) {
+					if (1.0 * bestDist1 < 0.9 * bestDist2) {
+						vpMatches[bestIdxF] = pMP;
+						nmatches++;
+					}
+				}
+			}
+			Mit++;
+			Fit++;
+		} else if (Mit->first < Fit->first) {
+			Mit = vFeatVecM.lower_bound(Fit->first);
+		} else {
+			Fit = F.mFeatVec.lower_bound(Mit->first);
+		}
+	}
+	return nmatches;
+}
+
 } //namespace ORB_SLAM

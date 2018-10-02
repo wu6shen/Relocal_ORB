@@ -703,6 +703,7 @@ void System::SetReferenceMap(const std::string &mapfile) {
         cnt++;
         //if (cnt >= 400) break;
     }
+	std::cout << cnt << std::endl;
 }
 
 void System::SetGroudTruth(const std::string &filename) {

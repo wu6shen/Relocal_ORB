@@ -173,7 +173,7 @@ AdjacencyMapEntry	./Thirdparty/g2o/g2o/core/hyper_dijkstra.h	/^    struct  Adjac
 Affine2D	./Thirdparty/g2o/g2o/core/eigen_types.h	/^  typedef Eigen::Transform<double,2,Eigen::Affine,Eigen::ColMajor>                Affine2D;$/;"	t	namespace:g2o
 Affine3D	./Thirdparty/g2o/g2o/core/eigen_types.h	/^  typedef Eigen::Transform<double,3,Eigen::Affine,Eigen::ColMajor>                Affine3D;$/;"	t	namespace:g2o
 Aii	./Thirdparty/g2o/g2o/core/matrix_structure.h	/^    int* Aii; \/\/\/< row indices of A, of size nz = Ap [n]$/;"	m	class:g2o::MatrixStructure
-Align	./src/Registration.cc	/^        int FPCSRegistration::Align(PointCloud<PointXYZ>::Ptr &output) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+Align	./4pcs/Registration.cc	/^        int FPCSRegistration::Align(PointCloud<PointXYZ>::Ptr &output) {$/;"	f	class:pcl::FPCS::FPCSRegistration
 Ap	./Thirdparty/g2o/g2o/core/matrix_structure.h	/^    int* Ap;  \/\/\/< column pointers for A, of size n+1$/;"	m	class:g2o::MatrixStructure
 AssignFeaturesToGrid	./src/Frame.cc	/^void Frame::AssignFeaturesToGrid()$/;"	f	class:ORB_SLAM2::Frame
 BG_BLACK	./Thirdparty/g2o/g2o/stuff/color_macros.h	35;"	d
@@ -1376,6 +1376,7 @@ CheckFinish	./src/Viewer.cc	/^bool Viewer::CheckFinish()$/;"	f	class:ORB_SLAM2::
 CheckFundamental	./src/Initializer.cc	/^float Initializer::CheckFundamental(const cv::Mat &F21, vector<bool> &vbMatchesInliers, float sigma)$/;"	f	class:ORB_SLAM2::Initializer
 CheckHomography	./src/Initializer.cc	/^float Initializer::CheckHomography(const cv::Mat &H21, const cv::Mat &H12, vector<bool> &vbMatchesInliers, float sigma)$/;"	f	class:ORB_SLAM2::Initializer
 CheckInliers	./src/PnPsolver.cc	/^void PnPsolver::CheckInliers()$/;"	f	class:ORB_SLAM2::PnPsolver
+CheckInliers	./src/PoseSolver.cc	/^void Posesolver::CheckInliers()$/;"	f	class:ORB_SLAM2::Posesolver
 CheckInliers	./src/Sim3Solver.cc	/^void Sim3Solver::CheckInliers()$/;"	f	class:ORB_SLAM2::Sim3Solver
 CheckNewKeyFrames	./src/LocalMapping.cc	/^bool LocalMapping::CheckNewKeyFrames()$/;"	f	class:ORB_SLAM2::LocalMapping
 CheckNewKeyFrames	./src/LoopClosing.cc	/^bool LoopClosing::CheckNewKeyFrames()$/;"	f	class:ORB_SLAM2::LoopClosing
@@ -1385,8 +1386,10 @@ CholeskyDecomposition	./Thirdparty/g2o/g2o/solvers/linear_solver_eigen.h	/^     
 CholeskyDecomposition	./Thirdparty/g2o/g2o/solvers/linear_solver_eigen.h	/^    class CholeskyDecomposition : public Eigen::SimplicialLDLT<SparseMatrix, Eigen::Upper>$/;"	c	class:g2o::LinearSolverEigen
 CmpPairFirst	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^    struct CmpPairFirst {$/;"	s	namespace:g2o::__anon4
 ColSort	./Thirdparty/g2o/g2o/core/matrix_structure.cpp	/^struct ColSort$/;"	s	namespace:g2o	file:
+CompareError	./src/Initializer.cc	/^void Initializer::CompareError(const Frame &last, const Frame &current, vector<pair<int, int> > &matches12, vector<bool> &inliers, cv::Mat &F) {$/;"	f	class:ORB_SLAM2::Initializer
 ComputeBoW	./src/Frame.cc	/^void Frame::ComputeBoW()$/;"	f	class:ORB_SLAM2::Frame
 ComputeBoW	./src/KeyFrame.cc	/^void KeyFrame::ComputeBoW()$/;"	f	class:ORB_SLAM2::KeyFrame
+ComputeBoW	./src/Map.cc	/^void Map::ComputeBoW(ORBVocabulary *pVoc) {$/;"	f	class:ORB_SLAM2::Map
 ComputeCentroid	./src/Sim3Solver.cc	/^void Sim3Solver::ComputeCentroid(cv::Mat &P, cv::Mat &Pr, cv::Mat &C)$/;"	f	class:ORB_SLAM2::Sim3Solver
 ComputeDistinctiveDescriptors	./src/MapPoint.cc	/^void MapPoint::ComputeDistinctiveDescriptors()$/;"	f	class:ORB_SLAM2::MapPoint
 ComputeF12	./src/LocalMapping.cc	/^cv::Mat LocalMapping::ComputeF12(KeyFrame *&pKF1, KeyFrame *&pKF2)$/;"	f	class:ORB_SLAM2::LocalMapping
@@ -1435,7 +1438,7 @@ DEC	./cmake-build-debug/CMakeFiles/3.10.3/CompilerIdCXX/CMakeCXXCompilerId.cpp	4
 DEC	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdC/CMakeCCompilerId.c	439;"	d	file:
 DEC	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	434;"	d	file:
 DEG2RAD	./Thirdparty/g2o/g2o/stuff/macros.h	31;"	d
-DELTA	./include/Registration.h	13;"	d
+DELTA	./4pcs/Registration.h	13;"	d
 DELTA_EPOCH_IN_MICROSECS	./Thirdparty/g2o/g2o/stuff/timeutil.cpp	43;"	d	file:
 DOT_PRODUCT	./Thirdparty/DBoW2/DBoW2/BowVector.h	/^  DOT_PRODUCT,$/;"	e	enum:DBoW2::ScoringType
 DO_EVERY	./Thirdparty/g2o/g2o/stuff/timeutil.h	65;"	d
@@ -1530,10 +1533,10 @@ FG_WHITE	./Thirdparty/g2o/g2o/stuff/color_macros.h	61;"	d
 FG_YELLOW	./Thirdparty/g2o/g2o/stuff/color_macros.h	57;"	d
 FIXED	./Thirdparty/g2o/g2o/stuff/macros.h	128;"	d
 FORB	./Thirdparty/DBoW2/DBoW2/FORB.h	/^class FORB: protected FClass$/;"	c	namespace:DBoW2
-FPCS	./include/Registration.h	/^    namespace FPCS {$/;"	n	namespace:pcl
-FPCS	./src/Registration.cc	/^    namespace FPCS {$/;"	n	namespace:pcl	file:
-FPCSRegistration	./include/Registration.h	/^            FPCSRegistration() : iterations_(5),$/;"	f	class:pcl::FPCS::FPCSRegistration
-FPCSRegistration	./include/Registration.h	/^        class FPCSRegistration {$/;"	c	namespace:pcl::FPCS
+FPCS	./4pcs/Registration.cc	/^    namespace FPCS {$/;"	n	namespace:pcl	file:
+FPCS	./4pcs/Registration.h	/^    namespace FPCS {$/;"	n	namespace:pcl
+FPCSRegistration	./4pcs/Registration.h	/^            FPCSRegistration() : iterations_(5),$/;"	f	class:pcl::FPCS::FPCSRegistration
+FPCSRegistration	./4pcs/Registration.h	/^        class FPCSRegistration {$/;"	c	namespace:pcl::FPCS
 FRAMEDRAWER_H	./include/FrameDrawer.h	22;"	d
 FRAME_GRID_COLS	./include/Frame.h	38;"	d
 FRAME_GRID_ROWS	./include/Frame.h	37;"	d
@@ -1547,6 +1550,7 @@ FeatureVector	./Thirdparty/DBoW2/DBoW2/FeatureVector.cpp	/^FeatureVector::Featur
 FeatureVector	./Thirdparty/DBoW2/DBoW2/FeatureVector.h	/^class FeatureVector: $/;"	c	namespace:DBoW2
 FindFundamental	./src/Initializer.cc	/^void Initializer::FindFundamental(vector<bool> &vbMatchesInliers, float &score, cv::Mat &F21)$/;"	f	class:ORB_SLAM2::Initializer
 FindHomography	./src/Initializer.cc	/^void Initializer::FindHomography(vector<bool> &vbMatchesInliers, float &score, cv::Mat &H21)$/;"	f	class:ORB_SLAM2::Initializer
+FixPointInitialization	./src/Tracking.cc	/^void Tracking::FixPointInitialization() {$/;"	f	class:ORB_SLAM2::Tracking
 FloatProperty	./Thirdparty/g2o/g2o/stuff/property.h	/^  typedef Property<float> FloatProperty;$/;"	t	namespace:g2o
 ForceLinkFunction	./Thirdparty/g2o/g2o/stuff/misc.h	/^    typedef void (* ForceLinkFunction) (void);$/;"	t
 ForceLinker	./Thirdparty/g2o/g2o/stuff/misc.h	/^    ForceLinker(ForceLinkFunction function) { (function)(); }$/;"	f	struct:g2o::ForceLinker
@@ -1676,7 +1680,7 @@ GetChilds	./src/KeyFrame.cc	/^set<KeyFrame*> KeyFrame::GetChilds()$/;"	f	class:O
 GetConnectedKeyFrames	./src/KeyFrame.cc	/^set<KeyFrame*> KeyFrame::GetConnectedKeyFrames()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetCovisiblesByWeight	./src/KeyFrame.cc	/^vector<KeyFrame*> KeyFrame::GetCovisiblesByWeight(const int &w)$/;"	f	class:ORB_SLAM2::KeyFrame
 GetCurrentOpenGLCameraMatrix	./src/MapDrawer.cc	/^void MapDrawer::GetCurrentOpenGLCameraMatrix(pangolin::OpenGlMatrix &M)$/;"	f	class:ORB_SLAM2::MapDrawer
-GetDelta	./include/Registration.h	/^            float GetDelta() { return delta_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+GetDelta	./4pcs/Registration.h	/^            float GetDelta() { return delta_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 GetDescriptor	./src/MapPoint.cc	/^cv::Mat MapPoint::GetDescriptor()$/;"	f	class:ORB_SLAM2::MapPoint
 GetEstimatedRotation	./src/Sim3Solver.cc	/^cv::Mat Sim3Solver::GetEstimatedRotation()$/;"	f	class:ORB_SLAM2::Sim3Solver
 GetEstimatedScale	./src/Sim3Solver.cc	/^float Sim3Solver::GetEstimatedScale()$/;"	f	class:ORB_SLAM2::Sim3Solver
@@ -1699,18 +1703,18 @@ GetMaxKFid	./src/Map.cc	/^long unsigned int Map::GetMaxKFid()$/;"	f	class:ORB_SL
 GetMinDistanceInvariance	./src/MapPoint.cc	/^float MapPoint::GetMinDistanceInvariance()$/;"	f	class:ORB_SLAM2::MapPoint
 GetNormal	./src/MapPoint.cc	/^cv::Mat MapPoint::GetNormal()$/;"	f	class:ORB_SLAM2::MapPoint
 GetObservations	./src/MapPoint.cc	/^map<KeyFrame*, size_t> MapPoint::GetObservations()$/;"	f	class:ORB_SLAM2::MapPoint
-GetOffset	./include/Registration.h	/^            Eigen::Vector3f GetOffset() { return offset_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
-GetOverlap	./include/Registration.h	/^            float GetOverlap() { return overlap_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+GetOffset	./4pcs/Registration.h	/^            Eigen::Vector3f GetOffset() { return offset_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+GetOverlap	./4pcs/Registration.h	/^            float GetOverlap() { return overlap_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 GetParent	./src/KeyFrame.cc	/^KeyFrame* KeyFrame::GetParent()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetPose	./src/KeyFrame.cc	/^cv::Mat KeyFrame::GetPose()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetPoseInverse	./src/KeyFrame.cc	/^cv::Mat KeyFrame::GetPoseInverse()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetReferenceKeyFrame	./src/MapPoint.cc	/^KeyFrame* MapPoint::GetReferenceKeyFrame()$/;"	f	class:ORB_SLAM2::MapPoint
 GetReferenceMapPoints	./src/Map.cc	/^vector<MapPoint*> Map::GetReferenceMapPoints()$/;"	f	class:ORB_SLAM2::Map
 GetReplaced	./src/MapPoint.cc	/^MapPoint* MapPoint::GetReplaced()$/;"	f	class:ORB_SLAM2::MapPoint
-GetRotation	./include/Registration.h	/^            Eigen::Matrix3f GetRotation() { return rotation_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+GetRotation	./4pcs/Registration.h	/^            Eigen::Matrix3f GetRotation() { return rotation_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 GetRotation	./src/KeyFrame.cc	/^cv::Mat KeyFrame::GetRotation()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetRotationInverse	./include/Frame.h	/^    inline cv::Mat GetRotationInverse(){$/;"	f	class:ORB_SLAM2::Frame
-GetScale	./include/Registration.h	/^            float GetScale() { return scale_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+GetScale	./4pcs/Registration.h	/^            float GetScale() { return scale_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 GetScaleFactor	./include/ORBextractor.h	/^    float inline GetScaleFactor(){$/;"	f	class:ORB_SLAM2::ORBextractor
 GetScaleFactors	./include/ORBextractor.h	/^    std::vector<float> inline GetScaleFactors(){$/;"	f	class:ORB_SLAM2::ORBextractor::std
 GetScaleSigmaSquares	./include/ORBextractor.h	/^    std::vector<float> inline GetScaleSigmaSquares(){$/;"	f	class:ORB_SLAM2::ORBextractor::std
@@ -1718,7 +1722,7 @@ GetStereoCenter	./src/KeyFrame.cc	/^cv::Mat KeyFrame::GetStereoCenter()$/;"	f	cl
 GetTrackedKeyPointsUn	./src/System.cc	/^vector<cv::KeyPoint> System::GetTrackedKeyPointsUn()$/;"	f	class:ORB_SLAM2::System
 GetTrackedMapPoints	./src/System.cc	/^vector<MapPoint*> System::GetTrackedMapPoints()$/;"	f	class:ORB_SLAM2::System
 GetTrackingState	./src/System.cc	/^int System::GetTrackingState()$/;"	f	class:ORB_SLAM2::System
-GetTransform	./include/Registration.h	/^            Eigen::Matrix4f GetTransform() { return transform_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+GetTransform	./4pcs/Registration.h	/^            Eigen::Matrix4f GetTransform() { return transform_; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 GetTranslation	./src/KeyFrame.cc	/^cv::Mat KeyFrame::GetTranslation()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetVectorCovisibleKeyFrames	./src/KeyFrame.cc	/^vector<KeyFrame*> KeyFrame::GetVectorCovisibleKeyFrames()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetWeight	./src/KeyFrame.cc	/^int KeyFrame::GetWeight(KeyFrame *pKF)$/;"	f	class:ORB_SLAM2::KeyFrame
@@ -1789,8 +1793,11 @@ InformationType	./Thirdparty/g2o/g2o/core/base_edge.h	/^      typedef Matrix<dou
 InformationType	./Thirdparty/g2o/g2o/core/base_multi_edge.h	/^      typedef typename BaseEdge<D,E>::InformationType InformationType;$/;"	t	class:g2o::BaseMultiEdge
 InformationType	./Thirdparty/g2o/g2o/core/base_unary_edge.h	/^      typedef typename BaseEdge<D,E>::InformationType InformationType;$/;"	t	class:g2o::BaseUnaryEdge
 Initialize	./src/Initializer.cc	/^bool Initializer::Initialize(const Frame &CurrentFrame, const vector<int> &vMatches12, cv::Mat &R21, cv::Mat &t21,$/;"	f	class:ORB_SLAM2::Initializer
+InitializeWithMap	./src/Initializer.cc	/^bool Initializer::InitializeWithMap(const Frame &CurrentFrame, const vector<int> &vMatches12,$/;"	f	class:ORB_SLAM2::Initializer
 Initializer	./include/Initializer.h	/^class Initializer$/;"	c	namespace:ORB_SLAM2
+Initializer	./src/Initializer.cc	/^Initializer::Initializer(Map *pLastMap, const Frame &ReferenceFrame, float sigma, int iterations) {$/;"	f	class:ORB_SLAM2::Initializer
 Initializer	./src/Initializer.cc	/^Initializer::Initializer(const Frame &ReferenceFrame, float sigma, int iterations)$/;"	f	class:ORB_SLAM2::Initializer
+Input	./main.cc	/^} Input;$/;"	t	typeref:struct:__anon5	file:
 InsertKeyFrame	./src/LocalMapping.cc	/^void LocalMapping::InsertKeyFrame(KeyFrame *pKF)$/;"	f	class:ORB_SLAM2::LocalMapping
 InsertKeyFrame	./src/LoopClosing.cc	/^void LoopClosing::InsertKeyFrame(KeyFrame *pKF)$/;"	f	class:ORB_SLAM2::LoopClosing
 IntBlockMap	./Thirdparty/g2o/g2o/core/sparse_block_matrix.h	/^    typedef std::map<int, SparseMatrixBlock*> IntBlockMap;$/;"	t	class:g2o::SparseBlockMatrix
@@ -1818,6 +1825,7 @@ KeyFrameDatabase	./include/KeyFrameDatabase.h	/^class KeyFrameDatabase$/;"	c	nam
 KeyFrameDatabase	./src/KeyFrameDatabase.cc	/^KeyFrameDatabase::KeyFrameDatabase (const ORBVocabulary &voc):$/;"	f	class:ORB_SLAM2::KeyFrameDatabase
 KeyFramesInMap	./src/Map.cc	/^long unsigned int Map::KeyFramesInMap()$/;"	f	class:ORB_SLAM2::Map
 KeyframesInQueue	./include/LocalMapping.h	/^    int KeyframesInQueue(){$/;"	f	class:ORB_SLAM2::LocalMapping
+Kinv	./include/PoseSolver.h	/^  cv::Mat mTcwi, Kinv;$/;"	m	class:ORB_SLAM2::Posesolver
 L	./Thirdparty/DBoW2/DBoW2/FORB.cpp	/^const int FORB::L=32;$/;"	m	class:DBoW2::FORB	file:
 L	./Thirdparty/DBoW2/DBoW2/FORB.h	/^  static const int L;$/;"	m	class:DBoW2::FORB
 L1	./Thirdparty/DBoW2/DBoW2/BowVector.h	/^  L1,$/;"	e	enum:DBoW2::LNorm
@@ -1861,10 +1869,11 @@ LoopClosing	./src/LoopClosing.cc	/^LoopClosing::LoopClosing(Map *pMap, KeyFrameD
 MAPDRAWER_H	./include/MapDrawer.h	22;"	d
 MAPPOINT_H	./include/MapPoint.h	22;"	d
 MAP_H	./include/Map.h	22;"	d
-MAX_DELTA	./include/Registration.h	15;"	d
+MAX_DELTA	./4pcs/Registration.h	15;"	d
+MAX_LEN	./main.cc	/^const int MAX_LEN = 200;$/;"	v
 MEASURE_FUNCTION_TIME	./Thirdparty/g2o/g2o/stuff/timeutil.h	126;"	d
 MEASURE_TIME	./Thirdparty/g2o/g2o/stuff/timeutil.h	69;"	d
-MIN_DELTA	./include/Registration.h	14;"	d
+MIN_DELTA	./4pcs/Registration.h	14;"	d
 MONOCULAR	./include/System.h	/^        MONOCULAR=0,$/;"	e	enum:ORB_SLAM2::System::eSensor
 M_PI	./Thirdparty/g2o/g2o/stuff/misc.h	34;"	d
 Map	./include/Map.h	/^class Map$/;"	c	namespace:ORB_SLAM2
@@ -1909,6 +1918,7 @@ N	./include/Frame.h	/^    int N;$/;"	m	class:ORB_SLAM2::Frame
 N	./include/FrameDrawer.h	/^    int N;$/;"	m	class:ORB_SLAM2::FrameDrawer
 N	./include/KeyFrame.h	/^    const int N;$/;"	m	class:ORB_SLAM2::KeyFrame
 N	./include/PnPsolver.h	/^  int N;$/;"	m	class:ORB_SLAM2::PnPsolver
+N	./include/PoseSolver.h	/^  int N;$/;"	m	class:ORB_SLAM2::Posesolver
 N	./include/Sim3Solver.h	/^    int N;$/;"	m	class:ORB_SLAM2::Sim3Solver
 NONE	./Thirdparty/DBoW2/DUtils/Timestamp.h	/^    NONE = 0,$/;"	e	enum:DUtils::Timestamp::tOptions
 NOT_INITIALIZED	./include/Tracking.h	/^        NOT_INITIALIZED=1,$/;"	e	enum:ORB_SLAM2::Tracking::eTrackingState
@@ -1942,6 +1952,7 @@ ORB_SLAM2	./include/ORBextractor.h	/^namespace ORB_SLAM2$/;"	n
 ORB_SLAM2	./include/ORBmatcher.h	/^namespace ORB_SLAM2$/;"	n
 ORB_SLAM2	./include/Optimizer.h	/^namespace ORB_SLAM2$/;"	n
 ORB_SLAM2	./include/PnPsolver.h	/^namespace ORB_SLAM2$/;"	n
+ORB_SLAM2	./include/PoseSolver.h	/^namespace ORB_SLAM2$/;"	n
 ORB_SLAM2	./include/Relocal.h	/^namespace ORB_SLAM2{$/;"	n
 ORB_SLAM2	./include/Sim3Solver.h	/^namespace ORB_SLAM2$/;"	n
 ORB_SLAM2	./include/System.h	/^namespace ORB_SLAM2$/;"	n
@@ -1962,6 +1973,7 @@ ORB_SLAM2	./src/ORBextractor.cc	/^namespace ORB_SLAM2$/;"	n	file:
 ORB_SLAM2	./src/ORBmatcher.cc	/^namespace ORB_SLAM2$/;"	n	file:
 ORB_SLAM2	./src/Optimizer.cc	/^namespace ORB_SLAM2$/;"	n	file:
 ORB_SLAM2	./src/PnPsolver.cc	/^namespace ORB_SLAM2$/;"	n	file:
+ORB_SLAM2	./src/PoseSolver.cc	/^namespace ORB_SLAM2$/;"	n	file:
 ORB_SLAM2	./src/Sim3Solver.cc	/^namespace ORB_SLAM2$/;"	n	file:
 ORB_SLAM2	./src/System.cc	/^namespace ORB_SLAM2$/;"	n	file:
 ORB_SLAM2	./src/Tracking.cc	/^namespace ORB_SLAM2$/;"	n	file:
@@ -2307,6 +2319,7 @@ PLATFORM_ID	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdCXX/CMakeCXXCompilerI
 PLATFORM_ID	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	376;"	d	file:
 PLATFORM_ID	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	380;"	d	file:
 PNPSOLVER_H	./include/PnPsolver.h	52;"	d
+POSESOLVER_H	./include/PoseSolver.h	52;"	d
 PTHING	./Thirdparty/g2o/g2o/core/batch_stats.cpp	36;"	d	file:
 PVAR	./Thirdparty/g2o/g2o/stuff/macros.h	118;"	d
 PVARA	./Thirdparty/g2o/g2o/stuff/macros.h	123;"	d
@@ -2343,6 +2356,8 @@ PoseOptimization	./src/Optimizer.cc	/^int Optimizer::PoseOptimization(Frame *pFr
 PoseVectorType	./Thirdparty/g2o/g2o/core/block_solver.h	/^      typedef typename Traits::PoseVectorType PoseVectorType;$/;"	t	class:g2o::BlockSolver
 PoseVectorType	./Thirdparty/g2o/g2o/core/block_solver.h	/^    typedef Matrix<double, PoseDim, 1> PoseVectorType;$/;"	t	struct:g2o::BlockSolverTraits
 PoseVectorType	./Thirdparty/g2o/g2o/core/block_solver.h	/^    typedef VectorXd PoseVectorType;$/;"	t	struct:g2o::BlockSolverTraits
+Posesolver	./include/PoseSolver.h	/^class Posesolver {$/;"	c	namespace:ORB_SLAM2
+Posesolver	./src/PoseSolver.cc	/^Posesolver::Posesolver(const Frame &frame1, const Frame &frame2, const vector<pair<int, int> > &matches12) :$/;"	f	class:ORB_SLAM2::Posesolver
 PredictScale	./src/MapPoint.cc	/^int MapPoint::PredictScale(const float &currentDist, Frame* pF)$/;"	f	class:ORB_SLAM2::MapPoint
 PredictScale	./src/MapPoint.cc	/^int MapPoint::PredictScale(const float &currentDist, KeyFrame* pKF)$/;"	f	class:ORB_SLAM2::MapPoint
 PriorityQueue	./Thirdparty/g2o/g2o/core/estimate_propagator.h	/^      class PriorityQueue : public std::multimap<double, AdjacencyMapEntry*> {$/;"	c	class:g2o::EstimatePropagator
@@ -2357,7 +2372,7 @@ PropertyMap	./Thirdparty/g2o/g2o/stuff/property.h	/^  class  PropertyMap : prote
 PropertyMapConstIterator	./Thirdparty/g2o/g2o/stuff/property.h	/^      typedef BaseClass::const_iterator                   PropertyMapConstIterator;$/;"	t	class:g2o::PropertyMap
 PropertyMapIterator	./Thirdparty/g2o/g2o/stuff/property.h	/^      typedef BaseClass::iterator                         PropertyMapIterator;$/;"	t	class:g2o::PropertyMap
 RAD2DEG	./Thirdparty/g2o/g2o/stuff/macros.h	35;"	d
-RELOCAL_REGISTRATION_H	./include/Registration.h	6;"	d
+RELOCAL_REGISTRATION_H	./4pcs/Registration.h	6;"	d
 RELOCAL_RELOCAL_H	./include/Relocal.h	6;"	d
 RGBD	./include/System.h	/^        RGBD=2$/;"	e	enum:ORB_SLAM2::System::eSensor
 RM	./Thirdparty/DBoW2/build/Makefile	/^RM = \/usr\/bin\/cmake -E remove -f$/;"	m
@@ -2373,6 +2388,7 @@ RandomValue	./Thirdparty/DBoW2/DUtils/Random.h	/^	static T RandomValue(T min, T 
 ReconstructF	./src/Initializer.cc	/^bool Initializer::ReconstructF(vector<bool> &vbMatchesInliers, cv::Mat &F21, cv::Mat &K,$/;"	f	class:ORB_SLAM2::Initializer
 ReconstructH	./src/Initializer.cc	/^bool Initializer::ReconstructH(vector<bool> &vbMatchesInliers, cv::Mat &H21, cv::Mat &K,$/;"	f	class:ORB_SLAM2::Initializer
 Refine	./src/PnPsolver.cc	/^bool PnPsolver::Refine()$/;"	f	class:ORB_SLAM2::PnPsolver
+Refine	./src/PoseSolver.cc	/^bool Posesolver::Refine()$/;"	f	class:ORB_SLAM2::Posesolver
 RegisterActionProxy	./Thirdparty/g2o/g2o/core/hyper_graph_action.h	/^      RegisterActionProxy()$/;"	f	class:g2o::RegisterActionProxy
 RegisterActionProxy	./Thirdparty/g2o/g2o/core/hyper_graph_action.h	/^  template<typename T> class RegisterActionProxy$/;"	c	namespace:g2o
 RegisterOptimizationAlgorithmProxy	./Thirdparty/g2o/g2o/core/optimization_algorithm_factory.h	/^      RegisterOptimizationAlgorithmProxy(AbstractOptimizationAlgorithmCreator* c)$/;"	f	class:g2o::RegisterOptimizationAlgorithmProxy
@@ -2385,7 +2401,7 @@ Release	./src/LocalMapping.cc	/^void LocalMapping::Release()$/;"	f	class:ORB_SLA
 Release	./src/Viewer.cc	/^void Viewer::Release()$/;"	f	class:ORB_SLAM2::Viewer
 Relocal	./include/Relocal.h	/^    class Relocal {$/;"	c	namespace:ORB_SLAM2
 Relocal	./src/System.cc	/^cv::Mat System::Relocal(const cv::Mat &im, int flag) {$/;"	f	class:ORB_SLAM2::System
-RelocalInilization	./src/Tracking.cc	/^void Tracking::RelocalInilization() {$/;"	f	class:ORB_SLAM2::Tracking
+RelocalInitialization	./src/Tracking.cc	/^void Tracking::RelocalInitialization() {$/;"	f	class:ORB_SLAM2::Tracking
 RelocalUsePnP	./src/Tracking.cc	/^cv::Mat Tracking::RelocalUsePnP(const cv::Mat &im, int pnpFlag) {$/;"	f	class:ORB_SLAM2::Tracking
 Relocalization	./src/Tracking.cc	/^bool Tracking::Relocalization()$/;"	f	class:ORB_SLAM2::Tracking
 Replace	./src/MapPoint.cc	/^void MapPoint::Replace(MapPoint* pMP)$/;"	f	class:ORB_SLAM2::MapPoint
@@ -2426,6 +2442,7 @@ Run	./src/Viewer.cc	/^void Viewer::Run()$/;"	f	class:ORB_SLAM2::Viewer
 RunGlobalBundleAdjustment	./src/LoopClosing.cc	/^void LoopClosing::RunGlobalBundleAdjustment(unsigned long nLoopKF)$/;"	f	class:ORB_SLAM2::LoopClosing
 RunRelocal	./main.cc	/^void RunRelocal() {$/;"	f
 RunSlam	./main.cc	/^void RunSlam() {$/;"	f
+RunSlamUseCamera	./main.cc	/^void RunSlamUseCamera() {$/;"	f
 SE3Quat	./Thirdparty/g2o/g2o/types/se3quat.h	/^        explicit SE3Quat(const MatrixBase<Derived>& v)$/;"	f	class:g2o::SE3Quat
 SE3Quat	./Thirdparty/g2o/g2o/types/se3quat.h	/^      SE3Quat(){$/;"	f	class:g2o::SE3Quat
 SE3Quat	./Thirdparty/g2o/g2o/types/se3quat.h	/^      SE3Quat(const Matrix3d& R, const Vector3d& t):_r(Quaterniond(R)),_t(t){ $/;"	f	class:g2o::SE3Quat
@@ -2572,6 +2589,7 @@ SearchByBF	./src/ORBmatcher.cc	/^int ORBmatcher::SearchByBF(ORB_SLAM2::Frame &la
 SearchByBoW	./src/ORBmatcher.cc	/^int ORBmatcher::SearchByBoW(KeyFrame *pKF1, KeyFrame *pKF2, vector<MapPoint *> &vpMatches12)$/;"	f	class:ORB_SLAM2::ORBmatcher
 SearchByBoW	./src/ORBmatcher.cc	/^int ORBmatcher::SearchByBoW(KeyFrame* pKF,Frame &F, vector<MapPoint*> &vpMapPointMatches)$/;"	f	class:ORB_SLAM2::ORBmatcher
 SearchByBoW	./src/ORBmatcher.cc	/^int ORBmatcher::SearchByBoW(KeyFrame* pKF,Frame &F, vector<MapPoint*> &vpMapPointMatches, std::vector<cv::DMatch> &feature_matches)$/;"	f	class:ORB_SLAM2::ORBmatcher
+SearchByBoW	./src/ORBmatcher.cc	/^int ORBmatcher::SearchByBoW(Map *pMap, Frame &F, vector<MapPoint*> &vpMatches) {$/;"	f	class:ORB_SLAM2::ORBmatcher
 SearchByBoW	./src/ORBmatcher.cc	/^int ORBmatcher::SearchByBoW(ORB_SLAM2::Frame &last, ORB_SLAM2::Frame &F, vector<ORB_SLAM2::MapPoint *> &vpMatches) {$/;"	f	class:ORB_SLAM2::ORBmatcher
 SearchByLastMap	./src/ORBmatcher.cc	/^int ORBmatcher::SearchByLastMap(ORB_SLAM2::Map *pMap, ORB_SLAM2::Frame &F, vector<ORB_SLAM2::MapPoint *> &vpMatches) {$/;"	f	class:ORB_SLAM2::ORBmatcher
 SearchByLastMap	./src/ORBmatcher.cc	/^int ORBmatcher::SearchByLastMap(ORB_SLAM2::Map *pMap, ORB_SLAM2::Frame &F, vector<vector<pair<int, int>> > &matches) {$/;"	f	class:ORB_SLAM2::ORBmatcher
@@ -2589,39 +2607,40 @@ SeedRand	./Thirdparty/DBoW2/DUtils/Random.cpp	/^void DUtils::Random::SeedRand(){
 SeedRand	./Thirdparty/DBoW2/DUtils/Random.cpp	/^void DUtils::Random::SeedRand(int seed)$/;"	f	class:DUtils::Random
 SeedRandOnce	./Thirdparty/DBoW2/DUtils/Random.cpp	/^void DUtils::Random::SeedRandOnce()$/;"	f	class:DUtils::Random
 SeedRandOnce	./Thirdparty/DBoW2/DUtils/Random.cpp	/^void DUtils::Random::SeedRandOnce(int seed)$/;"	f	class:DUtils::Random
-Set4	./include/Registration.h	/^                Set4() {}$/;"	f	struct:pcl::FPCS::FPCSRegistration::Set4
-Set4	./include/Registration.h	/^                Set4(int p1, int p2, int p3, int p4) : p1_index_(p1), p2_index_(p2), p3_index_(p3), p4_index_(p4) {}$/;"	f	struct:pcl::FPCS::FPCSRegistration::Set4
-Set4	./include/Registration.h	/^            struct Set4 {$/;"	s	class:pcl::FPCS::FPCSRegistration
+Set4	./4pcs/Registration.h	/^                Set4() {}$/;"	f	struct:pcl::FPCS::FPCSRegistration::Set4
+Set4	./4pcs/Registration.h	/^                Set4(int p1, int p2, int p3, int p4) : p1_index_(p1), p2_index_(p2), p3_index_(p3), p4_index_(p4) {}$/;"	f	struct:pcl::FPCS::FPCSRegistration::Set4
+Set4	./4pcs/Registration.h	/^            struct Set4 {$/;"	s	class:pcl::FPCS::FPCSRegistration
 SetAcceptKeyFrames	./src/LocalMapping.cc	/^void LocalMapping::SetAcceptKeyFrames(bool flag)$/;"	f	class:ORB_SLAM2::LocalMapping
 SetBadFlag	./src/KeyFrame.cc	/^void KeyFrame::SetBadFlag()$/;"	f	class:ORB_SLAM2::KeyFrame
 SetBadFlag	./src/MapPoint.cc	/^void MapPoint::SetBadFlag()$/;"	f	class:ORB_SLAM2::MapPoint
 SetCurrentCameraPose	./src/MapDrawer.cc	/^void MapDrawer::SetCurrentCameraPose(const cv::Mat &Tcw)$/;"	f	class:ORB_SLAM2::MapDrawer
 SetCurrentMap	./src/System.cc	/^void System::SetCurrentMap(const std::string &mapfile) {$/;"	f	class:ORB_SLAM2::System
-SetDelta	./include/Registration.h	/^            void SetDelta(const float delta) { delta_ = delta; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+SetDelta	./4pcs/Registration.h	/^            void SetDelta(const float delta) { delta_ = delta; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 SetErase	./src/KeyFrame.cc	/^void KeyFrame::SetErase()$/;"	f	class:ORB_SLAM2::KeyFrame
 SetFinish	./src/LocalMapping.cc	/^void LocalMapping::SetFinish()$/;"	f	class:ORB_SLAM2::LocalMapping
 SetFinish	./src/LoopClosing.cc	/^void LoopClosing::SetFinish()$/;"	f	class:ORB_SLAM2::LoopClosing
 SetFinish	./src/Viewer.cc	/^void Viewer::SetFinish()$/;"	f	class:ORB_SLAM2::Viewer
 SetGroudTruth	./src/System.cc	/^void System::SetGroudTruth(const std::string &filename) {$/;"	f	class:ORB_SLAM2::System
 SetGth	./src/MapDrawer.cc	/^void MapDrawer::SetGth(const std::vector<cv::Mat> &T) {$/;"	f	class:ORB_SLAM2::MapDrawer
-SetInputSourceCloud	./include/Registration.h	/^            void SetInputSourceCloud(PointCloud<PointXYZ>::Ptr input) {$/;"	f	class:pcl::FPCS::FPCSRegistration
-SetInputTargetCloud	./include/Registration.h	/^            void SetInputTargetCloud(PointCloud<PointXYZ>::Ptr output) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+SetInputSourceCloud	./4pcs/Registration.h	/^            void SetInputSourceCloud(PointCloud<PointXYZ>::Ptr input) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+SetInputTargetCloud	./4pcs/Registration.h	/^            void SetInputTargetCloud(PointCloud<PointXYZ>::Ptr output) {$/;"	f	class:pcl::FPCS::FPCSRegistration
 SetLocalMapper	./src/LoopClosing.cc	/^void LoopClosing::SetLocalMapper(LocalMapping *pLocalMapper)$/;"	f	class:ORB_SLAM2::LoopClosing
 SetLocalMapper	./src/Tracking.cc	/^void Tracking::SetLocalMapper(LocalMapping *pLocalMapper)$/;"	f	class:ORB_SLAM2::Tracking
 SetLoopCloser	./src/LocalMapping.cc	/^void LocalMapping::SetLoopCloser(LoopClosing* pLoopCloser)$/;"	f	class:ORB_SLAM2::LocalMapping
 SetLoopClosing	./src/Tracking.cc	/^void Tracking::SetLoopClosing(LoopClosing *pLoopClosing)$/;"	f	class:ORB_SLAM2::Tracking
 SetNotErase	./src/KeyFrame.cc	/^void KeyFrame::SetNotErase()$/;"	f	class:ORB_SLAM2::KeyFrame
 SetNotStop	./src/LocalMapping.cc	/^bool LocalMapping::SetNotStop(bool flag)$/;"	f	class:ORB_SLAM2::LocalMapping
-SetNumOfIteration	./include/Registration.h	/^            void SetNumOfIteration(const int num) { iterations_ = num; }$/;"	f	class:pcl::FPCS::FPCSRegistration
-SetOffsetGT	./include/Registration.h	/^            void SetOffsetGT(const Eigen::Vector3f &o) { offset_gt_ = o; }$/;"	f	class:pcl::FPCS::FPCSRegistration
-SetOverlap	./include/Registration.h	/^            void SetOverlap(const float overlap) { overlap_ = overlap; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+SetNumOfIteration	./4pcs/Registration.h	/^            void SetNumOfIteration(const int num) { iterations_ = num; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+SetOffsetGT	./4pcs/Registration.h	/^            void SetOffsetGT(const Eigen::Vector3f &o) { offset_gt_ = o; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+SetOverlap	./4pcs/Registration.h	/^            void SetOverlap(const float overlap) { overlap_ = overlap; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 SetPose	./src/Frame.cc	/^void Frame::SetPose(cv::Mat Tcw)$/;"	f	class:ORB_SLAM2::Frame
 SetPose	./src/KeyFrame.cc	/^void KeyFrame::SetPose(const cv::Mat &Tcw_)$/;"	f	class:ORB_SLAM2::KeyFrame
 SetRansacParameters	./src/PnPsolver.cc	/^void PnPsolver::SetRansacParameters(double probability, int minInliers, int maxIterations, int minSet, float epsilon, float th2)$/;"	f	class:ORB_SLAM2::PnPsolver
+SetRansacParameters	./src/PoseSolver.cc	/^void Posesolver::SetRansacParameters(double probability, int minInliers, int maxIterations, int minSet, float epsilon, float th2)$/;"	f	class:ORB_SLAM2::Posesolver
 SetRansacParameters	./src/Sim3Solver.cc	/^void Sim3Solver::SetRansacParameters(double probability, int minInliers, int maxIterations)$/;"	f	class:ORB_SLAM2::Sim3Solver
 SetReferenceMap	./src/System.cc	/^void System::SetReferenceMap(const std::string &mapfile) {$/;"	f	class:ORB_SLAM2::System
 SetReferenceMapPoints	./src/Map.cc	/^void Map::SetReferenceMapPoints(const vector<MapPoint *> &vpMPs)$/;"	f	class:ORB_SLAM2::Map
-SetRotationGT	./include/Registration.h	/^            void SetRotationGT(const Eigen::Matrix3f &r) { rotation_gt_ = r; }$/;"	f	class:pcl::FPCS::FPCSRegistration
+SetRotationGT	./4pcs/Registration.h	/^            void SetRotationGT(const Eigen::Matrix3f &r) { rotation_gt_ = r; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 SetTracker	./src/LocalMapping.cc	/^void LocalMapping::SetTracker(Tracking *pTracker)$/;"	f	class:ORB_SLAM2::LocalMapping
 SetTracker	./src/LoopClosing.cc	/^void LoopClosing::SetTracker(Tracking *pTracker)$/;"	f	class:ORB_SLAM2::LoopClosing
 SetViewer	./src/Tracking.cc	/^void Tracking::SetViewer(Viewer *pViewer)$/;"	f	class:ORB_SLAM2::Tracking
@@ -2680,7 +2699,6 @@ TemplatedVocabulary	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^TemplatedVo
 TemplatedVocabulary	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^TemplatedVocabulary<TDescriptor,F>::TemplatedVocabulary($/;"	f	class:DBoW2::TemplatedVocabulary
 TemplatedVocabulary	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^class TemplatedVocabulary$/;"	c	namespace:DBoW2
 Terminate	./Thirdparty/g2o/g2o/core/optimization_algorithm.h	/^      enum  SolverResult {Terminate=2, OK=1, Fail=-1};$/;"	e	enum:g2o::OptimizationAlgorithm::SolverResult
-TestMYFPCS	./main.cc	/^void TestMYFPCS() {$/;"	f
 Timestamp	./Thirdparty/DBoW2/DUtils/Timestamp.cpp	/^Timestamp::Timestamp(Timestamp::tOptions option)$/;"	f	class:Timestamp
 Timestamp	./Thirdparty/DBoW2/DUtils/Timestamp.h	/^class Timestamp$/;"	c	namespace:DUtils
 Track	./src/Tracking.cc	/^void Tracking::Track()$/;"	f	class:ORB_SLAM2::Tracking
@@ -3000,6 +3018,7 @@ addVertex	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  bool OptimizableGr
 addVertex	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^    virtual bool addVertex(HyperGraph::Vertex* v) { return addVertex(v, 0);}$/;"	f	struct:g2o::OptimizableGraph
 addWeight	./Thirdparty/DBoW2/DBoW2/BowVector.cpp	/^void BowVector::addWeight(WordId id, WordValue v)$/;"	f	class:DBoW2::BowVector
 add_correspondence	./src/PnPsolver.cc	/^void PnPsolver::add_correspondence(double X, double Y, double Z, double u, double v)$/;"	f	class:ORB_SLAM2::PnPsolver
+add_correspondence	./src/PoseSolver.cc	/^void Posesolver::add_correspondence(double X, double Y, double Z, double u, double v)$/;"	f	class:ORB_SLAM2::Posesolver
 additionalVectorSpace	./Thirdparty/g2o/g2o/core/solver.h	/^      size_t additionalVectorSpace() const { return _additionalVectorSpace;}$/;"	f	class:g2o::Solver
 adj	./Thirdparty/g2o/g2o/types/se3quat.h	/^      Matrix<double, 6, 6> adj() const$/;"	f	class:g2o::SE3Quat
 adjacencyMap	./Thirdparty/g2o/g2o/core/estimate_propagator.h	/^      AdjacencyMap& adjacencyMap() {return _adjacencyMap; }$/;"	f	class:g2o::EstimatePropagator
@@ -3011,6 +3030,7 @@ allVerticesFixed	./Thirdparty/g2o/g2o/core/base_unary_edge.hpp	/^bool BaseUnaryE
 alloc	./Thirdparty/g2o/g2o/core/matrix_structure.cpp	/^void MatrixStructure::alloc(int n_, int nz)$/;"	f	class:g2o::MatrixStructure
 allocate	./Thirdparty/g2o/g2o/core/jacobian_workspace.cpp	/^bool JacobianWorkspace::allocate()$/;"	f	class:g2o::JacobianWorkspace
 alphas	./include/PnPsolver.h	/^  double * pws, * us, * alphas, * pcs;$/;"	m	class:ORB_SLAM2::PnPsolver
+alphas	./include/PoseSolver.h	/^  double * pws, * us, * alphas, * pcs;$/;"	m	class:ORB_SLAM2::Posesolver
 analyzePatternWithPermutation	./Thirdparty/g2o/g2o/solvers/linear_solver_eigen.h	/^        void analyzePatternWithPermutation(SparseMatrix& a, const PermutationMatrix& permutation)$/;"	f	class:g2o::LinearSolverEigen::CholeskyDecomposition
 applyAction	./Thirdparty/g2o/g2o/core/hyper_graph_action.cpp	/^  void applyAction(HyperGraph* graph, HyperGraphElementAction* action, HyperGraphElementAction::Parameters* params, const std::string& typeName)$/;"	f	namespace:g2o
 arrayHasNaN	./Thirdparty/g2o/g2o/stuff/misc.h	/^inline bool arrayHasNaN(const double* array, int size, int* nanIndex = 0)$/;"	f	namespace:g2o
@@ -3030,7 +3050,7 @@ b	./Thirdparty/g2o/g2o/core/solver.h	/^      double* b() { return _b;}$/;"	f	cla
 bData	./Thirdparty/g2o/g2o/core/base_vertex.h	/^    virtual double* bData() { return _b.data();}$/;"	f	class:g2o::BaseVertex
 bNoMore	./include/ORBextractor.h	/^    bool bNoMore;$/;"	m	class:ORB_SLAM2::ExtractorNode
 baseOfBlock	./Thirdparty/g2o/g2o/core/sparse_block_matrix_diagonal.h	/^      inline int baseOfBlock(int r) const { return r ? _blockIndices[r-1] : 0 ; }$/;"	f	class:g2o::SparseBlockMatrixDiagonal
-basis_	./include/Registration.h	/^            Set4 basis_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+basis_	./4pcs/Registration.h	/^            Set4 basis_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 batchStatistics	./Thirdparty/g2o/g2o/core/sparse_optimizer.h	/^    BatchStatisticsContainer& batchStatistics() { return _batchStatistics;}$/;"	f	class:g2o::SparseOptimizer
 batchStatistics	./Thirdparty/g2o/g2o/core/sparse_optimizer.h	/^    const BatchStatisticsContainer& batchStatistics() const { return _batchStatistics;}$/;"	f	class:g2o::SparseOptimizer
 bf	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.h	/^  double fx, fy, cx, cy, bf;$/;"	m	class:g2o::EdgeStereoSE3ProjectXYZ
@@ -3061,9 +3081,10 @@ cam_project	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.cpp	/^Vector2d EdgeS
 cam_project	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.cpp	/^Vector3d EdgeStereoSE3ProjectXYZ::cam_project(const Vector3d & trans_xyz, const float &bf) const{$/;"	f	class:g2o::EdgeStereoSE3ProjectXYZ
 cam_project	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.cpp	/^Vector3d EdgeStereoSE3ProjectXYZOnlyPose::cam_project(const Vector3d & trans_xyz) const{$/;"	f	class:g2o::EdgeStereoSE3ProjectXYZOnlyPose
 ccs	./include/PnPsolver.h	/^  double cws[4][3], ccs[4][3];$/;"	m	class:ORB_SLAM2::PnPsolver
-centering	./src/Registration.cc	/^        Eigen::Vector3f FPCSRegistration::centering(pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+ccs	./include/PoseSolver.h	/^  double cws[4][3], ccs[4][3];$/;"	m	class:ORB_SLAM2::Posesolver
+centering	./4pcs/Registration.cc	/^        Eigen::Vector3f FPCSRegistration::centering(pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud) {$/;"	f	class:pcl::FPCS::FPCSRegistration
 changeId	./Thirdparty/g2o/g2o/core/hyper_graph.cpp	/^  bool HyperGraph::changeId(Vertex* v, int newId){$/;"	f	class:g2o::HyperGraph
-check	./src/Registration.cc	/^        bool FPCSRegistration::check(pcl::FPCS::FPCSRegistration::Set4 ss, float delta) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+check	./4pcs/Registration.cc	/^        bool FPCSRegistration::check(pcl::FPCS::FPCSRegistration::Set4 ss, float delta) {$/;"	f	class:pcl::FPCS::FPCSRegistration
 chi2	./Thirdparty/g2o/g2o/core/base_edge.h	/^      virtual double chi2() const $/;"	f	class:g2o::BaseEdge
 chi2	./Thirdparty/g2o/g2o/core/batch_stats.h	/^    double chi2;                      \/\/\/< total chi2$/;"	m	struct:g2o::G2OBatchStatistics
 chi2	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^double OptimizableGraph::chi2() const$/;"	f	class:g2o::OptimizableGraph
@@ -3074,6 +3095,7 @@ children	./Thirdparty/g2o/g2o/core/hyper_dijkstra.h	/^      HyperGraph::VertexSe
 children	./Thirdparty/g2o/g2o/core/hyper_dijkstra.h	/^      const HyperGraph::VertexSet& children() const {return _children;}$/;"	f	struct:g2o::HyperDijkstra::AdjacencyMapEntry
 choleskyNNZ	./Thirdparty/g2o/g2o/core/batch_stats.h	/^    size_t choleskyNNZ;               \/\/\/< number of non-zeros in the cholesky factor$/;"	m	struct:g2o::G2OBatchStatistics
 choose_control_points	./src/PnPsolver.cc	/^void PnPsolver::choose_control_points(void)$/;"	f	class:ORB_SLAM2::PnPsolver
+choose_control_points	./src/PoseSolver.cc	/^void Posesolver::choose_control_points(void)$/;"	f	class:ORB_SLAM2::Posesolver
 clamp	./Thirdparty/g2o/g2o/stuff/misc.h	/^inline T clamp(T l, T x, T u) $/;"	f	namespace:g2o
 clear	./Thirdparty/g2o/g2o/core/hyper_graph.cpp	/^  void HyperGraph::clear()$/;"	f	class:g2o::HyperGraph
 clear	./Thirdparty/g2o/g2o/core/parameter_container.cpp	/^  void ParameterContainer::clear() {$/;"	f	class:g2o::ParameterContainer
@@ -3132,13 +3154,21 @@ computeSymbolicDecomposition	./Thirdparty/g2o/g2o/solvers/linear_solver_eigen.h	
 computeTree	./Thirdparty/g2o/g2o/core/hyper_dijkstra.cpp	/^  void HyperDijkstra::computeTree(AdjacencyMap& amap)$/;"	f	class:g2o::HyperDijkstra
 computeUpperTriangleIndex	./Thirdparty/g2o/g2o/core/base_multi_edge.hpp	/^  inline int computeUpperTriangleIndex(int i, int j)$/;"	f	namespace:internal
 compute_A_and_b_gauss_newton	./src/PnPsolver.cc	/^void PnPsolver::compute_A_and_b_gauss_newton(const double * l_6x10, const double * rho,$/;"	f	class:ORB_SLAM2::PnPsolver
+compute_A_and_b_gauss_newton	./src/PoseSolver.cc	/^void Posesolver::compute_A_and_b_gauss_newton(const double * l_6x10, const double * rho,$/;"	f	class:ORB_SLAM2::Posesolver
 compute_L_6x10	./src/PnPsolver.cc	/^void PnPsolver::compute_L_6x10(const double * ut, double * l_6x10)$/;"	f	class:ORB_SLAM2::PnPsolver
+compute_L_6x10	./src/PoseSolver.cc	/^void Posesolver::compute_L_6x10(const double * ut, double * l_6x10)$/;"	f	class:ORB_SLAM2::Posesolver
 compute_R_and_t	./src/PnPsolver.cc	/^double PnPsolver::compute_R_and_t(const double * ut, const double * betas,$/;"	f	class:ORB_SLAM2::PnPsolver
+compute_R_and_t	./src/PoseSolver.cc	/^double Posesolver::compute_R_and_t(const double * ut, const double * betas,$/;"	f	class:ORB_SLAM2::Posesolver
 compute_barycentric_coordinates	./src/PnPsolver.cc	/^void PnPsolver::compute_barycentric_coordinates(void)$/;"	f	class:ORB_SLAM2::PnPsolver
+compute_barycentric_coordinates	./src/PoseSolver.cc	/^void Posesolver::compute_barycentric_coordinates(void)$/;"	f	class:ORB_SLAM2::Posesolver
 compute_ccs	./src/PnPsolver.cc	/^void PnPsolver::compute_ccs(const double * betas, const double * ut)$/;"	f	class:ORB_SLAM2::PnPsolver
+compute_ccs	./src/PoseSolver.cc	/^void Posesolver::compute_ccs(const double * betas, const double * ut)$/;"	f	class:ORB_SLAM2::Posesolver
 compute_pcs	./src/PnPsolver.cc	/^void PnPsolver::compute_pcs(void)$/;"	f	class:ORB_SLAM2::PnPsolver
+compute_pcs	./src/PoseSolver.cc	/^void Posesolver::compute_pcs(void)$/;"	f	class:ORB_SLAM2::Posesolver
 compute_pose	./src/PnPsolver.cc	/^double PnPsolver::compute_pose(double R[3][3], double t[3])$/;"	f	class:ORB_SLAM2::PnPsolver
+compute_pose	./src/PoseSolver.cc	/^double Posesolver::compute_pose(double R[3][3], double t[3])$/;"	f	class:ORB_SLAM2::Posesolver
 compute_rho	./src/PnPsolver.cc	/^void PnPsolver::compute_rho(double * rho)$/;"	f	class:ORB_SLAM2::PnPsolver
+compute_rho	./src/PoseSolver.cc	/^void Posesolver::compute_rho(double * rho)$/;"	f	class:ORB_SLAM2::Posesolver
 connectedSubset	./Thirdparty/g2o/g2o/core/hyper_dijkstra.cpp	/^  void HyperDijkstra::connectedSubset(HyperGraph::VertexSet& connected, HyperGraph::VertexSet& visited, $/;"	f	class:g2o::HyperDijkstra
 const	./cmake-build-debug/CMakeFiles/3.10.3/CompilerIdC/CMakeCCompilerId.c	10;"	d	file:
 construct	./Thirdparty/g2o/g2o/core/creators.h	/^      HyperGraph::HyperGraphElement* construct() { return new T;}$/;"	f	class:g2o::HyperGraphElementCreator
@@ -3154,8 +3184,9 @@ container	./Thirdparty/g2o/g2o/core/cache.cpp	/^  CacheContainer* Cache::contain
 convertString	./Thirdparty/g2o/g2o/stuff/string_tools.h	/^bool convertString(const std::string& s, T& x, bool failIfLeftoverChars = true)$/;"	f	namespace:g2o
 copyB	./Thirdparty/g2o/g2o/core/base_vertex.h	/^    virtual int copyB(double* b_) const {$/;"	f	class:g2o::BaseVertex
 copy_R_and_t	./src/PnPsolver.cc	/^void PnPsolver::copy_R_and_t(const double R_src[3][3], const double t_src[3],$/;"	f	class:ORB_SLAM2::PnPsolver
-copy_source_	./include/Registration.h	/^            PointCloud<PointXYZ>::Ptr copy_source_;$/;"	m	class:pcl::FPCS::FPCSRegistration
-copy_target_	./include/Registration.h	/^            PointCloud<PointXYZ>::Ptr copy_target_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+copy_R_and_t	./src/PoseSolver.cc	/^void Posesolver::copy_R_and_t(const double R_src[3][3], const double t_src[3],$/;"	f	class:ORB_SLAM2::Posesolver
+copy_source_	./4pcs/Registration.h	/^            PointCloud<PointXYZ>::Ptr copy_source_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+copy_target_	./4pcs/Registration.h	/^            PointCloud<PointXYZ>::Ptr copy_target_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 create	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^void TemplatedVocabulary<TDescriptor,F>::create($/;"	f	class:DBoW2::TemplatedVocabulary
 createCache	./Thirdparty/g2o/g2o/core/cache.cpp	/^  Cache* CacheContainer::createCache(const Cache::CacheKey& key){$/;"	f	class:g2o::CacheContainer
 createFrom	./Thirdparty/g2o/g2o/core/base_binary_edge.hpp	/^OptimizableGraph::Vertex* BaseBinaryEdge<D, E, VertexXiType, VertexXjType>::createFrom(){$/;"	f	class:BaseBinaryEdge
@@ -3168,10 +3199,12 @@ createWords	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^void TemplatedVocab
 creator	./Thirdparty/g2o/g2o/core/factory.h	/^          AbstractHyperGraphElementCreator* creator;$/;"	m	class:g2o::Factory::CreatorInformation
 creator	./Thirdparty/g2o/g2o/core/robust_kernel_factory.cpp	/^AbstractRobustKernelCreator* RobustKernelFactory::creator(const std::string& tag) const$/;"	f	class:g2o::RobustKernelFactory
 creatorList	./Thirdparty/g2o/g2o/core/optimization_algorithm_factory.h	/^      const CreatorList& creatorList() const { return _creator;}$/;"	f	class:g2o::OptimizationAlgorithmFactory
-current	./include/Registration.h	/^            vector<MapPoint*> current;$/;"	m	class:pcl::FPCS::FPCSRegistration
+current	./4pcs/Registration.h	/^            vector<MapPoint*> current;$/;"	m	class:pcl::FPCS::FPCSRegistration
 currentLambda	./Thirdparty/g2o/g2o/core/optimization_algorithm_levenberg.h	/^      double currentLambda() const { return _currentLambda;}$/;"	f	class:g2o::OptimizationAlgorithmLevenberg
 cws	./include/PnPsolver.h	/^  double cws[4][3], ccs[4][3];$/;"	m	class:ORB_SLAM2::PnPsolver
+cws	./include/PoseSolver.h	/^  double cws[4][3], ccs[4][3];$/;"	m	class:ORB_SLAM2::Posesolver
 cws_determinant	./include/PnPsolver.h	/^  double cws_determinant;$/;"	m	class:ORB_SLAM2::PnPsolver
+cws_determinant	./include/PoseSolver.h	/^  double cws_determinant;$/;"	m	class:ORB_SLAM2::Posesolver
 cx	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.h	/^  double fx, fy, cx, cy, bf;$/;"	m	class:g2o::EdgeStereoSE3ProjectXYZ
 cx	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.h	/^  double fx, fy, cx, cy, bf;$/;"	m	class:g2o::EdgeStereoSE3ProjectXYZOnlyPose
 cx	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.h	/^  double fx, fy, cx, cy;$/;"	m	class:g2o::EdgeSE3ProjectXYZ
@@ -3190,7 +3223,7 @@ deallocate	./Thirdparty/g2o/g2o/core/block_solver.hpp	/^void BlockSolver<Traits>
 deg2rad	./Thirdparty/g2o/g2o/stuff/misc.h	/^inline double deg2rad(double degree)$/;"	f	namespace:g2o
 delta	./Thirdparty/g2o/g2o/core/robust_kernel.h	/^      double delta() const { return _delta;}$/;"	f	class:g2o::RobustKernel
 deltaR	./Thirdparty/g2o/g2o/types/se3_ops.hpp	/^  Vector3d deltaR(const Matrix3d& R)$/;"	f
-delta_	./include/Registration.h	/^            double delta_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+delta_	./4pcs/Registration.h	/^            double delta_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 desc	./Thirdparty/g2o/g2o/core/optimization_algorithm_property.h	/^  std::string desc;           \/\/\/< short description of the solver$/;"	m	struct:g2o::OptimizationAlgorithmProperty
 descriptor	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^    TDescriptor descriptor;$/;"	m	struct:DBoW2::TemplatedVocabulary::Node
 destroy	./Thirdparty/g2o/g2o/core/factory.cpp	/^void Factory::destroy()$/;"	f	class:g2o::Factory
@@ -3210,10 +3243,12 @@ discardTop	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^void OptimizableGra
 discardTop	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  void SparseOptimizer::discardTop()$/;"	f	class:g2o::SparseOptimizer
 discardTop	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  void SparseOptimizer::discardTop(SparseOptimizer::VertexContainer& vlist)$/;"	f	class:g2o::SparseOptimizer
 dist2	./src/PnPsolver.cc	/^double PnPsolver::dist2(const double * p1, const double * p2)$/;"	f	class:ORB_SLAM2::PnPsolver
+dist2	./src/PoseSolver.cc	/^double Posesolver::dist2(const double * p1, const double * p2)$/;"	f	class:ORB_SLAM2::Posesolver
 distance	./Thirdparty/DBoW2/DBoW2/FORB.cpp	/^int FORB::distance(const FORB::TDescriptor &a,$/;"	f	class:DBoW2::FORB
 distance	./Thirdparty/g2o/g2o/core/estimate_propagator.h	/^          double distance() const {return _distance;}$/;"	f	class:g2o::EstimatePropagator::AdjacencyMapEntry
 distance	./Thirdparty/g2o/g2o/core/hyper_dijkstra.h	/^      double distance() const {return _distance;}$/;"	f	struct:g2o::HyperDijkstra::AdjacencyMapEntry
 dot	./src/PnPsolver.cc	/^double PnPsolver::dot(const double * v1, const double * v2)$/;"	f	class:ORB_SLAM2::PnPsolver
+dot	./src/PoseSolver.cc	/^double Posesolver::dot(const double * v1, const double * v2)$/;"	f	class:ORB_SLAM2::Posesolver
 drand48	./Thirdparty/g2o/g2o/stuff/os_specific.h	37;"	d
 dsqr	./Thirdparty/g2o/g2o/core/robust_kernel_impl.h	/^      float dsqr;$/;"	m	class:g2o::RobustKernelHuber
 eSensor	./include/System.h	/^    enum eSensor{$/;"	g	class:ORB_SLAM2::System
@@ -3241,9 +3276,10 @@ errorData	./Thirdparty/g2o/g2o/core/base_edge.h	/^      virtual const double* er
 errorData	./Thirdparty/g2o/g2o/core/base_edge.h	/^      virtual double* errorData() { return _error.data();}$/;"	f	class:g2o::BaseEdge
 estimate	./Thirdparty/g2o/g2o/core/base_vertex.h	/^    const EstimateType& estimate() const { return _estimate;}$/;"	f	class:g2o::BaseVertex
 estimateDimension	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  int OptimizableGraph::Vertex::estimateDimension() const$/;"	f	class:g2o::OptimizableGraph::Vertex
-estimateRotation	./src/Registration.cc	/^        Eigen::Quaternionf FPCSRegistration::estimateRotation(const int corr_index) {$/;"	f	class:pcl::FPCS::FPCSRegistration
-estimateSim	./src/Registration.cc	/^        void FPCSRegistration::estimateSim(const int corr_index, float &scale, Eigen::Matrix3f &rotation, Eigen::Vector3f &offset) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+estimateRotation	./4pcs/Registration.cc	/^        Eigen::Quaternionf FPCSRegistration::estimateRotation(const int corr_index) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+estimateSim	./4pcs/Registration.cc	/^        void FPCSRegistration::estimateSim(const int corr_index, float &scale, Eigen::Matrix3f &rotation, Eigen::Vector3f &offset) {$/;"	f	class:pcl::FPCS::FPCSRegistration
 estimate_R_and_t	./src/PnPsolver.cc	/^void PnPsolver::estimate_R_and_t(double R[3][3], double t[3])$/;"	f	class:ORB_SLAM2::PnPsolver
+estimate_R_and_t	./src/PoseSolver.cc	/^void Posesolver::estimate_R_and_t(double R[3][3], double t[3])$/;"	f	class:ORB_SLAM2::Posesolver
 exp	./Thirdparty/g2o/g2o/types/se3quat.h	/^      static SE3Quat exp(const Vector6d & update)$/;"	f	class:g2o::SE3Quat
 factorPI	./src/ORBextractor.cc	/^const float factorPI = (float)(CV_PI\/180.f);$/;"	m	namespace:ORB_SLAM2	file:
 factoryInstance	./Thirdparty/g2o/g2o/core/factory.cpp	/^Factory* Factory::factoryInstance = 0;$/;"	m	class:g2o::Factory	file:
@@ -3271,19 +3307,24 @@ fillSparseBlockMatrixCCS	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^  i
 fillSparseBlockMatrixCCSTransposed	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^  int SparseBlockMatrix<MatrixType>::fillSparseBlockMatrixCCSTransposed(SparseBlockMatrixCCS<MatrixType>& blockCCS) const$/;"	f	class:g2o::SparseBlockMatrix
 fillSparseMatrix	./Thirdparty/g2o/g2o/solvers/linear_solver_eigen.h	/^    void fillSparseMatrix(const SparseBlockMatrix<MatrixType>& A, bool onlyValues)$/;"	f	class:g2o::LinearSolverEigen
 fill_M	./src/PnPsolver.cc	/^void PnPsolver::fill_M(CvMat * M,$/;"	f	class:ORB_SLAM2::PnPsolver
+fill_M	./src/PoseSolver.cc	/^void Posesolver::fill_M(CvMat * M,$/;"	f	class:ORB_SLAM2::Posesolver
 find	./src/PnPsolver.cc	/^cv::Mat PnPsolver::find(vector<bool> &vbInliers, int &nInliers)$/;"	f	class:ORB_SLAM2::PnPsolver
+find	./src/PoseSolver.cc	/^cv::Mat Posesolver::find(vector<bool> &vbInliers, int &nInliers)$/;"	f	class:ORB_SLAM2::Posesolver
 find	./src/Sim3Solver.cc	/^cv::Mat Sim3Solver::find(vector<bool> &vbInliers12, int &nInliers)$/;"	f	class:ORB_SLAM2::Sim3Solver
 findActiveEdge	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  SparseOptimizer::EdgeContainer::const_iterator SparseOptimizer::findActiveEdge(const OptimizableGraph::Edge* e) const$/;"	f	class:g2o::SparseOptimizer
 findActiveVertex	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  SparseOptimizer::VertexContainer::const_iterator SparseOptimizer::findActiveVertex(const OptimizableGraph::Vertex* v) const$/;"	f	class:g2o::SparseOptimizer
-findBasis	./src/Registration.cc	/^        int FPCSRegistration::findBasis(const double dist) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+findBasis	./4pcs/Registration.cc	/^        int FPCSRegistration::findBasis(const double dist) {$/;"	f	class:pcl::FPCS::FPCSRegistration
 findCache	./Thirdparty/g2o/g2o/core/cache.cpp	/^  Cache* CacheContainer::findCache(const Cache::CacheKey& key) {$/;"	f	class:g2o::CacheContainer
 findGauge	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  OptimizableGraph::Vertex* SparseOptimizer::findGauge(){$/;"	f	class:g2o::SparseOptimizer
 findSolver	./Thirdparty/g2o/g2o/core/optimization_algorithm_factory.cpp	/^  OptimizationAlgorithmFactory::CreatorList::const_iterator OptimizationAlgorithmFactory::findSolver(const std::string& name) const$/;"	f	class:g2o::OptimizationAlgorithmFactory
 findSolver	./Thirdparty/g2o/g2o/core/optimization_algorithm_factory.cpp	/^  OptimizationAlgorithmFactory::CreatorList::iterator OptimizationAlgorithmFactory::findSolver(const std::string& name)$/;"	f	class:g2o::OptimizationAlgorithmFactory
-findTargetCandidateBasis	./src/Registration.cc	/^        int FPCSRegistration::findTargetCandidateBasis() {$/;"	f	class:pcl::FPCS::FPCSRegistration
+findTargetCandidateBasis	./4pcs/Registration.cc	/^        int FPCSRegistration::findTargetCandidateBasis() {$/;"	f	class:pcl::FPCS::FPCSRegistration
 find_betas_approx_1	./src/PnPsolver.cc	/^void PnPsolver::find_betas_approx_1(const CvMat * L_6x10, const CvMat * Rho,$/;"	f	class:ORB_SLAM2::PnPsolver
+find_betas_approx_1	./src/PoseSolver.cc	/^void Posesolver::find_betas_approx_1(const CvMat * L_6x10, const CvMat * Rho,$/;"	f	class:ORB_SLAM2::Posesolver
 find_betas_approx_2	./src/PnPsolver.cc	/^void PnPsolver::find_betas_approx_2(const CvMat * L_6x10, const CvMat * Rho,$/;"	f	class:ORB_SLAM2::PnPsolver
+find_betas_approx_2	./src/PoseSolver.cc	/^void Posesolver::find_betas_approx_2(const CvMat * L_6x10, const CvMat * Rho,$/;"	f	class:ORB_SLAM2::Posesolver
 find_betas_approx_3	./src/PnPsolver.cc	/^void PnPsolver::find_betas_approx_3(const CvMat * L_6x10, const CvMat * Rho,$/;"	f	class:ORB_SLAM2::PnPsolver
+find_betas_approx_3	./src/PoseSolver.cc	/^void Posesolver::find_betas_approx_3(const CvMat * L_6x10, const CvMat * Rho,$/;"	f	class:ORB_SLAM2::Posesolver
 fixPoint	./include/Tracking.h	/^    cv::Mat fixPoint[4];$/;"	m	class:ORB_SLAM2::Tracking
 fixed	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        bool fixed() const {return _fixed;}$/;"	f	class:g2o::OptimizableGraph::Vertex
 forceStopFlag	./Thirdparty/g2o/g2o/core/sparse_optimizer.h	/^    bool* forceStopFlag() const { return _forceStopFlag;};$/;"	f	class:g2o::SparseOptimizer
@@ -3295,7 +3336,9 @@ fromString	./Thirdparty/g2o/g2o/stuff/property.h	/^      virtual bool fromString
 fromVector	./Thirdparty/g2o/g2o/types/se3quat.h	/^      inline void fromVector(const Vector7d& v){$/;"	f	class:g2o::SE3Quat
 frontierLevel	./Thirdparty/g2o/g2o/core/estimate_propagator.h	/^          int frontierLevel() const { return _frontierLevel;}$/;"	f	class:g2o::EstimatePropagator::AdjacencyMapEntry
 fu	./include/PnPsolver.h	/^  double uc, vc, fu, fv;$/;"	m	class:ORB_SLAM2::PnPsolver
+fu	./include/PoseSolver.h	/^  double uc, vc, fu, fv;$/;"	m	class:ORB_SLAM2::Posesolver
 fv	./include/PnPsolver.h	/^  double uc, vc, fu, fv;$/;"	m	class:ORB_SLAM2::PnPsolver
+fv	./include/PoseSolver.h	/^  double uc, vc, fu, fv;$/;"	m	class:ORB_SLAM2::Posesolver
 fx	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.h	/^  double fx, fy, cx, cy, bf;$/;"	m	class:g2o::EdgeStereoSE3ProjectXYZ
 fx	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.h	/^  double fx, fy, cx, cy, bf;$/;"	m	class:g2o::EdgeStereoSE3ProjectXYZOnlyPose
 fx	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.h	/^  double fx, fy, cx, cy;$/;"	m	class:g2o::EdgeSE3ProjectXYZ
@@ -3407,15 +3450,17 @@ g2o_isnan	./Thirdparty/g2o/g2o/stuff/macros.h	55;"	d
 g2o_isnan	./Thirdparty/g2o/g2o/stuff/macros.h	88;"	d
 gaugeFreedom	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  bool SparseOptimizer::gaugeFreedom()$/;"	f	class:g2o::SparseOptimizer
 gauss_newton	./src/PnPsolver.cc	/^void PnPsolver::gauss_newton(const CvMat * L_6x10, const CvMat * Rho,$/;"	f	class:ORB_SLAM2::PnPsolver
+gauss_newton	./src/PoseSolver.cc	/^void Posesolver::gauss_newton(const CvMat * L_6x10, const CvMat * Rho,$/;"	f	class:ORB_SLAM2::Posesolver
 get	./Thirdparty/DBoW2/DUtils/Random.cpp	/^int DUtils::Random::UnrepeatedRandomizer::get()$/;"	f	class:DUtils::Random::UnrepeatedRandomizer
 getBranchingFactor	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^  inline int getBranchingFactor() const { return m_k; }$/;"	f	class:DBoW2::TemplatedVocabulary
-getCross	./src/Registration.cc	/^        PointXYZ FPCSRegistration::getCross(const pcl::PointXYZ &p1, const pcl::PointXYZ &p2, const pcl::PointXYZ &p3,$/;"	f	class:pcl::FPCS::FPCSRegistration
+getCross	./4pcs/Registration.cc	/^        PointXYZ FPCSRegistration::getCross(const pcl::PointXYZ &p1, const pcl::PointXYZ &p2, const pcl::PointXYZ &p3,$/;"	f	class:pcl::FPCS::FPCSRegistration
 getDepthLevels	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^  inline int getDepthLevels() const { return m_L; }$/;"	f	class:DBoW2::TemplatedVocabulary
 getEffectiveLevels	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^float TemplatedVocabulary<TDescriptor,F>::getEffectiveLevels() const$/;"	f	class:DBoW2::TemplatedVocabulary
 getEstimateData	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  bool OptimizableGraph::Vertex::getEstimateData(double *) const$/;"	f	class:g2o::OptimizableGraph::Vertex
 getEstimateData	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        virtual bool getEstimateData(std::vector<double>& estimate) const {$/;"	f	class:g2o::OptimizableGraph::Vertex
 getFeatures	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^void TemplatedVocabulary<TDescriptor,F>::getFeatures($/;"	f	class:DBoW2::TemplatedVocabulary
 getFloatTime	./Thirdparty/DBoW2/DUtils/Timestamp.cpp	/^double Timestamp::getFloatTime() const {$/;"	f	class:Timestamp
+getInput	./main.cc	/^void getInput(char *file_name) {$/;"	f
 getMeasurementData	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  bool OptimizableGraph::Edge::getMeasurementData(double *) const$/;"	f	class:g2o::OptimizableGraph::Edge
 getMinimalEstimateData	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  bool OptimizableGraph::Vertex::getMinimalEstimateData(double *) const$/;"	f	class:g2o::OptimizableGraph::Vertex
 getMinimalEstimateData	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        virtual bool getMinimalEstimateData(std::vector<double>& estimate) const {$/;"	f	class:g2o::OptimizableGraph::Vertex
@@ -3426,7 +3471,7 @@ getProperty	./Thirdparty/g2o/g2o/stuff/property.h	/^      const P* getProperty(c
 getScoringType	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^  inline ScoringType getScoringType() const { return m_scoring; }$/;"	f	class:DBoW2::TemplatedVocabulary
 getStringTime	./Thirdparty/DBoW2/DUtils/Timestamp.cpp	/^string Timestamp::getStringTime() const {$/;"	f	class:Timestamp
 getTime	./Thirdparty/DBoW2/DUtils/Timestamp.h	/^	inline void getTime(unsigned long &secs, unsigned long &usecs) const$/;"	f	class:DUtils::Timestamp
-getTransform	./src/Registration.cc	/^        Eigen::Matrix4f FPCSRegistration::getTransform() {$/;"	f	class:pcl::FPCS::FPCSRegistration
+getTransform	./4pcs/Registration.cc	/^        Eigen::Matrix4f FPCSRegistration::getTransform() {$/;"	f	class:pcl::FPCS::FPCSRegistration
 getWeightingType	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^  inline WeightingType getWeightingType() const { return m_weighting; }$/;"	f	class:DBoW2::TemplatedVocabulary
 getWord	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^TDescriptor TemplatedVocabulary<TDescriptor,F>::getWord(WordId wid) const$/;"	f	class:DBoW2::TemplatedVocabulary
 getWordWeight	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^WordValue TemplatedVocabulary<TDescriptor, F>::getWordWeight(WordId wid) const$/;"	f	class:DBoW2::TemplatedVocabulary
@@ -3443,7 +3488,7 @@ graph	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  OptimizableGraph* Opti
 graph	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  const OptimizableGraph* OptimizableGraph::Edge::graph() const{$/;"	f	class:g2o::OptimizableGraph::Edge
 graph	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        OptimizableGraph* graph() {return _graph;}$/;"	f	class:g2o::OptimizableGraph::Vertex
 graph	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        const OptimizableGraph* graph() const {return _graph;}$/;"	f	class:g2o::OptimizableGraph::Vertex
-gth_file	./main.cc	/^const std::string gth_file = "\/home\/wu6shen\/Computer-Vision\/Data\/rgbd_dataset_freiburg1_xyz\/groundtruth.txt";$/;"	v
+gth_file	./main.cc	/^	std::string gth_file;$/;"	m	struct:__anon5	file:
 gts	./include/MapDrawer.h	/^    vector<cv::Mat> gts;$/;"	m	class:ORB_SLAM2::MapDrawer
 hasChild	./src/KeyFrame.cc	/^bool KeyFrame::hasChild(KeyFrame *pKF)$/;"	f	class:ORB_SLAM2::KeyFrame
 hessian	./Thirdparty/g2o/g2o/core/base_vertex.h	/^    virtual const double& hessian(int i, int j) const { assert(i<D && j<D); return _hessian(i,j);}$/;"	f	class:g2o::BaseVertex
@@ -3460,8 +3505,8 @@ id	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^    NodeId id;$/;"	m	struct:
 id	./Thirdparty/g2o/g2o/core/hyper_graph.h	/^          int id() const {return _id;}$/;"	f	class:g2o::HyperGraph::Edge
 id	./Thirdparty/g2o/g2o/core/hyper_graph.h	/^          int id() const {return _id;}$/;"	f	class:g2o::HyperGraph::Vertex
 id	./Thirdparty/g2o/g2o/core/parameter.h	/^        int id() const {return _id;}$/;"	f	class:g2o::Parameter
-image_folder	./main.cc	/^const std::string image_folder = "\/home\/wu6shen\/Computer-Vision\/Data\/kinectv2\/Image-2018-08-31-13-13-29\/";$/;"	v
-image_list_file	./main.cc	/^const std::string image_list_file = "\/home\/wu6shen\/Computer-Vision\/Data\/kinectv2\/Image-2018-08-31-13-13-29\/rgb.txt";$/;"	v
+image_folder	./main.cc	/^	std::string image_folder;$/;"	m	struct:__anon5	file:
+image_list_file	./main.cc	/^	std::string image_list_file;$/;"	m	struct:__anon5	file:
 img	./include/Frame.h	/^    cv::Mat img;$/;"	m	class:ORB_SLAM2::Frame
 img_cur_	./include/Tracking.h	/^	cv::Mat img_cur_, img_ref_;$/;"	m	class:ORB_SLAM2::Tracking
 img_ref_	./include/Tracking.h	/^	cv::Mat img_cur_, img_ref_;$/;"	m	class:ORB_SLAM2::Tracking
@@ -3570,8 +3615,8 @@ initializeOptimization	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  bool S
 initializeOptimization	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  bool SparseOptimizer::initializeOptimization(int level){$/;"	f	class:g2o::SparseOptimizer
 initiateClusters	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^void TemplatedVocabulary<TDescriptor, F>::initiateClusters$/;"	f	class:DBoW2::TemplatedVocabulary
 initiateClustersKMpp	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^void TemplatedVocabulary<TDescriptor,F>::initiateClustersKMpp($/;"	f	class:DBoW2::TemplatedVocabulary
-input_source_	./include/Registration.h	/^            PointCloud<PointXYZ>::Ptr input_source_;$/;"	m	class:pcl::FPCS::FPCSRegistration
-input_target_	./include/Registration.h	/^            PointCloud<PointXYZ>::Ptr input_target_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+input_source_	./4pcs/Registration.h	/^            PointCloud<PointXYZ>::Ptr input_source_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+input_target_	./4pcs/Registration.h	/^            PointCloud<PointXYZ>::Ptr input_target_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 installDependency	./Thirdparty/g2o/g2o/core/cache.cpp	/^  Cache* Cache::installDependency(const std::string& type_, const std::vector<int>& parameterIndices){$/;"	f	class:g2o::Cache
 installParameter	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^          bool installParameter(ParameterType*& p, size_t argNo, int paramId=-1){$/;"	f	class:g2o::OptimizableGraph::Edge
 instance	./Thirdparty/g2o/g2o/core/factory.cpp	/^Factory* Factory::instance()$/;"	f	class:g2o::Factory
@@ -3604,17 +3649,18 @@ isInFrustum	./src/Frame.cc	/^bool Frame::isInFrustum(MapPoint *pMP, float viewin
 isLast	./include/MapPoint.h	/^    bool isLast;$/;"	m	class:ORB_SLAM2::MapPoint
 isLeaf	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^    inline bool isLeaf() const { return children.empty(); }$/;"	f	struct:DBoW2::TemplatedVocabulary::Node
 isMainStorage	./Thirdparty/g2o/g2o/core/parameter_container.h	/^      bool isMainStorage() const {return _isMainStorage;}$/;"	f	class:g2o::ParameterContainer
-isPlane	./src/Registration.cc	/^        bool FPCSRegistration::isPlane(Set4 basis, const PointXYZ &last_point) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+isPlane	./4pcs/Registration.cc	/^        bool FPCSRegistration::isPlane(Set4 basis, const PointXYZ &last_point) {$/;"	f	class:pcl::FPCS::FPCSRegistration
 isRunningGBA	./include/LoopClosing.h	/^    bool isRunningGBA(){$/;"	f	class:ORB_SLAM2::LoopClosing
 isSolverSuitable	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^bool OptimizableGraph::isSolverSuitable(const OptimizationAlgorithmProperty& solverProperty, const std::set<int>& vertDims_) const$/;"	f	class:g2o::OptimizableGraph
 isStopped	./src/LocalMapping.cc	/^bool LocalMapping::isStopped()$/;"	f	class:ORB_SLAM2::LocalMapping
 isStopped	./src/Viewer.cc	/^bool Viewer::isStopped()$/;"	f	class:ORB_SLAM2::Viewer
 iterate	./src/PnPsolver.cc	/^cv::Mat PnPsolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInliers, int &nInliers)$/;"	f	class:ORB_SLAM2::PnPsolver
+iterate	./src/PoseSolver.cc	/^cv::Mat Posesolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInliers, int &nInliers)$/;"	f	class:ORB_SLAM2::Posesolver
 iterate	./src/Sim3Solver.cc	/^cv::Mat Sim3Solver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInliers, int &nInliers)$/;"	f	class:ORB_SLAM2::Sim3Solver
 iteration	./Thirdparty/g2o/g2o/core/batch_stats.h	/^    int iteration;                    \/\/\/< which iteration$/;"	m	struct:g2o::G2OBatchStatistics
 iteration	./Thirdparty/g2o/g2o/core/hyper_graph_action.h	/^          int iteration;$/;"	m	class:g2o::HyperGraphAction::ParametersIteration
 iterationsLinearSolver	./Thirdparty/g2o/g2o/core/batch_stats.h	/^    int    iterationsLinearSolver;    \/\/\/< iterations of PCG, (0 if not used, i.e., Cholesky)$/;"	m	struct:g2o::G2OBatchStatistics
-iterations_	./include/Registration.h	/^            int iterations_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+iterations_	./4pcs/Registration.h	/^            int iterations_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 jacobianOplusXi	./Thirdparty/g2o/g2o/core/base_binary_edge.h	/^      const JacobianXiOplusType& jacobianOplusXi() const { return _jacobianOplusXi;}$/;"	f	class:g2o::BaseBinaryEdge
 jacobianOplusXi	./Thirdparty/g2o/g2o/core/base_unary_edge.h	/^      const JacobianXiOplusType& jacobianOplusXi() const { return _jacobianOplusXi;}$/;"	f	class:g2o::BaseUnaryEdge
 jacobianOplusXj	./Thirdparty/g2o/g2o/core/base_binary_edge.h	/^      const JacobianXjOplusType& jacobianOplusXj() const { return _jacobianOplusXj;}$/;"	f	class:g2o::BaseBinaryEdge
@@ -3625,9 +3671,9 @@ key	./Thirdparty/g2o/g2o/core/cache.cpp	/^  Cache::CacheKey Cache::key() const {
 knowsTag	./Thirdparty/g2o/g2o/core/factory.cpp	/^bool Factory::knowsTag(const std::string& tag, int* elementType) const$/;"	f	class:g2o::Factory
 lId	./include/KeyFrame.h	/^    static bool lId(KeyFrame* pKF1, KeyFrame* pKF2){$/;"	f	class:ORB_SLAM2::KeyFrame
 landmarkDim	./Thirdparty/g2o/g2o/core/optimization_algorithm_property.h	/^  int landmarkDim;            \/\/\/< dimension of the landmar vertices (-1 if variable)$/;"	m	struct:g2o::OptimizationAlgorithmProperty
-last	./include/Registration.h	/^            vector<MapPoint*> last;$/;"	m	class:pcl::FPCS::FPCSRegistration
+last	./4pcs/Registration.h	/^            vector<MapPoint*> last;$/;"	m	class:pcl::FPCS::FPCSRegistration
 lastStep	./Thirdparty/g2o/g2o/core/optimization_algorithm_dogleg.h	/^      int lastStep() const { return _lastStep;}$/;"	f	class:g2o::OptimizationAlgorithmDogleg
-last_map	./include/Registration.h	/^            Map *last_map;$/;"	m	class:pcl::FPCS::FPCSRegistration
+last_map	./4pcs/Registration.h	/^            Map *last_map;$/;"	m	class:pcl::FPCS::FPCSRegistration
 left	./Thirdparty/DBoW2/DUtils/Random.h	/^  inline unsigned int left() const { return m_values.size(); }$/;"	f	class:DUtils::Random::UnrepeatedRandomizer
 level	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        int level() const { return _level;}$/;"	f	class:g2o::OptimizableGraph::Edge
 levenberg	./Thirdparty/g2o/g2o/core/solver.h	/^      bool levenberg() const { return _isLevenberg;}$/;"	f	class:g2o::Solver
@@ -3660,9 +3706,11 @@ mBestRotation	./include/Sim3Solver.h	/^    cv::Mat mBestRotation;$/;"	m	class:OR
 mBestScale	./include/Sim3Solver.h	/^    float mBestScale;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mBestT12	./include/Sim3Solver.h	/^    cv::Mat mBestT12;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mBestTcw	./include/PnPsolver.h	/^  cv::Mat mBestTcw;$/;"	m	class:ORB_SLAM2::PnPsolver
+mBestTcw	./include/PoseSolver.h	/^  cv::Mat mBestTcw;$/;"	m	class:ORB_SLAM2::Posesolver
 mBestTranslation	./include/Sim3Solver.h	/^    cv::Mat mBestTranslation;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mBowVec	./include/Frame.h	/^    DBoW2::BowVector mBowVec;$/;"	m	class:ORB_SLAM2::Frame
 mBowVec	./include/KeyFrame.h	/^    DBoW2::BowVector mBowVec;$/;"	m	class:ORB_SLAM2::KeyFrame
+mBowVec	./include/Map.h	/^	DBoW2::BowVector mBowVec;$/;"	m	class:ORB_SLAM2::Map
 mCameraLineWidth	./include/MapDrawer.h	/^    float mCameraLineWidth;$/;"	m	class:ORB_SLAM2::MapDrawer
 mCameraPose	./include/MapDrawer.h	/^    cv::Mat mCameraPose;$/;"	m	class:ORB_SLAM2::MapDrawer
 mCameraSize	./include/MapDrawer.h	/^    float mCameraSize;$/;"	m	class:ORB_SLAM2::MapDrawer
@@ -3677,6 +3725,7 @@ mDistCoef	./include/Frame.h	/^    cv::Mat mDistCoef;$/;"	m	class:ORB_SLAM2::Fram
 mDistCoef	./include/Tracking.h	/^    cv::Mat mDistCoef;$/;"	m	class:ORB_SLAM2::Tracking
 mFeatVec	./include/Frame.h	/^    DBoW2::FeatureVector mFeatVec;$/;"	m	class:ORB_SLAM2::Frame
 mFeatVec	./include/KeyFrame.h	/^    DBoW2::FeatureVector mFeatVec;$/;"	m	class:ORB_SLAM2::KeyFrame
+mFeatVec	./include/Map.h	/^	DBoW2::FeatureVector mFeatVec;$/;"	m	class:ORB_SLAM2::Map
 mGlobalMutex	./include/MapPoint.h	/^    static std::mutex mGlobalMutex;$/;"	m	class:ORB_SLAM2::MapPoint
 mGlobalMutex	./src/MapPoint.cc	/^mutex MapPoint::mGlobalMutex;$/;"	m	class:ORB_SLAM2::MapPoint	file:
 mGraphLineWidth	./include/MapDrawer.h	/^    float mGraphLineWidth;$/;"	m	class:ORB_SLAM2::MapDrawer
@@ -3736,18 +3785,27 @@ mPointSize	./include/MapDrawer.h	/^    float mPointSize;$/;"	m	class:ORB_SLAM2::
 mPosGBA	./include/MapPoint.h	/^    cv::Mat mPosGBA;$/;"	m	class:ORB_SLAM2::MapPoint
 mR12i	./include/Sim3Solver.h	/^    cv::Mat mR12i;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mRansacEpsilon	./include/PnPsolver.h	/^  float mRansacEpsilon;$/;"	m	class:ORB_SLAM2::PnPsolver
+mRansacEpsilon	./include/PoseSolver.h	/^  float mRansacEpsilon;$/;"	m	class:ORB_SLAM2::Posesolver
 mRansacMaxIts	./include/PnPsolver.h	/^  int mRansacMaxIts;$/;"	m	class:ORB_SLAM2::PnPsolver
+mRansacMaxIts	./include/PoseSolver.h	/^  int mRansacMaxIts;$/;"	m	class:ORB_SLAM2::Posesolver
 mRansacMaxIts	./include/Sim3Solver.h	/^    int mRansacMaxIts;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mRansacMinInliers	./include/PnPsolver.h	/^  int mRansacMinInliers;$/;"	m	class:ORB_SLAM2::PnPsolver
+mRansacMinInliers	./include/PoseSolver.h	/^  int mRansacMinInliers;$/;"	m	class:ORB_SLAM2::Posesolver
 mRansacMinInliers	./include/Sim3Solver.h	/^    int mRansacMinInliers;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mRansacMinSet	./include/PnPsolver.h	/^  int mRansacMinSet;$/;"	m	class:ORB_SLAM2::PnPsolver
+mRansacMinSet	./include/PoseSolver.h	/^  int mRansacMinSet;$/;"	m	class:ORB_SLAM2::Posesolver
 mRansacProb	./include/PnPsolver.h	/^  double mRansacProb;$/;"	m	class:ORB_SLAM2::PnPsolver
+mRansacProb	./include/PoseSolver.h	/^  double mRansacProb;$/;"	m	class:ORB_SLAM2::Posesolver
 mRansacProb	./include/Sim3Solver.h	/^    double mRansacProb;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mRansacTh	./include/PnPsolver.h	/^  float mRansacTh;$/;"	m	class:ORB_SLAM2::PnPsolver
+mRansacTh	./include/PoseSolver.h	/^  float mRansacTh;$/;"	m	class:ORB_SLAM2::Posesolver
 mRcw	./include/Frame.h	/^    cv::Mat mRcw;$/;"	m	class:ORB_SLAM2::Frame
 mRefinedTcw	./include/PnPsolver.h	/^  cv::Mat mRefinedTcw;$/;"	m	class:ORB_SLAM2::PnPsolver
+mRefinedTcw	./include/PoseSolver.h	/^  cv::Mat mRefinedTcw;$/;"	m	class:ORB_SLAM2::Posesolver
 mRelocScore	./include/KeyFrame.h	/^    float mRelocScore;$/;"	m	class:ORB_SLAM2::KeyFrame
 mRi	./include/PnPsolver.h	/^  double mRi[3][3];$/;"	m	class:ORB_SLAM2::PnPsolver
+mRi1	./include/PoseSolver.h	/^  double mRi1[3][3];$/;"	m	class:ORB_SLAM2::Posesolver
+mRi2	./include/PoseSolver.h	/^  double mRi2[3][3];$/;"	m	class:ORB_SLAM2::Posesolver
 mRwc	./include/Frame.h	/^    cv::Mat mRwc;$/;"	m	class:ORB_SLAM2::Frame
 mScw	./include/LoopClosing.h	/^    cv::Mat mScw;$/;"	m	class:ORB_SLAM2::LoopClosing
 mSensor	./include/System.h	/^    eSensor mSensor;$/;"	m	class:ORB_SLAM2::System
@@ -3765,6 +3823,7 @@ mTcw	./include/Frame.h	/^    cv::Mat mTcw;$/;"	m	class:ORB_SLAM2::Frame
 mTcwBefGBA	./include/KeyFrame.h	/^    cv::Mat mTcwBefGBA;$/;"	m	class:ORB_SLAM2::KeyFrame
 mTcwGBA	./include/KeyFrame.h	/^    cv::Mat mTcwGBA;$/;"	m	class:ORB_SLAM2::KeyFrame
 mTcwi	./include/PnPsolver.h	/^  cv::Mat mTcwi;$/;"	m	class:ORB_SLAM2::PnPsolver
+mTcwi	./include/PoseSolver.h	/^  cv::Mat mTcwi, Kinv;$/;"	m	class:ORB_SLAM2::Posesolver
 mTh	./include/Sim3Solver.h	/^    float mTh;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mThDepth	./include/Frame.h	/^    float mThDepth;$/;"	m	class:ORB_SLAM2::Frame
 mThDepth	./include/KeyFrame.h	/^    const float fx, fy, cx, cy, invfx, invfy, mbf, mb, mThDepth;$/;"	m	class:ORB_SLAM2::KeyFrame
@@ -3786,6 +3845,7 @@ mViewpointZ	./include/Viewer.h	/^    float mViewpointX, mViewpointY, mViewpointZ
 mWorldPos	./include/MapPoint.h	/^     cv::Mat mWorldPos;$/;"	m	class:ORB_SLAM2::MapPoint
 m_L	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^  int m_L;$/;"	m	class:DBoW2::TemplatedVocabulary
 m_already_seeded	./Thirdparty/DBoW2/DUtils/Random.h	/^  static bool m_already_seeded;$/;"	m	class:DUtils::Random
+m_input	./main.cc	/^Input *m_input;$/;"	v
 m_k	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^  int m_k;$/;"	m	class:DBoW2::TemplatedVocabulary
 m_max	./Thirdparty/DBoW2/DUtils/Random.h	/^  int m_max;$/;"	m	class:DUtils::Random::UnrepeatedRandomizer
 m_min	./Thirdparty/DBoW2/DUtils/Random.h	/^  int m_min;$/;"	m	class:DUtils::Random::UnrepeatedRandomizer
@@ -3821,7 +3881,7 @@ main	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdC/CMakeCCompilerId.c	/^void 
 main	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^int main(int argc, char* argv[])$/;"	f
 main	./cmake-build-debug/CMakeFiles/feature_tests.c	/^int main(int argc, char** argv) { (void)argv; return features[argc]; }$/;"	f
 main	./cmake-build-debug/CMakeFiles/feature_tests.cxx	/^int main(int argc, char** argv) { (void)argv; return features[argc]; }$/;"	f
-main	./main.cc	/^int main() {$/;"	f
+main	./main.cc	/^int main(int argc, char *argv[]) {$/;"	f
 makeProperty	./Thirdparty/g2o/g2o/stuff/property.h	/^      P* makeProperty(const std::string& name_, const typename P::ValueType& v)$/;"	f	class:g2o::PropertyMap
 map	./Thirdparty/g2o/g2o/types/se3quat.h	/^      Vector3d map(const Vector3d & xyz) const$/;"	f	class:g2o::SE3Quat
 map	./Thirdparty/g2o/g2o/types/sim3.h	/^     Vector3d map (const Vector3d& xyz) const {$/;"	f	struct:g2o::Sim3
@@ -3829,10 +3889,11 @@ mapHessianMemory	./Thirdparty/g2o/g2o/core/base_binary_edge.hpp	/^void BaseBinar
 mapHessianMemory	./Thirdparty/g2o/g2o/core/base_multi_edge.hpp	/^void BaseMultiEdge<D, E>::mapHessianMemory(double* d, int i, int j, bool rowMajor)$/;"	f	class:BaseMultiEdge
 mapHessianMemory	./Thirdparty/g2o/g2o/core/base_unary_edge.h	/^      virtual void mapHessianMemory(double*, int, int, bool) {assert(0 && "BaseUnaryEdge does not map memory of the Hessian");}$/;"	f	class:g2o::BaseUnaryEdge
 mapHessianMemory	./Thirdparty/g2o/g2o/core/base_vertex.hpp	/^void BaseVertex<D, T>::mapHessianMemory(double* d)$/;"	f	class:BaseVertex
-map_file	./main.cc	/^const std::string map_file = "\/home\/wu6shen\/Computer-Vision\/Project\/Relocal-ORB\/kinect-mappoint";$/;"	v
-map_file_test	./main.cc	/^const std::string map_file_test = "\/home\/wu6shen\/Computer-Vision\/Project\/Relocal-ORB\/kinect-mappoint-test";$/;"	v
+map_file	./main.cc	/^	std::string map_file;$/;"	m	struct:__anon5	file:
+map_save_file	./main.cc	/^	std::string map_save_file;$/;"	m	struct:__anon5	file:
 marginalized	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        bool marginalized() const {return _marginalized;}$/;"	f	class:g2o::OptimizableGraph::Vertex
 mat_to_quat	./src/PnPsolver.cc	/^void PnPsolver::mat_to_quat(const double R[3][3], double q[4])$/;"	f	class:ORB_SLAM2::PnPsolver
+mat_to_quat	./src/PoseSolver.cc	/^void Posesolver::mat_to_quat(const double R[3][3], double q[4])$/;"	f	class:ORB_SLAM2::Posesolver
 match_points	./include/Tracking.h	/^    vector<pair<MapPoint*, MapPoint*> > match_points;$/;"	m	class:ORB_SLAM2::Tracking
 matches	./include/Tracking.h	/^    vector<vector<pair<double, int> > > matches;$/;"	m	class:ORB_SLAM2::Tracking
 matrix	./Thirdparty/g2o/g2o/core/base_multi_edge.h	/^        Eigen::Map<MatrixXd> matrix;     \/\/\/< the mapped memory$/;"	m	struct:g2o::BaseMultiEdge::HessianHelper
@@ -3841,6 +3902,7 @@ maxN	./Thirdparty/g2o/g2o/core/matrix_structure.h	/^    int maxN;     \/\/\/< si
 maxNz	./Thirdparty/g2o/g2o/core/matrix_structure.h	/^    int maxNz;    \/\/\/< size of the allocated memory$/;"	m	class:g2o::MatrixStructure
 maxTrialsAfterFailure	./Thirdparty/g2o/g2o/core/optimization_algorithm_levenberg.h	/^      int maxTrialsAfterFailure() const { return _maxTrialsAfterFailure->value();}$/;"	f	class:g2o::OptimizationAlgorithmLevenberg
 maximum_number_of_correspondences	./include/PnPsolver.h	/^  int maximum_number_of_correspondences;$/;"	m	class:ORB_SLAM2::PnPsolver
+maximum_number_of_correspondences	./include/PoseSolver.h	/^  int maximum_number_of_correspondences;$/;"	m	class:ORB_SLAM2::Posesolver
 mb	./include/Frame.h	/^    float mb;$/;"	m	class:ORB_SLAM2::Frame
 mb	./include/KeyFrame.h	/^    const float fx, fy, cx, cy, invfx, invfy, mbf, mb, mThDepth;$/;"	m	class:ORB_SLAM2::KeyFrame
 mbAbortBA	./include/LocalMapping.h	/^    bool mbAbortBA;$/;"	m	class:ORB_SLAM2::LocalMapping
@@ -3917,6 +3979,7 @@ mnBAGlobalForKF	./include/MapPoint.h	/^    long unsigned int mnBAGlobalForKF;$/;
 mnBALocalForKF	./include/KeyFrame.h	/^    long unsigned int mnBALocalForKF;$/;"	m	class:ORB_SLAM2::KeyFrame
 mnBALocalForKF	./include/MapPoint.h	/^    long unsigned int mnBALocalForKF;$/;"	m	class:ORB_SLAM2::MapPoint
 mnBestInliers	./include/PnPsolver.h	/^  int mnBestInliers;$/;"	m	class:ORB_SLAM2::PnPsolver
+mnBestInliers	./include/PoseSolver.h	/^  int mnBestInliers;$/;"	m	class:ORB_SLAM2::Posesolver
 mnBestInliers	./include/Sim3Solver.h	/^    int mnBestInliers;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mnBigChangeIdx	./include/Map.h	/^    int mnBigChangeIdx;$/;"	m	class:ORB_SLAM2::Map
 mnCorrectedByKF	./include/MapPoint.h	/^    long unsigned int mnCorrectedByKF;$/;"	m	class:ORB_SLAM2::MapPoint
@@ -3936,8 +3999,10 @@ mnId	./include/Frame.h	/^    long unsigned int mnId;$/;"	m	class:ORB_SLAM2::Fram
 mnId	./include/KeyFrame.h	/^    long unsigned int mnId;$/;"	m	class:ORB_SLAM2::KeyFrame
 mnId	./include/MapPoint.h	/^    long unsigned int mnId;$/;"	m	class:ORB_SLAM2::MapPoint
 mnInliersi	./include/PnPsolver.h	/^  int mnInliersi;$/;"	m	class:ORB_SLAM2::PnPsolver
+mnInliersi	./include/PoseSolver.h	/^  int mnInliersi;$/;"	m	class:ORB_SLAM2::Posesolver
 mnInliersi	./include/Sim3Solver.h	/^    int mnInliersi;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mnIterations	./include/PnPsolver.h	/^  int mnIterations;$/;"	m	class:ORB_SLAM2::PnPsolver
+mnIterations	./include/PoseSolver.h	/^  int mnIterations;$/;"	m	class:ORB_SLAM2::Posesolver
 mnIterations	./include/Sim3Solver.h	/^    int mnIterations;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mnLastFrameSeen	./include/MapPoint.h	/^    long unsigned int mnLastFrameSeen;$/;"	m	class:ORB_SLAM2::MapPoint
 mnLastKeyFrameId	./include/Tracking.h	/^    unsigned int mnLastKeyFrameId;$/;"	m	class:ORB_SLAM2::Tracking
@@ -3960,6 +4025,7 @@ mnMinY	./include/Frame.h	/^    static float mnMinY;$/;"	m	class:ORB_SLAM2::Frame
 mnMinY	./include/KeyFrame.h	/^    const int mnMinY;$/;"	m	class:ORB_SLAM2::KeyFrame
 mnMinY	./src/Frame.cc	/^float Frame::mnMinX, Frame::mnMinY, Frame::mnMaxX, Frame::mnMaxY;$/;"	m	class:ORB_SLAM2::Frame	file:
 mnRefinedInliers	./include/PnPsolver.h	/^  int mnRefinedInliers;$/;"	m	class:ORB_SLAM2::PnPsolver
+mnRefinedInliers	./include/PoseSolver.h	/^  int mnRefinedInliers;$/;"	m	class:ORB_SLAM2::Posesolver
 mnRelocQuery	./include/KeyFrame.h	/^    long unsigned int mnRelocQuery;$/;"	m	class:ORB_SLAM2::KeyFrame
 mnRelocWords	./include/KeyFrame.h	/^    int mnRelocWords;$/;"	m	class:ORB_SLAM2::KeyFrame
 mnScaleLevels	./include/Frame.h	/^    int mnScaleLevels;$/;"	m	class:ORB_SLAM2::Frame
@@ -3984,6 +4050,7 @@ mpKeyFrameDB	./include/LoopClosing.h	/^    KeyFrameDatabase* mpKeyFrameDB;$/;"	m
 mpKeyFrameDB	./include/Tracking.h	/^    KeyFrameDatabase* mpKeyFrameDB;$/;"	m	class:ORB_SLAM2::Tracking
 mpKeyFrameDatabase	./include/System.h	/^    KeyFrameDatabase* mpKeyFrameDatabase;$/;"	m	class:ORB_SLAM2::System
 mpLastKeyFrame	./include/Tracking.h	/^    KeyFrame* mpLastKeyFrame;$/;"	m	class:ORB_SLAM2::Tracking
+mpLastMap	./include/Initializer.h	/^	Map *mpLastMap;$/;"	m	class:ORB_SLAM2::Initializer
 mpLastMap	./include/MapDrawer.h	/^    Map *mpLastMap;$/;"	m	class:ORB_SLAM2::MapDrawer
 mpLastMap	./include/Relocal.h	/^        Map *mpLastMap;$/;"	m	class:ORB_SLAM2::Relocal
 mpLastMap	./include/System.h	/^    Map* mpLastMap;$/;"	m	class:ORB_SLAM2::System
@@ -4041,12 +4108,15 @@ mspMapPoints	./include/Map.h	/^    std::set<MapPoint*> mspMapPoints;$/;"	m	class
 mt12i	./include/Sim3Solver.h	/^    cv::Mat mt12i;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mtcw	./include/Frame.h	/^    cv::Mat mtcw;$/;"	m	class:ORB_SLAM2::Frame
 mti	./include/PnPsolver.h	/^  double mti[3];$/;"	m	class:ORB_SLAM2::PnPsolver
+mti1	./include/PoseSolver.h	/^  double mti1[3];$/;"	m	class:ORB_SLAM2::Posesolver
+mti2	./include/PoseSolver.h	/^  double mti2[3];$/;"	m	class:ORB_SLAM2::Posesolver
 multiply	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^  bool SparseBlockMatrix<MatrixType>::multiply(SparseBlockMatrix<MatrixResultType>*& dest, const SparseBlockMatrix<MatrixFactorType> * M) const {$/;"	f	class:g2o::SparseBlockMatrix
 multiply	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^  void SparseBlockMatrix<MatrixType>::multiply(double*& dest, const double* src) const {$/;"	f	class:g2o::SparseBlockMatrix
 multiply	./Thirdparty/g2o/g2o/core/sparse_block_matrix_diagonal.h	/^      void multiply(double*& dest, const double* src) const$/;"	f	class:g2o::SparseBlockMatrixDiagonal
 multiplyHessian	./Thirdparty/g2o/g2o/core/block_solver.h	/^      virtual void multiplyHessian(double* dest, const double* src) const { _Hpp->multiplySymmetricUpperTriangle(dest, src);}$/;"	f	class:g2o::BlockSolver
 multiplySymmetricUpperTriangle	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^  void SparseBlockMatrix<MatrixType>::multiplySymmetricUpperTriangle(double*& dest, const double* src) const$/;"	f	class:g2o::SparseBlockMatrix
 mvAllIndices	./include/PnPsolver.h	/^  vector<size_t> mvAllIndices;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvAllIndices	./include/PoseSolver.h	/^  vector<size_t> mvAllIndices;$/;"	m	class:ORB_SLAM2::Posesolver
 mvAllIndices	./include/Sim3Solver.h	/^    std::vector<size_t> mvAllIndices;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvConsistentGroups	./include/LoopClosing.h	/^    std::vector<ConsistentGroup> mvConsistentGroups;$/;"	m	class:ORB_SLAM2::LoopClosing
 mvCurrentKeys	./include/FrameDrawer.h	/^    vector<cv::KeyPoint> mvCurrentKeys;$/;"	m	class:ORB_SLAM2::FrameDrawer
@@ -4065,6 +4135,7 @@ mvInvScaleFactor	./include/ORBextractor.h	/^    std::vector<float> mvInvScaleFac
 mvInvScaleFactors	./include/Frame.h	/^    vector<float> mvInvScaleFactors;$/;"	m	class:ORB_SLAM2::Frame
 mvInvertedFile	./include/KeyFrameDatabase.h	/^  std::vector<list<KeyFrame*> > mvInvertedFile;$/;"	m	class:ORB_SLAM2::KeyFrameDatabase
 mvKeyPointIndices	./include/PnPsolver.h	/^  vector<size_t> mvKeyPointIndices;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvKeyPointIndices	./include/PoseSolver.h	/^  vector<size_t> mvKeyPointIndices;$/;"	m	class:ORB_SLAM2::Posesolver
 mvKeys	./include/Frame.h	/^    std::vector<cv::KeyPoint> mvKeys, mvKeysRight;$/;"	m	class:ORB_SLAM2::Frame
 mvKeys	./include/KeyFrame.h	/^    const std::vector<cv::KeyPoint> mvKeys;$/;"	m	class:ORB_SLAM2::KeyFrame
 mvKeys1	./include/Initializer.h	/^    vector<cv::KeyPoint> mvKeys1;$/;"	m	class:ORB_SLAM2::Initializer
@@ -4077,29 +4148,37 @@ mvLevelSigma2	./include/KeyFrame.h	/^    const std::vector<float> mvLevelSigma2;
 mvLevelSigma2	./include/ORBextractor.h	/^    std::vector<float> mvLevelSigma2;$/;"	m	class:ORB_SLAM2::ORBextractor
 mvMatches12	./include/Initializer.h	/^    vector<Match> mvMatches12;$/;"	m	class:ORB_SLAM2::Initializer
 mvMaxError	./include/PnPsolver.h	/^  vector<float> mvMaxError;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvMaxError	./include/PoseSolver.h	/^  vector<float> mvMaxError;$/;"	m	class:ORB_SLAM2::Posesolver
 mvOrderedWeights	./include/KeyFrame.h	/^    std::vector<int> mvOrderedWeights;$/;"	m	class:ORB_SLAM2::KeyFrame
 mvP1im1	./include/Sim3Solver.h	/^    std::vector<cv::Mat> mvP1im1;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvP2D	./include/PnPsolver.h	/^  vector<cv::Point2f> mvP2D;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvP2D1	./include/PoseSolver.h	/^  vector<cv::Point2f> mvP2D1, mvP2D2;$/;"	m	class:ORB_SLAM2::Posesolver
+mvP2D2	./include/PoseSolver.h	/^  vector<cv::Point2f> mvP2D1, mvP2D2;$/;"	m	class:ORB_SLAM2::Posesolver
 mvP2im2	./include/Sim3Solver.h	/^    std::vector<cv::Mat> mvP2im2;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvP3Dw	./include/PnPsolver.h	/^  vector<cv::Point3f> mvP3Dw;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvP3Dw	./include/PoseSolver.h	/^  vector<cv::Point3f> mvP3Dw;$/;"	m	class:ORB_SLAM2::Posesolver
 mvScaleFactor	./include/ORBextractor.h	/^    std::vector<float> mvScaleFactor;$/;"	m	class:ORB_SLAM2::ORBextractor
 mvScaleFactors	./include/Frame.h	/^    vector<float> mvScaleFactors;$/;"	m	class:ORB_SLAM2::Frame
 mvScaleFactors	./include/KeyFrame.h	/^    const std::vector<float> mvScaleFactors;$/;"	m	class:ORB_SLAM2::KeyFrame
 mvSets	./include/Initializer.h	/^    vector<vector<size_t> > mvSets;   $/;"	m	class:ORB_SLAM2::Initializer
 mvSigma2	./include/PnPsolver.h	/^  vector<float> mvSigma2;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvSigma2	./include/PoseSolver.h	/^  vector<float> mvSigma2;$/;"	m	class:ORB_SLAM2::Posesolver
 mvSigmaSquare1	./include/Sim3Solver.h	/^    std::vector<size_t> mvSigmaSquare1;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvSigmaSquare2	./include/Sim3Solver.h	/^    std::vector<size_t> mvSigmaSquare2;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvX3Dc1	./include/Sim3Solver.h	/^    std::vector<cv::Mat> mvX3Dc1;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvX3Dc2	./include/Sim3Solver.h	/^    std::vector<cv::Mat> mvX3Dc2;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvbBestInliers	./include/PnPsolver.h	/^  vector<bool> mvbBestInliers;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvbBestInliers	./include/PoseSolver.h	/^  vector<bool> mvbBestInliers;$/;"	m	class:ORB_SLAM2::Posesolver
 mvbBestInliers	./include/Sim3Solver.h	/^    std::vector<bool> mvbBestInliers;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvbInliersi	./include/PnPsolver.h	/^  vector<bool> mvbInliersi;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvbInliersi	./include/PoseSolver.h	/^  vector<bool> mvbInliersi;$/;"	m	class:ORB_SLAM2::Posesolver
 mvbInliersi	./include/Sim3Solver.h	/^    std::vector<bool> mvbInliersi;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvbMap	./include/FrameDrawer.h	/^    vector<bool> mvbMap, mvbVO;$/;"	m	class:ORB_SLAM2::FrameDrawer
 mvbMatched1	./include/Initializer.h	/^    vector<bool> mvbMatched1;$/;"	m	class:ORB_SLAM2::Initializer
 mvbOutlier	./include/Frame.h	/^    std::vector<bool> mvbOutlier;$/;"	m	class:ORB_SLAM2::Frame
 mvbPrevMatched	./include/Tracking.h	/^    std::vector<cv::Point2f> mvbPrevMatched;$/;"	m	class:ORB_SLAM2::Tracking
 mvbRefinedInliers	./include/PnPsolver.h	/^  vector<bool> mvbRefinedInliers;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvbRefinedInliers	./include/PoseSolver.h	/^  vector<bool> mvbRefinedInliers;$/;"	m	class:ORB_SLAM2::Posesolver
 mvbVO	./include/FrameDrawer.h	/^    vector<bool> mvbMap, mvbVO;$/;"	m	class:ORB_SLAM2::FrameDrawer
 mvnIndices1	./include/Sim3Solver.h	/^    std::vector<size_t> mvnIndices1;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mvnMaxError1	./include/Sim3Solver.h	/^    std::vector<size_t> mvnMaxError1;$/;"	m	class:ORB_SLAM2::Sim3Solver
@@ -4108,10 +4187,13 @@ mvpCurrentConnectedKFs	./include/LoopClosing.h	/^    std::vector<KeyFrame*> mvpC
 mvpCurrentMatchedPoints	./include/LoopClosing.h	/^    std::vector<MapPoint*> mvpCurrentMatchedPoints;$/;"	m	class:ORB_SLAM2::LoopClosing
 mvpEnoughConsistentCandidates	./include/LoopClosing.h	/^    std::vector<KeyFrame*> mvpEnoughConsistentCandidates;$/;"	m	class:ORB_SLAM2::LoopClosing
 mvpKeyFrameOrigins	./include/Map.h	/^    vector<KeyFrame*> mvpKeyFrameOrigins;$/;"	m	class:ORB_SLAM2::Map
+mvpLastMapPoints	./include/Frame.h	/^	std::vector<MapPoint*> mvpLastMapPoints;$/;"	m	class:ORB_SLAM2::Frame
+mvpLastMapPoints	./include/Initializer.h	/^	vector<MapPoint*> mvpLastMapPoints;$/;"	m	class:ORB_SLAM2::Initializer
 mvpLocalKeyFrames	./include/Tracking.h	/^    std::vector<KeyFrame*> mvpLocalKeyFrames;$/;"	m	class:ORB_SLAM2::Tracking
 mvpLocalMapPoints	./include/Tracking.h	/^    std::vector<MapPoint*> mvpLocalMapPoints;$/;"	m	class:ORB_SLAM2::Tracking
 mvpLoopMapPoints	./include/LoopClosing.h	/^    std::vector<MapPoint*> mvpLoopMapPoints;$/;"	m	class:ORB_SLAM2::LoopClosing
 mvpMapPointMatches	./include/PnPsolver.h	/^  vector<MapPoint*> mvpMapPointMatches;$/;"	m	class:ORB_SLAM2::PnPsolver
+mvpMapPointMatches	./include/PoseSolver.h	/^  vector<MapPoint*> mvpMapPointMatches;$/;"	m	class:ORB_SLAM2::Posesolver
 mvpMapPoints	./include/Frame.h	/^    std::vector<MapPoint*> mvpMapPoints;$/;"	m	class:ORB_SLAM2::Frame
 mvpMapPoints	./include/KeyFrame.h	/^    std::vector<MapPoint*> mvpMapPoints;$/;"	m	class:ORB_SLAM2::KeyFrame
 mvpMapPoints1	./include/Sim3Solver.h	/^    std::vector<MapPoint*> mvpMapPoints1;$/;"	m	class:ORB_SLAM2::Sim3Solver
@@ -4135,7 +4217,7 @@ name	./Thirdparty/g2o/g2o/core/estimate_propagator.h	/^      virtual const char*
 name	./Thirdparty/g2o/g2o/core/hyper_graph_action.h	/^      const std::string& name() const{ return _name;}$/;"	f	class:g2o::HyperGraphElementAction
 name	./Thirdparty/g2o/g2o/core/optimization_algorithm_property.h	/^  std::string name;           \/\/\/< name of the solver, e.g., var$/;"	m	struct:g2o::OptimizationAlgorithmProperty
 name	./Thirdparty/g2o/g2o/stuff/property.h	/^      const std::string& name() {return _name;}$/;"	f	class:g2o::BaseProperty
-new_map	./include/Registration.h	/^            Map *new_map;$/;"	m	class:pcl::FPCS::FPCSRegistration
+new_map	./4pcs/Registration.h	/^            Map *new_map;$/;"	m	class:pcl::FPCS::FPCSRegistration
 next	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        Data* next() {return _next;}$/;"	f	class:g2o::OptimizableGraph::Data
 next	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        const Data* next() const {return _next;}$/;"	f	class:g2o::OptimizableGraph::Data
 nfeatures	./include/ORBextractor.h	/^    int nfeatures;$/;"	m	class:ORB_SLAM2::ORBextractor
@@ -4149,9 +4231,10 @@ numEdges	./Thirdparty/g2o/g2o/core/batch_stats.h	/^    int numEdges;            
 numParameters	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        inline size_t numParameters() const {return _parameters.size();}$/;"	f	class:g2o::OptimizableGraph::Edge
 numVertices	./Thirdparty/g2o/g2o/core/batch_stats.h	/^    int numVertices;                  \/\/\/< how many vertices are involved$/;"	m	struct:g2o::G2OBatchStatistics
 number_of_correspondences	./include/PnPsolver.h	/^  int number_of_correspondences;$/;"	m	class:ORB_SLAM2::PnPsolver
+number_of_correspondences	./include/PoseSolver.h	/^  int number_of_correspondences;$/;"	m	class:ORB_SLAM2::Posesolver
 nzMax	./Thirdparty/g2o/g2o/core/matrix_structure.h	/^    int nzMax() const { return maxNz;}$/;"	f	class:g2o::MatrixStructure
-offset_	./include/Registration.h	/^            Eigen::Vector3f offset_;$/;"	m	class:pcl::FPCS::FPCSRegistration
-offset_gt_	./include/Registration.h	/^            Eigen::Vector3f offset_gt_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+offset_	./4pcs/Registration.h	/^            Eigen::Vector3f offset_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+offset_gt_	./4pcs/Registration.h	/^            Eigen::Vector3f offset_gt_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 operator ()	./Thirdparty/g2o/g2o/core/estimate_propagator.cpp	/^    bool operator()(EstimatePropagator::AdjacencyMapEntry* e1, EstimatePropagator::AdjacencyMapEntry* e2) const$/;"	f	struct:g2o::FrontierLevelCmp
 operator ()	./Thirdparty/g2o/g2o/core/estimate_propagator.cpp	/^  double EstimatePropagatorCost::operator()(OptimizableGraph::Edge* edge, const OptimizableGraph::VertexSet& from, OptimizableGraph::Vertex* to_) const$/;"	f	class:g2o::EstimatePropagatorCost
 operator ()	./Thirdparty/g2o/g2o/core/estimate_propagator.cpp	/^  double EstimatePropagatorCostOdometry::operator()(OptimizableGraph::Edge* edge, const OptimizableGraph::VertexSet& from_, OptimizableGraph::Vertex* to_) const$/;"	f	class:g2o::EstimatePropagatorCostOdometry
@@ -4202,10 +4285,10 @@ operator ==	./Thirdparty/DBoW2/DUtils/Timestamp.cpp	/^bool Timestamp::operator==
 operator >	./Thirdparty/DBoW2/DUtils/Timestamp.cpp	/^bool Timestamp::operator> (const Timestamp &t) const$/;"	f	class:Timestamp
 operator >=	./Thirdparty/DBoW2/DUtils/Timestamp.cpp	/^bool Timestamp::operator>= (const Timestamp &t) const$/;"	f	class:Timestamp
 operator Eigen::Isometry3d	./Thirdparty/g2o/g2o/types/se3quat.h	/^      operator Eigen::Isometry3d() const$/;"	f	class:g2o::SE3Quat
+operator []	./4pcs/Registration.h	/^                const int &operator[](int index) {$/;"	f	struct:pcl::FPCS::FPCSRegistration::Set4
 operator []	./Thirdparty/g2o/g2o/types/se3quat.h	/^      inline double operator [](int i) const {$/;"	f	class:g2o::SE3Quat
 operator []	./Thirdparty/g2o/g2o/types/sim3.h	/^    double operator[](int i) const$/;"	f	struct:g2o::Sim3
 operator []	./Thirdparty/g2o/g2o/types/sim3.h	/^    double& operator[](int i)$/;"	f	struct:g2o::Sim3
-operator []	./include/Registration.h	/^                const int &operator[](int index) {$/;"	f	struct:pcl::FPCS::FPCSRegistration::Set4
 oplus	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        void oplus(const double* v)$/;"	f	class:g2o::OptimizableGraph::Vertex
 oplusImpl	./Thirdparty/g2o/g2o/types/types_sba.h	/^    virtual void oplusImpl(const double* update)$/;"	f	class:g2o::VertexSBAPointXYZ
 oplusImpl	./Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h	/^    virtual void oplusImpl(const double* update_)$/;"	f	class:g2o::VertexSim3Expmap
@@ -4216,11 +4299,11 @@ optimizer	./Thirdparty/g2o/g2o/core/optimization_algorithm.h	/^      SparseOptim
 optimizer	./Thirdparty/g2o/g2o/core/optimization_algorithm.h	/^      const SparseOptimizer* optimizer() const { return _optimizer;}$/;"	f	class:g2o::OptimizationAlgorithm
 optimizer	./Thirdparty/g2o/g2o/core/solver.h	/^      SparseOptimizer* optimizer() const { return _optimizer;}$/;"	f	class:g2o::Solver
 os	./Thirdparty/g2o/g2o/core/hyper_graph_action.h	/^        std::ostream* os;$/;"	m	struct:g2o::WriteGnuplotAction::Parameters
-overlap_	./include/Registration.h	/^            double overlap_;$/;"	m	class:pcl::FPCS::FPCSRegistration
-p1_index_	./include/Registration.h	/^                int p1_index_;$/;"	m	struct:pcl::FPCS::FPCSRegistration::Set4
-p2_index_	./include/Registration.h	/^                int p2_index_;$/;"	m	struct:pcl::FPCS::FPCSRegistration::Set4
-p3_index_	./include/Registration.h	/^                int p3_index_;$/;"	m	struct:pcl::FPCS::FPCSRegistration::Set4
-p4_index_	./include/Registration.h	/^                int p4_index_;$/;"	m	struct:pcl::FPCS::FPCSRegistration::Set4
+overlap_	./4pcs/Registration.h	/^            double overlap_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+p1_index_	./4pcs/Registration.h	/^                int p1_index_;$/;"	m	struct:pcl::FPCS::FPCSRegistration::Set4
+p2_index_	./4pcs/Registration.h	/^                int p2_index_;$/;"	m	struct:pcl::FPCS::FPCSRegistration::Set4
+p3_index_	./4pcs/Registration.h	/^                int p3_index_;$/;"	m	struct:pcl::FPCS::FPCSRegistration::Set4
+p4_index_	./4pcs/Registration.h	/^                int p4_index_;$/;"	m	struct:pcl::FPCS::FPCSRegistration::Set4
 pDescriptor	./Thirdparty/DBoW2/DBoW2/FClass.h	/^  typedef const TDescriptor *pDescriptor;$/;"	t	class:DBoW2::FClass
 pDescriptor	./Thirdparty/DBoW2/DBoW2/FORB.h	/^  typedef const TDescriptor *pDescriptor;$/;"	t	class:DBoW2::FORB
 pDescriptor	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^  typedef const TDescriptor *pDescriptor;$/;"	t	class:DBoW2::TemplatedVocabulary
@@ -4232,9 +4315,10 @@ parent	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^    NodeId parent;$/;"	m
 parent	./Thirdparty/g2o/g2o/core/estimate_propagator.h	/^          const OptimizableGraph::VertexSet& parent() const {return _parent;}$/;"	f	class:g2o::EstimatePropagator::AdjacencyMapEntry
 parent	./Thirdparty/g2o/g2o/core/hyper_dijkstra.h	/^      HyperGraph::Vertex* parent() const {return _parent;}$/;"	f	struct:g2o::HyperDijkstra::AdjacencyMapEntry
 pattern	./include/ORBextractor.h	/^    std::vector<cv::Point> pattern;$/;"	m	class:ORB_SLAM2::ORBextractor
-pcl	./include/Registration.h	/^namespace pcl {$/;"	n
-pcl	./src/Registration.cc	/^namespace pcl {$/;"	n	file:
+pcl	./4pcs/Registration.cc	/^namespace pcl {$/;"	n	file:
+pcl	./4pcs/Registration.h	/^namespace pcl {$/;"	n
 pcs	./include/PnPsolver.h	/^  double * pws, * us, * alphas, * pcs;$/;"	m	class:ORB_SLAM2::PnPsolver
+pcs	./include/PoseSolver.h	/^  double * pws, * us, * alphas, * pcs;$/;"	m	class:ORB_SLAM2::Posesolver
 perform	./Thirdparty/g2o/g2o/core/hyper_dijkstra.cpp	/^  double HyperDijkstra::TreeAction::perform(HyperGraph::Vertex* v, HyperGraph::Vertex* vParent, HyperGraph::Edge* e){$/;"	f	class:g2o::HyperDijkstra::TreeAction
 perform	./Thirdparty/g2o/g2o/core/hyper_dijkstra.cpp	/^  double HyperDijkstra::TreeAction::perform(HyperGraph::Vertex* v, HyperGraph::Vertex* vParent, HyperGraph::Edge* e, double distance){$/;"	f	class:g2o::HyperDijkstra::TreeAction
 plus	./Thirdparty/DBoW2/DUtils/Timestamp.cpp	/^Timestamp Timestamp::plus(unsigned long secs, unsigned long usecs) const$/;"	f	class:Timestamp
@@ -4255,6 +4339,7 @@ printVerbose	./Thirdparty/g2o/g2o/core/optimization_algorithm_dogleg.cpp	/^  voi
 printVerbose	./Thirdparty/g2o/g2o/core/optimization_algorithm_gauss_newton.cpp	/^  void OptimizationAlgorithmGaussNewton::printVerbose(std::ostream& os) const$/;"	f	class:g2o::OptimizationAlgorithmGaussNewton
 printVerbose	./Thirdparty/g2o/g2o/core/optimization_algorithm_levenberg.cpp	/^  void OptimizationAlgorithmLevenberg::printVerbose(std::ostream& os) const$/;"	f	class:g2o::OptimizationAlgorithmLevenberg
 print_pose	./src/PnPsolver.cc	/^void PnPsolver::print_pose(const double R[3][3], const double t[3])$/;"	f	class:ORB_SLAM2::PnPsolver
+print_pose	./src/PoseSolver.cc	/^void Posesolver::print_pose(const double R[3][3], const double t[3])$/;"	f	class:ORB_SLAM2::Posesolver
 project	./Thirdparty/g2o/g2o/types/se3_ops.hpp	/^  Vector2d project(const Vector3d& v)$/;"	f
 project	./Thirdparty/g2o/g2o/types/se3_ops.hpp	/^  Vector3d project(const Vector4d& v)$/;"	f
 project2d	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.cpp	/^Vector2d project2d(const Vector3d& v)  {$/;"	f	namespace:g2o
@@ -4270,6 +4355,7 @@ push	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  void SparseOptimizer::pu
 push	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  void SparseOptimizer::push(HyperGraph::VertexSet& vlist)$/;"	f	class:g2o::SparseOptimizer
 push	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  void SparseOptimizer::push(SparseOptimizer::VertexContainer& vlist)$/;"	f	class:g2o::SparseOptimizer
 pws	./include/PnPsolver.h	/^  double * pws, * us, * alphas, * pcs;$/;"	m	class:ORB_SLAM2::PnPsolver
+pws	./include/PoseSolver.h	/^  double * pws, * us, * alphas, * pcs;$/;"	m	class:ORB_SLAM2::Posesolver
 qnxnto	./Thirdparty/DBoW2/build/CMakeFiles/3.5.1/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
 qnxnto	./Thirdparty/DBoW2/build/CMakeFiles/3.5.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
 qnxnto	./Thirdparty/g2o/build/CMakeFiles/3.5.1/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
@@ -4281,13 +4367,14 @@ qnxnto	./cmake-build-debug/CMakeFiles/3.10.3/CompilerIdCXX/CMakeCXXCompilerId.cp
 qnxnto	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
 qnxnto	./cmake-build-debug/CMakeFiles/3.5.1/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
 qr_solve	./src/PnPsolver.cc	/^void PnPsolver::qr_solve(CvMat * A, CvMat * b, CvMat * X)$/;"	f	class:ORB_SLAM2::PnPsolver
+qr_solve	./src/PoseSolver.cc	/^void Posesolver::qr_solve(CvMat * A, CvMat * b, CvMat * X)$/;"	f	class:ORB_SLAM2::Posesolver
 queueIt	./Thirdparty/g2o/g2o/core/estimate_propagator.h	/^          PriorityQueue::iterator queueIt;$/;"	m	class:g2o::EstimatePropagator::AdjacencyMapEntry
 r	./Thirdparty/g2o/g2o/core/marginal_covariance_cholesky.cpp	/^  int r, c;$/;"	m	struct:g2o::MatrixElem	file:
 r	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^      int r, c;$/;"	m	struct:g2o::__anon4::TripletEntry
 r	./Thirdparty/g2o/g2o/types/sim3.h	/^    Quaterniond r;$/;"	m	struct:g2o::Sim3
 rad2deg	./Thirdparty/g2o/g2o/stuff/misc.h	/^inline double rad2deg(double rad)$/;"	f	namespace:g2o
 rank	./Thirdparty/g2o/g2o/core/base_edge.h	/^      virtual int rank() const {return _dimension;}$/;"	f	class:g2o::BaseEdge
-ratio_	./include/Registration.h	/^            double ratio_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+ratio_	./4pcs/Registration.h	/^            double ratio_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 read	./Thirdparty/g2o/g2o/core/parameter_container.cpp	/^  bool ParameterContainer::read(std::istream& is, const std::map<std::string, std::string>* _renamedTypesLookup){$/;"	f	class:g2o::ParameterContainer
 read	./Thirdparty/g2o/g2o/types/types_sba.cpp	/^  bool VertexSBAPointXYZ::read(std::istream& is)$/;"	f	class:g2o::VertexSBAPointXYZ
 read	./Thirdparty/g2o/g2o/types/types_seven_dof_expmap.cpp	/^  bool EdgeInverseSim3ProjectXYZ::read(std::istream& is)$/;"	f	class:g2o::EdgeInverseSim3ProjectXYZ
@@ -4308,8 +4395,9 @@ registerAction	./Thirdparty/g2o/g2o/core/hyper_graph_action.cpp	/^  bool HyperGr
 registerRobustKernel	./Thirdparty/g2o/g2o/core/robust_kernel_factory.cpp	/^void RobustKernelFactory::registerRobustKernel(const std::string& tag, AbstractRobustKernelCreator* c)$/;"	f	class:g2o::RobustKernelFactory
 registerSolver	./Thirdparty/g2o/g2o/core/optimization_algorithm_factory.cpp	/^  void OptimizationAlgorithmFactory::registerSolver(AbstractOptimizationAlgorithmCreator* c)$/;"	f	class:g2o::OptimizationAlgorithmFactory
 registerType	./Thirdparty/g2o/g2o/core/factory.cpp	/^void Factory::registerType(const std::string& tag, AbstractHyperGraphElementCreator* c)$/;"	f	class:g2o::Factory
-registration	./src/Registration.cc	/^        int FPCSRegistration::registration(const double dist) {$/;"	f	class:pcl::FPCS::FPCSRegistration
+registration	./4pcs/Registration.cc	/^        int FPCSRegistration::registration(const double dist) {$/;"	f	class:pcl::FPCS::FPCSRegistration
 relative_error	./src/PnPsolver.cc	/^void PnPsolver::relative_error(double & rot_err, double & transl_err,$/;"	f	class:ORB_SLAM2::PnPsolver
+relative_error	./src/PoseSolver.cc	/^void Posesolver::relative_error(double & rot_err, double & transl_err,$/;"	f	class:ORB_SLAM2::Posesolver
 removeComputeErrorAction	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  bool SparseOptimizer::removeComputeErrorAction(HyperGraphAction* action)$/;"	f	class:g2o::SparseOptimizer
 removeEdge	./Thirdparty/g2o/g2o/core/hyper_graph.cpp	/^  bool HyperGraph::removeEdge(Edge* e)$/;"	f	class:g2o::HyperGraph
 removePostIterationAction	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^bool OptimizableGraph::removePostIterationAction(HyperGraphAction* action)$/;"	f	class:g2o::OptimizableGraph
@@ -4317,12 +4405,14 @@ removePreIterationAction	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^bool 
 removeVertex	./Thirdparty/g2o/g2o/core/hyper_graph.cpp	/^  bool HyperGraph::removeVertex(Vertex* v)$/;"	f	class:g2o::HyperGraph
 removeVertex	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  bool SparseOptimizer::removeVertex(HyperGraph::Vertex* v)$/;"	f	class:g2o::SparseOptimizer
 reprojection_error	./src/PnPsolver.cc	/^double PnPsolver::reprojection_error(const double R[3][3], const double t[3])$/;"	f	class:ORB_SLAM2::PnPsolver
+reprojection_error	./src/PoseSolver.cc	/^double Posesolver::reprojection_error(const double R[3][3], const double t[3])$/;"	f	class:ORB_SLAM2::Posesolver
 requiresMarginalize	./Thirdparty/g2o/g2o/core/optimization_algorithm_property.h	/^  bool requiresMarginalize;   \/\/\/< whether the solver requires marginalization of landmarks$/;"	m	struct:g2o::OptimizationAlgorithmProperty
 reset	./Thirdparty/DBoW2/DUtils/Random.cpp	/^void DUtils::Random::UnrepeatedRandomizer::reset()$/;"	f	class:DUtils::Random::UnrepeatedRandomizer
 reset	./Thirdparty/g2o/g2o/core/estimate_propagator.cpp	/^  void EstimatePropagator::AdjacencyMapEntry::reset()$/;"	f	class:g2o::EstimatePropagator::AdjacencyMapEntry
 reset	./Thirdparty/g2o/g2o/core/estimate_propagator.cpp	/^  void EstimatePropagator::reset()$/;"	f	class:g2o::EstimatePropagator
 reset	./Thirdparty/g2o/g2o/core/hyper_dijkstra.cpp	/^  void HyperDijkstra::reset()$/;"	f	class:g2o::HyperDijkstra
 reset_correspondences	./src/PnPsolver.cc	/^void PnPsolver::reset_correspondences(void)$/;"	f	class:ORB_SLAM2::PnPsolver
+reset_correspondences	./src/PoseSolver.cc	/^void Posesolver::reset_correspondences(void)$/;"	f	class:ORB_SLAM2::Posesolver
 resize	./Thirdparty/g2o/g2o/core/base_binary_edge.hpp	/^void BaseBinaryEdge<D, E, VertexXiType, VertexXjType>::resize(size_t size)$/;"	f	class:BaseBinaryEdge
 resize	./Thirdparty/g2o/g2o/core/base_multi_edge.hpp	/^void BaseMultiEdge<D, E>::resize(size_t size)$/;"	f	class:BaseMultiEdge
 resize	./Thirdparty/g2o/g2o/core/base_unary_edge.hpp	/^void BaseUnaryEdge<D, E, VertexXiType>::resize(size_t size)$/;"	f	class:BaseUnaryEdge
@@ -4349,8 +4439,8 @@ robustify	./Thirdparty/g2o/g2o/core/robust_kernel_impl.cpp	/^void RobustKernelTu
 rotation	./Thirdparty/g2o/g2o/types/se3quat.h	/^      inline const Quaterniond& rotation() const {return _r;}$/;"	f	class:g2o::SE3Quat
 rotation	./Thirdparty/g2o/g2o/types/sim3.h	/^    inline Quaterniond& rotation() {return r;}$/;"	f	struct:g2o::Sim3
 rotation	./Thirdparty/g2o/g2o/types/sim3.h	/^    inline const Quaterniond& rotation() const {return r;}$/;"	f	struct:g2o::Sim3
-rotation_	./include/Registration.h	/^            Eigen::Matrix3f rotation_;$/;"	m	class:pcl::FPCS::FPCSRegistration
-rotation_gt_	./include/Registration.h	/^            Eigen::Matrix3f rotation_gt_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+rotation_	./4pcs/Registration.h	/^            Eigen::Matrix3f rotation_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+rotation_gt_	./4pcs/Registration.h	/^            Eigen::Matrix3f rotation_gt_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 row	./Thirdparty/g2o/g2o/core/sparse_block_matrix_ccs.h	/^        int row;              \/\/\/< row of the block$/;"	m	struct:g2o::SparseBlockMatrixCCS::RowBlock
 rowBaseOfBlock	./Thirdparty/g2o/g2o/core/sparse_block_matrix.h	/^    inline int rowBaseOfBlock(int r) const { return r ? _rowBlockIndices[r-1] : 0 ; }$/;"	f	class:g2o::SparseBlockMatrix
 rowBaseOfBlock	./Thirdparty/g2o/g2o/core/sparse_block_matrix_ccs.h	/^      int rowBaseOfBlock(int r) const { return r ? _rowBlockIndices[r-1] : 0 ; }$/;"	f	class:g2o::SparseBlockMatrixCCS
@@ -4382,8 +4472,8 @@ scale	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^  void SparseBlockMatr
 scale	./Thirdparty/g2o/g2o/types/sim3.h	/^    inline const double& scale() const {return s;}$/;"	f	struct:g2o::Sim3
 scale	./Thirdparty/g2o/g2o/types/sim3.h	/^    inline double& scale() {return s;}$/;"	f	struct:g2o::Sim3
 scaleFactor	./include/ORBextractor.h	/^    double scaleFactor;$/;"	m	class:ORB_SLAM2::ORBextractor
-scale_	./include/Registration.h	/^            float scale_;$/;"	m	class:pcl::FPCS::FPCSRegistration
-scale_gt_	./include/Registration.h	/^            float scale_gt_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+scale_	./4pcs/Registration.h	/^            float scale_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+scale_gt_	./4pcs/Registration.h	/^            float scale_gt_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 schur	./Thirdparty/g2o/g2o/core/block_solver.h	/^      virtual bool schur() { return _doSchur;}$/;"	f	class:g2o::BlockSolver
 score	./Thirdparty/DBoW2/DBoW2/ScoringObject.cpp	/^double BhattacharyyaScoring::score(const BowVector &v1, $/;"	f	class:BhattacharyyaScoring
 score	./Thirdparty/DBoW2/DBoW2/ScoringObject.cpp	/^double ChiSquareScoring::score(const BowVector &v1, const BowVector &v2) $/;"	f	class:ChiSquareScoring
@@ -4462,7 +4552,8 @@ setWriteDebug	./Thirdparty/g2o/g2o/core/linear_solver.h	/^    virtual void setWr
 setWriteDebug	./Thirdparty/g2o/g2o/core/optimization_algorithm_with_hessian.cpp	/^  void OptimizationAlgorithmWithHessian::setWriteDebug(bool writeDebug)$/;"	f	class:g2o::OptimizationAlgorithmWithHessian
 setWriteDebug	./Thirdparty/g2o/g2o/solvers/linear_solver_eigen.h	/^    virtual void setWriteDebug(bool b) { _writeDebug = b;}$/;"	f	class:g2o::LinearSolverEigen
 set_maximum_number_of_correspondences	./src/PnPsolver.cc	/^void PnPsolver::set_maximum_number_of_correspondences(int n)$/;"	f	class:ORB_SLAM2::PnPsolver
-setting_file	./main.cc	/^const std::string setting_file = "\/home\/wu6shen\/Computer-Vision\/Project\/Relocal-ORB\/Kinectv2.yaml";$/;"	v
+set_maximum_number_of_correspondences	./src/PoseSolver.cc	/^void Posesolver::set_maximum_number_of_correspondences(int n)$/;"	f	class:ORB_SLAM2::Posesolver
+setting_file	./main.cc	/^	std::string setting_file;$/;"	m	struct:__anon5	file:
 shortestPaths	./Thirdparty/g2o/g2o/core/hyper_dijkstra.cpp	/^  void HyperDijkstra::shortestPaths(HyperGraph::Vertex* v, HyperDijkstra::CostFunction* cost, double maxDistance, $/;"	f	class:g2o::HyperDijkstra
 shortestPaths	./Thirdparty/g2o/g2o/core/hyper_dijkstra.cpp	/^  void HyperDijkstra::shortestPaths(HyperGraph::VertexSet& vset, HyperDijkstra::CostFunction* cost, $/;"	f	class:g2o::HyperDijkstra
 sign	./Thirdparty/g2o/g2o/stuff/misc.h	/^inline int sign(T x)$/;"	f	namespace:g2o
@@ -4479,11 +4570,11 @@ solveBlocks	./Thirdparty/g2o/g2o/core/linear_solver.h	/^    virtual bool solveBl
 solveDirect	./Thirdparty/g2o/g2o/core/base_vertex.hpp	/^double BaseVertex<D, T>::solveDirect(double lambda) {$/;"	f	class:BaseVertex
 solvePattern	./Thirdparty/g2o/g2o/core/linear_solver.h	/^    virtual bool solvePattern(SparseBlockMatrix<MatrixXd>& spinv, const std::vector<std::pair<int, int> >& blockIndices, const SparseBlockMatrix<MatrixType>& A){$/;"	f	class:g2o::LinearSolver
 solve_for_sign	./src/PnPsolver.cc	/^void PnPsolver::solve_for_sign(void)$/;"	f	class:ORB_SLAM2::PnPsolver
+solve_for_sign	./src/PoseSolver.cc	/^void Posesolver::solve_for_sign(void)$/;"	f	class:ORB_SLAM2::Posesolver
 solver	./Thirdparty/g2o/g2o/core/optimization_algorithm_with_hessian.h	/^      Solver* solver() { return _solver;}$/;"	f	class:g2o::OptimizationAlgorithmWithHessian
 solver	./Thirdparty/g2o/g2o/core/sparse_optimizer.h	/^    OptimizationAlgorithm* solver() { return _algorithm;}$/;"	f	class:g2o::SparseOptimizer
 sortColumns	./Thirdparty/g2o/g2o/core/sparse_block_matrix_ccs.h	/^      void sortColumns()$/;"	f	class:g2o::SparseBlockMatrixCCS
 sortVectorContainers	./Thirdparty/g2o/g2o/core/sparse_optimizer.cpp	/^  void SparseOptimizer::sortVectorContainers()$/;"	f	class:g2o::SparseOptimizer
-source	./include/System.h	/^    pcl::PointCloud<pcl::PointXYZ>::Ptr source, target;$/;"	m	class:ORB_SLAM2::System
 sprintf	./Thirdparty/DBoW2/DUtils/Timestamp.cpp	28;"	d	file:
 square	./Thirdparty/g2o/g2o/stuff/misc.h	/^inline T square(T x)$/;"	f	namespace:g2o
 stackSize	./Thirdparty/g2o/g2o/core/base_vertex.h	/^    virtual int stackSize() const {return _backup.size();}$/;"	f	class:g2o::BaseVertex
@@ -4505,11 +4596,9 @@ t	./Thirdparty/g2o/g2o/types/sim3.h	/^    Vector3d t;$/;"	m	struct:g2o::Sim3
 tOptions	./Thirdparty/DBoW2/DUtils/Timestamp.h	/^  enum tOptions$/;"	g	class:DUtils::Timestamp
 tag	./Thirdparty/g2o/g2o/core/factory.cpp	/^const std::string& Factory::tag(const HyperGraph::HyperGraphElement* e) const$/;"	f	class:g2o::Factory
 takePatternFromHash	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^  void SparseBlockMatrix<MatrixType>::takePatternFromHash(SparseBlockMatrixHashMap<MatrixType>& hashMatrix)$/;"	f	class:g2o::SparseBlockMatrix
-target	./include/System.h	/^    pcl::PointCloud<pcl::PointXYZ>::Ptr source, target;$/;"	m	class:ORB_SLAM2::System
-target_candidate_basis_	./include/Registration.h	/^            PointCloud<Set4>::Ptr target_candidate_basis_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+target_candidate_basis_	./4pcs/Registration.h	/^            PointCloud<Set4>::Ptr target_candidate_basis_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 tempIndex	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        int G2O_ATTRIBUTE_DEPRECATED(tempIndex() const) { return hessianIndex();}$/;"	f	class:g2o::OptimizableGraph::Vertex
 terminate	./Thirdparty/g2o/g2o/core/sparse_optimizer.h	/^    bool terminate() {return _forceStopFlag ? (*_forceStopFlag) : false; }$/;"	f	class:g2o::SparseOptimizer
-test	./include/System.h	/^    pcl::FPCS::FPCSRegistration test;$/;"	m	class:ORB_SLAM2::System
 testMatch	./src/Tracking.cc	/^void Tracking::testMatch(const cv::Mat &im) {$/;"	f	class:ORB_SLAM2::Tracking
 timeIteration	./Thirdparty/g2o/g2o/core/batch_stats.h	/^    double timeIteration;             \/\/\/< total time;$/;"	m	struct:g2o::G2OBatchStatistics
 timeLinearSolution	./Thirdparty/g2o/g2o/core/batch_stats.h	/^    double timeLinearSolution;        \/\/\/< total time for solving Ax=b (including detup for schur)$/;"	m	struct:g2o::G2OBatchStatistics
@@ -4549,8 +4638,8 @@ transform	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^WordId TemplatedVocab
 transform	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^void TemplatedVocabulary<TDescriptor,F>::transform$/;"	f	class:DBoW2::TemplatedVocabulary
 transform	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^void TemplatedVocabulary<TDescriptor,F>::transform($/;"	f	class:DBoW2::TemplatedVocabulary
 transform	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^void TemplatedVocabulary<TDescriptor,F>::transform(const TDescriptor &feature, $/;"	f	class:DBoW2::TemplatedVocabulary
-transform_	./include/Registration.h	/^            Eigen::Matrix4f transform_;$/;"	m	class:pcl::FPCS::FPCSRegistration
-transform_gt_	./include/Registration.h	/^            Eigen::Matrix4f transform_gt_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+transform_	./4pcs/Registration.h	/^            Eigen::Matrix4f transform_;$/;"	m	class:pcl::FPCS::FPCSRegistration
+transform_gt_	./4pcs/Registration.h	/^            Eigen::Matrix4f transform_gt_;$/;"	m	class:pcl::FPCS::FPCSRegistration
 translation	./Thirdparty/g2o/g2o/types/se3quat.h	/^      inline const Vector3d& translation() const {return _t;}$/;"	f	class:g2o::SE3Quat
 translation	./Thirdparty/g2o/g2o/types/sim3.h	/^    inline Vector3d& translation() {return t;}$/;"	f	struct:g2o::Sim3
 translation	./Thirdparty/g2o/g2o/types/sim3.h	/^    inline const Vector3d& translation() const {return t;}$/;"	f	struct:g2o::Sim3
@@ -4569,6 +4658,7 @@ types_six_dof_expmap	./Thirdparty/g2o/g2o/types/types_six_dof_expmap.h	/^namespa
 tz_dsttime	./Thirdparty/g2o/g2o/stuff/timeutil.cpp	/^  int  tz_dsttime;     \/* type of dst correction *\/$/;"	m	struct:g2o::timezone	file:
 tz_minuteswest	./Thirdparty/g2o/g2o/stuff/timeutil.cpp	/^  int  tz_minuteswest; \/* minutes W of Greenwich *\/$/;"	m	struct:g2o::timezone	file:
 uc	./include/PnPsolver.h	/^  double uc, vc, fu, fv;$/;"	m	class:ORB_SLAM2::PnPsolver
+uc	./include/PoseSolver.h	/^  double uc, vc, fu, fv;$/;"	m	class:ORB_SLAM2::Posesolver
 umax	./include/ORBextractor.h	/^    std::vector<int> umax;$/;"	m	class:ORB_SLAM2::ORBextractor
 unlock	./Thirdparty/g2o/g2o/core/openmp_mutex.h	/^      void unlock() { omp_unset_lock(&_lock); }$/;"	f	class:g2o::OpenMPMutex
 unlockQuadraticForm	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        void unlockQuadraticForm() { _quadraticFormMutex.unlock();}$/;"	f	class:g2o::OptimizableGraph::Vertex
@@ -4595,6 +4685,7 @@ updateSize	./Thirdparty/g2o/g2o/core/jacobian_workspace.cpp	/^void JacobianWorks
 updateStructure	./Thirdparty/g2o/g2o/core/block_solver.hpp	/^bool BlockSolver<Traits>::updateStructure(const std::vector<HyperGraph::Vertex*>& vset, const HyperGraph::EdgeSet& edges)$/;"	f	class:g2o::BlockSolver
 updateStructure	./Thirdparty/g2o/g2o/core/optimization_algorithm_with_hessian.cpp	/^  bool OptimizationAlgorithmWithHessian::updateStructure(const std::vector<HyperGraph::Vertex*>& vset, const HyperGraph::EdgeSet& edges)$/;"	f	class:g2o::OptimizationAlgorithmWithHessian
 us	./include/PnPsolver.h	/^  double * pws, * us, * alphas, * pcs;$/;"	m	class:ORB_SLAM2::PnPsolver
+us	./include/PoseSolver.h	/^  double * pws, * us, * alphas, * pcs;$/;"	m	class:ORB_SLAM2::Posesolver
 userData	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        Data* userData() { return _userData; }$/;"	f	class:g2o::OptimizableGraph::Vertex
 userData	./Thirdparty/g2o/g2o/core/optimizable_graph.h	/^        const Data* userData() const { return _userData; }$/;"	f	class:g2o::OptimizableGraph::Vertex
 userLambdaInit	./Thirdparty/g2o/g2o/core/optimization_algorithm_levenberg.h	/^      double userLambdaInit() {return _userLambdaInit->value();}$/;"	f	class:g2o::OptimizationAlgorithmLevenberg
@@ -4602,6 +4693,7 @@ vKeys	./include/ORBextractor.h	/^    std::vector<cv::KeyPoint> vKeys;$/;"	m	clas
 value	./Thirdparty/g2o/g2o/stuff/property.h	/^      const T& value() const {return _value;}$/;"	f	class:g2o::Property
 vasprintf	./Thirdparty/g2o/g2o/stuff/os_specific.c	/^int vasprintf(char** strp, const char* fmt, va_list ap)$/;"	f
 vc	./include/PnPsolver.h	/^  double uc, vc, fu, fv;$/;"	m	class:ORB_SLAM2::PnPsolver
+vc	./include/PoseSolver.h	/^  double uc, vc, fu, fv;$/;"	m	class:ORB_SLAM2::Posesolver
 vectorSize	./Thirdparty/g2o/g2o/core/solver.h	/^      size_t vectorSize() const { return _xSize;}$/;"	f	class:g2o::Solver
 verbose	./Thirdparty/g2o/g2o/core/sparse_optimizer.h	/^    bool verbose()  const {return _verbose;}$/;"	f	class:g2o::SparseOptimizer
 verifyInformationMatrices	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^bool OptimizableGraph::verifyInformationMatrices(bool verbose) const$/;"	f	class:g2o::OptimizableGraph
@@ -4620,7 +4712,7 @@ vertices	./Thirdparty/g2o/g2o/core/hyper_graph.h	/^      const VertexIDMap& vert
 visitAdjacencyMap	./Thirdparty/g2o/g2o/core/hyper_dijkstra.cpp	/^  void HyperDijkstra::visitAdjacencyMap(AdjacencyMap& amap, TreeAction* action, bool useDistance)$/;"	f	class:g2o::HyperDijkstra
 visited	./Thirdparty/g2o/g2o/core/estimate_propagator.h	/^      OptimizableGraph::VertexSet& visited() {return _visited; }$/;"	f	class:g2o::EstimatePropagator
 visited	./Thirdparty/g2o/g2o/core/hyper_dijkstra.h	/^    HyperGraph::VertexSet& visited() {return _visited; }$/;"	f	struct:g2o::HyperDijkstra
-voc_file	./main.cc	/^const std::string voc_file = "\/home\/wu6shen\/Computer-Vision\/Project\/Relocal-ORB\/ORBvoc.txt";$/;"	v
+voc_file	./main.cc	/^	std::string voc_file;$/;"	m	struct:__anon5	file:
 volatile	./cmake-build-debug/CMakeFiles/3.10.3/CompilerIdC/CMakeCCompilerId.c	11;"	d	file:
 weight	./Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h	/^    WordValue weight;$/;"	m	struct:DBoW2::TemplatedVocabulary::Node
 weightComp	./include/KeyFrame.h	/^    static bool weightComp( int a, int b){$/;"	f	class:ORB_SLAM2::KeyFrame
@@ -4662,7 +4754,7 @@ x	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^      double x;$/;"	m	stru
 ~Data	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  OptimizableGraph::Data::~Data(){$/;"	f	class:g2o::OptimizableGraph::Data
 ~Edge	./Thirdparty/g2o/g2o/core/hyper_graph.cpp	/^  HyperGraph::Edge::~Edge()$/;"	f	class:g2o::HyperGraph::Edge
 ~Edge	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^  OptimizableGraph::Edge::~Edge()$/;"	f	class:g2o::OptimizableGraph::Edge
-~FPCSRegistration	./include/Registration.h	/^            ~FPCSRegistration() {$/;"	f	class:pcl::FPCS::FPCSRegistration
+~FPCSRegistration	./4pcs/Registration.h	/^            ~FPCSRegistration() {$/;"	f	class:pcl::FPCS::FPCSRegistration
 ~Factory	./Thirdparty/g2o/g2o/core/factory.cpp	/^Factory::~Factory()$/;"	f	class:g2o::Factory
 ~FeatureVector	./Thirdparty/DBoW2/DBoW2/FeatureVector.cpp	/^FeatureVector::~FeatureVector(void)$/;"	f	class:DBoW2::FeatureVector
 ~GeneralScoring	./Thirdparty/DBoW2/DBoW2/ScoringObject.h	/^  virtual ~GeneralScoring() {} \/\/!< Required for virtual base classes$/;"	f	class:DBoW2::GeneralScoring
@@ -4693,6 +4785,7 @@ x	./Thirdparty/g2o/g2o/core/sparse_block_matrix.hpp	/^      double x;$/;"	m	stru
 ~Parameters	./Thirdparty/g2o/g2o/core/hyper_graph_action.cpp	/^  HyperGraphAction::Parameters::~Parameters()$/;"	f	class:g2o::HyperGraphAction::Parameters
 ~Parameters	./Thirdparty/g2o/g2o/core/hyper_graph_action.cpp	/^  HyperGraphElementAction::Parameters::~Parameters()$/;"	f	class:g2o::HyperGraphElementAction::Parameters
 ~PnPsolver	./src/PnPsolver.cc	/^PnPsolver::~PnPsolver()$/;"	f	class:ORB_SLAM2::PnPsolver
+~Posesolver	./src/PoseSolver.cc	/^Posesolver::~Posesolver()$/;"	f	class:ORB_SLAM2::Posesolver
 ~PropertyMap	./Thirdparty/g2o/g2o/stuff/property.cpp	/^  PropertyMap::~PropertyMap() {$/;"	f	class:g2o::PropertyMap
 ~RegisterActionProxy	./Thirdparty/g2o/g2o/core/hyper_graph_action.h	/^        ~RegisterActionProxy()$/;"	f	class:g2o::RegisterActionProxy
 ~RegisterOptimizationAlgorithmProxy	./Thirdparty/g2o/g2o/core/optimization_algorithm_factory.h	/^      ~RegisterOptimizationAlgorithmProxy()$/;"	f	class:g2o::RegisterOptimizationAlgorithmProxy

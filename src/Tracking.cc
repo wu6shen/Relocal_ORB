@@ -488,6 +488,13 @@ void Tracking::RelocalInitialization() {
 
 	if (!mpInitializer) {
 		if (mCurrentFrame.mvKeys.size() > 100) {
+
+			mCurrentFrame.ComputeBoW();
+			clock_t start = clock();
+			std::cout << matcher.SearchByBoW(mpLastMap, mCurrentFrame, mCurrentFrame.mvpLastMapPoints) << std::endl;
+
+			clock_t end = clock();
+			std::cout << 1.0 * (end - start) / CLOCKS_PER_SEC << std::endl;
             mInitialFrame = Frame(mCurrentFrame);
             mLastFrame = Frame(mCurrentFrame);
             mvbPrevMatched.resize(mCurrentFrame.mvKeysUn.size());
