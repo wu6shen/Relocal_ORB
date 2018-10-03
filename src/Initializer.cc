@@ -41,7 +41,7 @@ Initializer::Initializer(const Frame &ReferenceFrame, float sigma, int iteration
     mMaxIterations = iterations;
 }
 
-Initializer::Initializer(Map *pLastMap, const Frame &ReferenceFrame, float sigma, int iterations) {
+Initializer::Initializer(Map *pLastMap, Frame &ReferenceFrame, float sigma, int iterations) {
     mK = ReferenceFrame.mK.clone();
 
     mvKeys1 = ReferenceFrame.mvKeysUn;
@@ -51,7 +51,10 @@ Initializer::Initializer(Map *pLastMap, const Frame &ReferenceFrame, float sigma
     mMaxIterations = iterations;
 
 	mpLastMap = pLastMap;
-	mvpLastMapPoints = ReferenceFrame.mvpLastMapPoints;
+	mInitFrame = &ReferenceFrame;
+	mInitFrame->mvpLastMapPoints = vector<MapPoint*>(mInitFrame->N, static_cast<MapPoint*>(NULL));
+	mHaveMatch.resize(ReferenceFrame.N);
+	for (int i = 0; i < ReferenceFrame.N; i++) mHaveMatch[i] = false;
 }
 
 bool Initializer::Initialize(const Frame &CurrentFrame, const vector<int> &vMatches12, cv::Mat &R21, cv::Mat &t21,
@@ -1019,19 +1022,48 @@ void Initializer::CompareError(const Frame &last, const Frame &current, vector<p
 
 bool Initializer::InitializeWithMap(const Frame &CurrentFrame, const vector<int> &vMatches12,
 		cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated) {
+	clock_t st = clock();
 	mvKeys2 = CurrentFrame.mvKeysUn;
 	mvMatches12.clear();
 	mvMatches12.reserve(mvKeys2.size());
 	mvbMatched1.resize(mvKeys1.size());
+	std::vector<MapPoint*> lastMapPoints = mpLastMap->GetAllMapPoints();
 	for (size_t i = 0; i < vMatches12.size(); i++) {
-		if (vMatches12[i] >= 0 && mvpLastMapPoints[i]) {
+		if (vMatches12[i] >= 0) {
+			if (!mHaveMatch[i]) {
+				mHaveMatch[i] = true;
+				cv::Mat d1 = mInitFrame->mDescriptors.row(i);
+				int bestDist1 = 256, bestDist2 = 256;
+				MapPoint *bestMP = static_cast<MapPoint*>(NULL);
+				for (size_t j = 0; j < lastMapPoints.size(); j++) {
+					cv::Mat d2 = lastMapPoints[j]->GetDescriptor();
+					int dist = ORBmatcher::DescriptorDistance(d1, d2);
+					if (dist < bestDist1) {
+						bestDist2 = bestDist1;
+						bestDist1 = dist;
+						bestMP = lastMapPoints[j];
+					} else if (dist < bestDist2) {
+						bestDist2 = dist;
+					}
+				}
+				if (bestDist1 < 0.9 * bestDist2 && bestDist1 < 50) {
+					mInitFrame->mvpLastMapPoints[i] = bestMP;
+				}
+			}
 			mvMatches12.push_back(make_pair(i, vMatches12[i]));
 			mvbMatched1[i] = true;
-		} else {
-			mvbMatched1[i] = false;
 		}
 	}
-
+	Posesolver *posesolver = new Posesolver(*mInitFrame, CurrentFrame,  mvMatches12);
+	posesolver->SetRansacParameters(0.8, 10, 500, 4, 0.05, 5.991);
+	int inliersNum;
+	bool bNoMore;
+	vector<bool> vbInliers;
+	cv::Mat R1, R2, t1, t2;
+	posesolver->iterate(100, bNoMore, vbInliers, inliersNum, R1, t1, R2, t2);
+	clock_t ed = clock();
+	std::cout << "here is ok time used : " << 1.0 * (ed - st) / CLOCKS_PER_SEC << std::endl;
+	return false;
 }
 
 } //namespace ORB_SLAM

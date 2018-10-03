@@ -2149,7 +2149,7 @@ int ORBmatcher::SearchByBoW(Map *pMap, Frame &F, vector<MapPoint*> &vpMatches) {
 				}
 
 				if (bestDist1 <= 100) {
-					if (1.0 * bestDist1 < 0.9 * bestDist2) {
+					if (1.0 * bestDist1 < 0.8 * bestDist2) {
 						vpMatches[bestIdxF] = pMP;
 						nmatches++;
 					}

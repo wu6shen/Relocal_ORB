@@ -107,7 +107,8 @@ void RunRelocal() {
     //while (1);
     //cv::Mat img = cv::imread(image_folder + image_files[0]);
     //relocal->Relocal(img, num);
-    for (auto image_file : image_files) {
+	for (size_t i = 0; i < image_files.size(); i+=10) {
+		std::string image_file = image_files[i];
         //if (num > 1 && num <= 4) continue;
         num++;
         cv::Mat img = cv::imread(m_input->image_folder + image_file);

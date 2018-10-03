@@ -95,6 +95,8 @@ Posesolver::Posesolver(const Frame &frame1, const Frame &frame2, const vector<pa
 			cv::Mat Pos = pMP->GetWorldPos();
 			mvP3Dw.push_back(cv::Point3f(Pos.at<float>(0),Pos.at<float>(1), Pos.at<float>(2)));
 			mvAllIndices.push_back(i);
+		} else {
+			mvP3Dw.push_back(cv::Point3f(-1, -1, -1));
 		}
 	}
 
@@ -125,6 +127,7 @@ void Posesolver::SetRansacParameters(double probability, int minInliers, int max
     mRansacMaxIts = maxIterations;
     mRansacEpsilon = epsilon;
     mRansacMinSet = minSet;
+	mRansacTh = th2;
 
     N = mvP2D1.size(); // number of correspondences
 
@@ -156,16 +159,10 @@ void Posesolver::SetRansacParameters(double probability, int minInliers, int max
 
     mvMaxError.resize(mvSigma2.size());
     for(size_t i=0; i<mvSigma2.size(); i++)
-        mvMaxError[i] = mvSigma2[i]*th2;
+        mvMaxError[i] = th2;
 }
 
-cv::Mat Posesolver::find(vector<bool> &vbInliers, int &nInliers)
-{
-    bool bFlag;
-    return iterate(mRansacMaxIts,bFlag,vbInliers,nInliers);    
-}
-
-cv::Mat Posesolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInliers, int &nInliers)
+void Posesolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInliers, int &nInliers, cv::Mat &R1, cv::Mat &t1, cv::Mat &R2, cv::Mat &t2)
 {
     bNoMore = false;
     vbInliers.clear();
@@ -173,10 +170,10 @@ cv::Mat Posesolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInli
 
     set_maximum_number_of_correspondences(mRansacMinSet);
 
-    if(N<mRansacMinInliers)
+    if(mvAllIndices.size()<(size_t)mRansacMinInliers)
     {
         bNoMore = true;
-        return cv::Mat();
+        return ;
     }
 
     vector<size_t> vAvailableIndices;
@@ -206,7 +203,7 @@ cv::Mat Posesolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInli
             vAvailableIndices.pop_back();
         }
 
-        compute_pose(mRi1, mti1);
+		if (compute_pose(mRi1, mti1) > mRansacTh) continue;
 
 		// Compute R2, t2
 		reset_correspondences();
@@ -220,43 +217,60 @@ cv::Mat Posesolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInli
         // Check inliers
         CheckInliers();
 
-        std::cout << mnInliersi << " " << mRansacMinInliers << std::endl;
+        //std::cout << mnInliersi << " " << mRansacMinInliers << std::endl;
         if(mnInliersi>=mRansacMinInliers)
         {
             // If it is the best solution so far, save it
             if(mnInliersi>mnBestInliers)
             {
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 3; j++) {
+						std::cout << mRi1[i][j] << " ";
+					}
+					std::cout << std::endl;
+				}
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 3; j++) {
+						std::cout << mRi2[i][j] << " ";
+					}
+					std::cout << std::endl;
+				}
+
                 mvbBestInliers = mvbInliersi;
                 mnBestInliers = mnInliersi;
 
-                cv::Mat Rcw(3,3,CV_64F,mRi1);
-                cv::Mat tcw(3,1,CV_64F,mti1);
-                Rcw.convertTo(Rcw,CV_32F);
-                tcw.convertTo(tcw,CV_32F);
-                mBestTcw = cv::Mat::eye(4,4,CV_32F);
-                Rcw.copyTo(mBestTcw.rowRange(0,3).colRange(0,3));
-                tcw.copyTo(mBestTcw.rowRange(0,3).col(3));
+                cv::Mat Rcw1(3,3,CV_64F,mRi1);
+                cv::Mat tcw1(3,1,CV_64F,mti1);
+                Rcw1.convertTo(Rcw1,CV_32F);
+                tcw1.convertTo(tcw1,CV_32F);
+				R1 = Rcw1, t1 = tcw1;
+
+                cv::Mat Rcw2(3,3,CV_64F,mRi2);
+                cv::Mat tcw2(3,1,CV_64F,mti2);
+                Rcw2.convertTo(Rcw2,CV_32F);
+                tcw2.convertTo(tcw2,CV_32F);
+				R2 = Rcw2, t2 = tcw2;
+
             }
         }
     }
+
+	nInliers=mnBestInliers;
+	std::cout << mnIterations << " " << mnBestInliers << std::endl;
 
     if(mnIterations>=mRansacMaxIts)
     {
         bNoMore=true;
         if(mnBestInliers>=mRansacMinInliers)
         {
-            nInliers=mnBestInliers;
-            vbInliers = vector<bool>(mvpMapPointMatches.size(),false);
+            vbInliers = vector<bool>(N,false);
             for(int i=0; i<N; i++)
             {
                 if(mvbBestInliers[i])
                     vbInliers[mvKeyPointIndices[i]] = true;
             }
-            return mBestTcw.clone();
         }
     }
-
-    return cv::Mat();
 }
 
 bool Posesolver::Refine()
@@ -313,6 +327,36 @@ void Posesolver::CheckInliers()
 {
     mnInliersi=0;
 
+	/**
+	for (size_t i = 0; i < mvAllIndices.size(); i++) {
+		int indx = mvAllIndices[i];
+		cv::Point3f P3Dw = mvP3Dw[indx];
+		cv::Point2f P2D = mvP2D1[indx];
+        float Xc = mRi1[0][0]*P3Dw.x+mRi1[0][1]*P3Dw.y+mRi1[0][2]*P3Dw.z+mti1[0];
+        float Yc = mRi1[1][0]*P3Dw.x+mRi1[1][1]*P3Dw.y+mRi1[1][2]*P3Dw.z+mti1[1];
+        float invZc = 1/(mRi1[2][0]*P3Dw.x+mRi1[2][1]*P3Dw.y+mRi1[2][2]*P3Dw.z+mti1[2]);
+
+        double ue = uc + fu * Xc * invZc;
+        double ve = vc + fv * Yc * invZc;
+
+        float distX = P2D.x-ue;
+        float distY = P2D.y-ve;
+
+        float error2 = distX*distX+distY*distY;
+
+        if(error2<mvMaxError[indx])
+        {
+            mvbInliersi[indx]=true;
+            mnInliersi++;
+        }
+        else
+        {
+            mvbInliersi[indx]=false;
+        }
+	}
+	return ;
+	*/
+
 	double mRi1t[3][3], mti1t[3];
 	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) mRi1t[i][j] = mRi1[j][i];
 	for (int i = 0; i < 3; i++) {
@@ -355,7 +399,7 @@ void Posesolver::CheckInliers()
 		p2.at<float>(2) = 1;
 
 		cv::Mat errorMat = (p1 * F * p2.t());
-        float error2 = errorMat.at<float>(0);
+        float error2 = fabs(errorMat.at<float>(0));
 
         if(error2<mvMaxError[i])
         {

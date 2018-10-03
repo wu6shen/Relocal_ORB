@@ -490,11 +490,10 @@ void Tracking::RelocalInitialization() {
 		if (mCurrentFrame.mvKeys.size() > 100) {
 
 			mCurrentFrame.ComputeBoW();
-			clock_t start = clock();
-			std::cout << matcher.SearchByBoW(mpLastMap, mCurrentFrame, mCurrentFrame.mvpLastMapPoints) << std::endl;
-
-			clock_t end = clock();
-			std::cout << 1.0 * (end - start) / CLOCKS_PER_SEC << std::endl;
+			clock_t st = clock();
+		//	matcher.SearchByLastMap(mpLastMap, mCurrentFrame, mCurrentFrame.mvpLastMapPoints);
+			clock_t ed = clock();
+			std::cout << "match use time : " << 1.0 * (ed - st) / CLOCKS_PER_SEC << std::endl;
             mInitialFrame = Frame(mCurrentFrame);
             mLastFrame = Frame(mCurrentFrame);
             mvbPrevMatched.resize(mCurrentFrame.mvKeysUn.size());
@@ -504,7 +503,7 @@ void Tracking::RelocalInitialization() {
             if(mpInitializer)
                 delete mpInitializer;
 
-            mpInitializer =  new Initializer(mCurrentFrame,1.0,200);
+            mpInitializer =  new Initializer(mpLastMap, mCurrentFrame,1.0,200);
 
             fill(mvIniMatches.begin(),mvIniMatches.end(),-1);
 
@@ -519,6 +518,11 @@ void Tracking::RelocalInitialization() {
 		}
 
         int nmatches = matcher.SearchForInitialization(mInitialFrame,mCurrentFrame,mvbPrevMatched,mvIniMatches,100);
+		std::cout << "Now matches : " << nmatches << std::endl;
+		cv::Mat R, t;
+		vector<bool> vbTriangulated;
+		mpInitializer->InitializeWithMap(mCurrentFrame, mvIniMatches, R, t, mvIniP3D, vbTriangulated);
+		while (1);
 
 	}
 

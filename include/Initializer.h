@@ -22,6 +22,7 @@
 
 #include<opencv2/opencv.hpp>
 #include "Frame.h"
+#include "PoseSolver.h"
 
 
 namespace ORB_SLAM2
@@ -100,11 +101,12 @@ public:
     bool InitializeWithMap(const Frame &CurrentFrame, const vector<int> &vMatches12,
                     cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated);
 
-    Initializer(Map *pLastMap, const Frame &ReferenceFrame, float sigma = 1.0, int iterations = 200);
+    Initializer(Map *pLastMap, Frame &ReferenceFrame, float sigma = 1.0, int iterations = 200);
 
 protected:
 	Map *mpLastMap;
-	vector<MapPoint*> mvpLastMapPoints;
+	Frame *mInitFrame;
+	vector<bool>mHaveMatch;
 };
 
 } //namespace ORB_SLAM
