@@ -52,7 +52,7 @@ Initializer::Initializer(Map *pLastMap, Frame &ReferenceFrame, float sigma, int 
 
 	mpLastMap = pLastMap;
 	mInitFrame = &ReferenceFrame;
-	mInitFrame->mvpLastMapPoints = vector<MapPoint*>(mInitFrame->N, static_cast<MapPoint*>(NULL));
+	//mInitFrame->mvpLastMapPoints = vector<MapPoint*>(mInitFrame->N, static_cast<MapPoint*>(NULL));
 	mHaveMatch.resize(ReferenceFrame.N);
 	for (int i = 0; i < ReferenceFrame.N; i++) mHaveMatch[i] = false;
 }
@@ -1027,9 +1027,9 @@ bool Initializer::InitializeWithMap(const Frame &CurrentFrame, const vector<int>
 	mvMatches12.clear();
 	mvMatches12.reserve(mvKeys2.size());
 	mvbMatched1.resize(mvKeys1.size());
-	std::vector<MapPoint*> lastMapPoints = mpLastMap->GetAllMapPoints();
 	for (size_t i = 0; i < vMatches12.size(); i++) {
 		if (vMatches12[i] >= 0) {
+			/**
 			if (!mHaveMatch[i]) {
 				mHaveMatch[i] = true;
 				cv::Mat d1 = mInitFrame->mDescriptors.row(i);
@@ -1046,12 +1046,31 @@ bool Initializer::InitializeWithMap(const Frame &CurrentFrame, const vector<int>
 						bestDist2 = dist;
 					}
 				}
-				if (bestDist1 < 0.9 * bestDist2 && bestDist1 < 50) {
+				if (bestDist1 < 0.8 * bestDist2 && bestDist1 < 50) {
 					mInitFrame->mvpLastMapPoints[i] = bestMP;
 				}
 			}
+			MapPoint *mp = mInitFrame->mvpLastMapPoints[i];
+			if (mp) {
+				cv::Mat d1 = CurrentFrame.mDescriptors.row(vMatches12[i]);
+				cv::Mat d2 = mp->GetDescriptor();
+				int dist = ORBmatcher::DescriptorDistance(d1, d2), flag = 1;
+				for (size_t j = 0; j < lastMapPoints.size(); j++) {
+					d2 = lastMapPoints[j]->GetDescriptor();
+					if (ORBmatcher::DescriptorDistance(d1, d2) < dist) {
+						flag = 0;
+						break;
+					}
+				}
+				std::cout << flag << " ";
+
+			}
+			*/
 			mvMatches12.push_back(make_pair(i, vMatches12[i]));
 			mvbMatched1[i] = true;
+		} else {
+			//mvMatches12.push_back(make_pair(i, 0));
+			mvbMatched1[i] = false;
 		}
 	}
 	Posesolver *posesolver = new Posesolver(*mInitFrame, CurrentFrame,  mvMatches12);
@@ -1060,7 +1079,7 @@ bool Initializer::InitializeWithMap(const Frame &CurrentFrame, const vector<int>
 	bool bNoMore;
 	vector<bool> vbInliers;
 	cv::Mat R1, R2, t1, t2;
-	posesolver->iterate(100, bNoMore, vbInliers, inliersNum, R1, t1, R2, t2);
+	posesolver->iterate(50, bNoMore, vbInliers, inliersNum, R1, t1, R2, t2);
 	clock_t ed = clock();
 	std::cout << "here is ok time used : " << 1.0 * (ed - st) / CLOCKS_PER_SEC << std::endl;
 	return false;

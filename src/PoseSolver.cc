@@ -141,7 +141,7 @@ void Posesolver::SetRansacParameters(double probability, int minInliers, int max
         nMinInliers=minSet;
     mRansacMinInliers = nMinInliers;
 
-	std::cout << "All : " << N << std::endl;
+	std::cout << "All : " << N << " " << mvAllIndices.size() << std::endl;
 	std::cout << "Min Inlier Num : " << mRansacMinInliers << std::endl;
 
     if(mRansacEpsilon<(float)mRansacMinInliers/N)
@@ -203,15 +203,17 @@ void Posesolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInliers
             vAvailableIndices.pop_back();
         }
 
-		if (compute_pose(mRi1, mti1) > mRansacTh) continue;
+		double error1 = compute_pose(mRi1, mti1);
 
-		// Compute R2, t2
-		reset_correspondences();
+        // Compute R2, t2
+        reset_correspondences();
 		for (auto idx : currentSets) {
             add_correspondence(mvP3Dw[idx].x,mvP3Dw[idx].y,mvP3Dw[idx].z,mvP2D2[idx].x,mvP2D2[idx].y);
 		}
 
-        compute_pose(mRi2, mti2);
+		double error2 = compute_pose(mRi2, mti2);
+
+		if (error1 + error2  > mRansacTh * 5) continue;
 
 
         // Check inliers
@@ -326,8 +328,7 @@ bool Posesolver::Refine()
 void Posesolver::CheckInliers()
 {
     mnInliersi=0;
-
-	/**
+	int in1 = 0, in2 = 0;
 	for (size_t i = 0; i < mvAllIndices.size(); i++) {
 		int indx = mvAllIndices[i];
 		cv::Point3f P3Dw = mvP3Dw[indx];
@@ -347,14 +348,42 @@ void Posesolver::CheckInliers()
         if(error2<mvMaxError[indx])
         {
             mvbInliersi[indx]=true;
-            mnInliersi++;
+            in1++;
         }
         else
         {
             mvbInliersi[indx]=false;
         }
 	}
-	return ;
+
+	for (size_t i = 0; i < mvAllIndices.size(); i++) {
+		int indx = mvAllIndices[i];
+		cv::Point3f P3Dw = mvP3Dw[indx];
+		cv::Point2f P2D = mvP2D2[indx];
+        float Xc = mRi2[0][0]*P3Dw.x+mRi2[0][1]*P3Dw.y+mRi2[0][2]*P3Dw.z+mti2[0];
+        float Yc = mRi2[1][0]*P3Dw.x+mRi2[1][1]*P3Dw.y+mRi2[1][2]*P3Dw.z+mti2[1];
+        float invZc = 1/(mRi2[2][0]*P3Dw.x+mRi2[2][1]*P3Dw.y+mRi2[2][2]*P3Dw.z+mti2[2]);
+
+        double ue = uc + fu * Xc * invZc;
+        double ve = vc + fv * Yc * invZc;
+
+        float distX = P2D.x-ue;
+        float distY = P2D.y-ve;
+
+        float error2 = distX*distX+distY*distY;
+
+        if(error2<mvMaxError[indx])
+        {
+            mvbInliersi[indx]=true;
+            in2++;
+        }
+        else
+        {
+            mvbInliersi[indx]=false;
+        }
+	}
+	if (in1 < 5 || in2 < 5) return ;
+	/**
 	*/
 
 	double mRi1t[3][3], mti1t[3];
@@ -401,7 +430,7 @@ void Posesolver::CheckInliers()
 		cv::Mat errorMat = (p1 * F * p2.t());
         float error2 = fabs(errorMat.at<float>(0));
 
-        if(error2<mvMaxError[i])
+        if(error2<mRansacTh * 0.1)
         {
             mvbInliersi[i]=true;
             mnInliersi++;
