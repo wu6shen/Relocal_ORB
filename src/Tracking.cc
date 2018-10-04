@@ -521,6 +521,7 @@ void Tracking::RelocalInitialization() {
 		std::cout << "Now matches : " << nmatches << std::endl;
 		cv::Mat R, t;
 		vector<bool> vbTriangulated;
+		mpInitializer->Initialize(mCurrentFrame, mvIniMatches, R, t, mvIniP3D, vbTriangulated);
 		mpInitializer->InitializeWithMap(mCurrentFrame, mvIniMatches, R, t, mvIniP3D, vbTriangulated);
 		while (1);
 

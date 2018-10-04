@@ -305,6 +305,29 @@ int ORBmatcher::SearchByLastMap(ORB_SLAM2::Map *pMap, ORB_SLAM2::Frame &F, vecto
     int matchnum = 0;
     vpMatches = vector<MapPoint*>(F.N, static_cast<MapPoint*>(NULL));
     std::vector<MapPoint*> allPoints = pMap->GetAllMapPoints();
+	/**
+	cv::Mat desMap(allPoints.size(), F.mDescriptors.cols, F.mDescriptors.type());
+	cv::Mat desFrame = F.mDescriptors;
+	for (size_t i = 0; i < allPoints.size(); i++) {
+		cv::Mat d = allPoints[i]->GetDescriptor();
+		d.copyTo(desMap.row(i));
+	}
+	cv::BFMatcher matcher(cv::NORM_HAMMING);
+	std::vector<std::vector<cv::DMatch>> knnMatches;
+	knnMatches.clear();
+	matcher.knnMatch(desFrame, desMap, knnMatches, 2);
+	for (size_t i = 0; i < knnMatches.size(); i++) {
+		const cv::DMatch &bestMatch = knnMatches[i][0];
+		const cv::DMatch &betterMatch = knnMatches[i][1];
+
+        float distanceRadio = bestMatch.distance / betterMatch.distance;
+		if (distanceRadio < 0.9 && bestMatch.distance < TH_HIGH) {
+			vpMatches[bestMatch.queryIdx] = allPoints[bestMatch.trainIdx];
+			matchnum++;
+		}
+	}
+	return matchnum;
+	*/
     for (int i = 0; i < F.N; i++) {
         cv::Mat curDescriptor = F.mDescriptors.row(i);
         int bestDist1 = 256, bestDist2 = 256, bestIdx = -1;
@@ -320,7 +343,7 @@ int ORBmatcher::SearchByLastMap(ORB_SLAM2::Map *pMap, ORB_SLAM2::Frame &F, vecto
         }
 
         if (bestIdx == -1) continue;
-        if (bestDist1 <= TH_LOW && 1.0f * bestDist1 < mfNNratio * bestDist2) {
+        if (bestDist1 <= TH_HIGH && 1.0f * bestDist1 < mfNNratio * bestDist2) {
             vpMatches[i] = allPoints[bestIdx];
             matchnum++;
         }
@@ -2148,7 +2171,7 @@ int ORBmatcher::SearchByBoW(Map *pMap, Frame &F, vector<MapPoint*> &vpMatches) {
 					}
 				}
 
-				if (bestDist1 <= 100) {
+				if (bestDist1 <= 50) {
 					if (1.0 * bestDist1 < 0.8 * bestDist2) {
 						vpMatches[bestIdxF] = pMP;
 						nmatches++;

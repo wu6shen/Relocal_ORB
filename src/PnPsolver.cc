@@ -205,12 +205,12 @@ cv::Mat PnPsolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInlie
         }
 
         // Compute camera pose
-		std::cout << compute_pose(mRi, mti) << " " << std::endl;;
+		compute_pose(mRi, mti);
 
         // Check inliers
         CheckInliers();
 
-        std::cout << mnInliersi << " " << mRansacMinInliers << std::endl;
+        //std::cout << mnInliersi << " " << mRansacMinInliers << std::endl;
         if(mnInliersi>=mRansacMinInliers)
         {
             // If it is the best solution so far, save it
