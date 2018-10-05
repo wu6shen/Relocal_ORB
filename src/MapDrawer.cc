@@ -58,7 +58,6 @@ MapDrawer::MapDrawer(ORB_SLAM2::Map *pMap, ORB_SLAM2::Map *pLastMap, const strin
 
 void MapDrawer::DrawMapPoints()
 {
-    /**
     const vector<MapPoint*> &vpMPsRef = mpLastMap->GetAllMapPoints();
     const vector<MapPoint*> &vpRefMPsRef = mpLastMap->GetReferenceMapPoints();
 
@@ -76,7 +75,7 @@ void MapDrawer::DrawMapPoints()
         }
         glEnd();
 
-        glPointSize(mPointSize * 4);
+        glPointSize(mPointSize * 1);
         glBegin(GL_POINTS);
         glColor3f(1.0, 0.0, 0.0);
 
@@ -90,6 +89,7 @@ void MapDrawer::DrawMapPoints()
 
         glEnd();
     }
+    /**
 
     */
     const vector<MapPoint *> &vpMPs = mpMap->GetAllMapPoints();

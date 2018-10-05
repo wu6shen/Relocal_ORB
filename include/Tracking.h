@@ -238,6 +238,9 @@ protected:
 
 	//Test PnP error with five point
 	void CompareError();
+
+	//Relocal
+	void CreateInitialMapRelocal();
 	
 
 };

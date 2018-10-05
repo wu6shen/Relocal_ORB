@@ -54,7 +54,7 @@ Initializer::Initializer(Map *pLastMap, Frame &ReferenceFrame, float sigma, int 
 	mInitFrame = &ReferenceFrame;
 	clock_t st = clock();
 	PoseSolver *posesolver = new PoseSolver(*mInitFrame, mInitFrame->mvpLastMapPoints);
-	posesolver->SetRansacParameters(0.8, 10, 500, 4, 0.05, 5.991);
+	posesolver->SetRansacParameters(0.8, 5, 500, 4, 0.05, 5.991);
 	bool bNoMore;
 	int inliersNum;
 	std::vector<bool> vbInliers;
@@ -62,6 +62,7 @@ Initializer::Initializer(Map *pLastMap, Frame &ReferenceFrame, float sigma, int 
 	clock_t ed = clock();
 	if (inliersNum != 0) {
 		mInitFrame->SetPose(Tcw);
+		std::cout << inliersNum << std::endl;
 	}
 	for (size_t i = 0; i < vbInliers.size(); i++) {
 		if (!vbInliers[i]) {
@@ -249,6 +250,7 @@ void Initializer::FindFundamental(vector<bool> &vbMatchesInliers, float &score, 
             score = currentScore;
         }
     }
+	std::cout << F21 << std::endl;
 }
 
 
@@ -1035,8 +1037,25 @@ void Initializer::CompareError(const Frame &last, const Frame &current, vector<p
 
 bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMatches12,
 		cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated) {
+    mvKeys2 = CurrentFrame.mvKeysUn;
+
+    mvMatches12.clear();
+    mvMatches12.reserve(mvKeys2.size());
+    mvbMatched1.resize(mvKeys1.size());
+    for(size_t i=0, iend=vMatches12.size();i<iend; i++)
+    {
+        if(vMatches12[i]>=0)
+        {
+            mvMatches12.push_back(make_pair(i,vMatches12[i]));
+            mvbMatched1[i]=true;
+        }
+        else
+            mvbMatched1[i]=false;
+    }
+
 	ORBmatcher matcher(0.9, true);
-	matcher.SearchByLastMap(mpLastMap, CurrentFrame, CurrentFrame.mvpLastMapPoints);
+	CurrentFrame.SetPose(mInitFrame->mTcw);
+	matcher.SearchByProjection(mpLastMap, CurrentFrame, CurrentFrame.mvpLastMapPoints, 20, 100);
 	PoseSolver *posesolver = new PoseSolver(CurrentFrame, CurrentFrame.mvpLastMapPoints);
 	posesolver->SetRansacParameters(0.8, 10, 500, 4, 0.05, 5.991);
 	bool bNoMore;
@@ -1044,39 +1063,14 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMat
 	std::vector<bool> vbInliers;
 	cv::Mat Tcw = posesolver->iterate(1000, bNoMore, vbInliers, inliersNum);
 	clock_t ed = clock();
-	std::cout << inliersNum << std::endl;
+	if (inliersNum == 0) {
+		return false;
+	}
 	for (size_t i = 0; i < vbInliers.size(); i++) {
 		if (!vbInliers[i]) {
-			mInitFrame->mvpLastMapPoints[i] = static_cast<MapPoint*>(NULL);
+			CurrentFrame.mvpLastMapPoints[i] = static_cast<MapPoint*>(NULL);
 		}
 	}
-	/**
-	clock_t st = clock();
-	mvKeys2 = CurrentFrame.mvKeysUn;
-	mvMatches12.clear();
-	mvMatches12.reserve(mvKeys2.size());
-	mvbMatched1.resize(mvKeys1.size());
-	for (size_t i = 0; i < vMatches12.size(); i++) {
-		if (vMatches12[i] >= 0) {
-			mvMatches12.push_back(make_pair(i, vMatches12[i]));
-			mvbMatched1[i] = true;
-		} else {
-			mvbMatched1[i] = false;
-		}
-	}
-	Posesolver *posesolver = new Posesolver(*mInitFrame, CurrentFrame,  mvMatches12);
-	posesolver->SetRansacParameters(0.8, 10, 500, 4, 0.05, 5.991);
-	int inliersNum;
-	bool bNoMore;
-	vector<bool> vbInliers;
-	cv::Mat R1, R2, t1, t2;
-	posesolver->iterate(100, bNoMore, vbInliers, inliersNum, R1, t1, R2, t2);
-	clock_t ed = clock();
-	std::cout << R1 << std::endl;
-	std::cout << R2 << std::endl;
-	std::cout << inliersNum << std::endl;
-	std::cout << "here is ok time used : " << 1.0 * (ed - st) / CLOCKS_PER_SEC << std::endl;
-	*/
 
 	cv::Mat R1, R2, t1, t2;
 	mInitFrame->mTcw.rowRange(0, 3).colRange(0, 3).copyTo(R1);
@@ -1085,6 +1079,7 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMat
 	Tcw.rowRange(0, 3).col(3).copyTo(t2);
 	R21 = R2 * R1.t();
 	t21 = R2 * (-R1.t() * t1) + t2;
+
 	cv::Mat Kinv = mK.inv();
 	cv::Mat T21(3, 3, CV_32F);
 	T21.at<float>(0, 1) = -t21.at<float>(2);
@@ -1096,14 +1091,17 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMat
 	T21.at<float>(0, 0) = T21.at<float>(1, 1) = T21.at<float>(2, 2) = 0;
 	cv::Mat F = Kinv.t() * T21 * R21 * Kinv;
 	std::vector<bool> inliers;
-	int inlier_num = 0;
 	float score = CheckFundamental(F, inliers, mSigma);
-	for (size_t i = 0; i < inliers.size(); i++) {
-		if (inliers[i]) inlier_num++;
-	}
+	inliersNum = 0;
+	for (auto inlier : inliers) if (inlier) inliersNum++;
+	if (inliersNum < 50) return false;
 
-	std::cout << inlier_num << std::endl;
-	return false;
+	float parallax;
+	int num = CheckRT(R21, t21, mvKeys1, mvKeys2, mvMatches12, inliers, mK, vP3D, 4.0 * mSigma2, vbTriangulated, parallax);
+
+	std::cout << num << " " << inliers.size() << " " << mvMatches12.size() << std::endl;
+	CurrentFrame.SetPose(Tcw);
+	return true;
 }
 
 } //namespace ORB_SLAM

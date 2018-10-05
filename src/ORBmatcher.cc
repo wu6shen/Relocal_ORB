@@ -305,7 +305,6 @@ int ORBmatcher::SearchByLastMap(ORB_SLAM2::Map *pMap, ORB_SLAM2::Frame &F, vecto
     int matchnum = 0;
     vpMatches = vector<MapPoint*>(F.N, static_cast<MapPoint*>(NULL));
     std::vector<MapPoint*> allPoints = pMap->GetAllMapPoints();
-	/**
 	cv::Mat desMap(allPoints.size(), F.mDescriptors.cols, F.mDescriptors.type());
 	cv::Mat desFrame = F.mDescriptors;
 	for (size_t i = 0; i < allPoints.size(); i++) {
@@ -327,7 +326,6 @@ int ORBmatcher::SearchByLastMap(ORB_SLAM2::Map *pMap, ORB_SLAM2::Frame &F, vecto
 		}
 	}
 	return matchnum;
-	*/
     for (int i = 0; i < F.N; i++) {
         cv::Mat curDescriptor = F.mDescriptors.row(i);
         int bestDist1 = 256, bestDist2 = 256, bestIdx = -1;

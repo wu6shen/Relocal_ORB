@@ -210,7 +210,6 @@ cv::Mat PoseSolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInli
 
         // Check inliers
         CheckInliers();
-		std::cout << "---" << " " << mnInliersi << std::endl;
 
             // If it is the best solution so far, save it
 		if(mnInliersi>mnBestInliers)
