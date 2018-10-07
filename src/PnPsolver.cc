@@ -196,7 +196,6 @@ cv::Mat PnPsolver::iterate(int nIterations, bool &bNoMore, vector<bool> &vbInlie
             int randi = DUtils::Random::RandomInt(0, vAvailableIndices.size()-1);
 
             int idx = vAvailableIndices[randi];
-			std::cout << idx << " ";
 
             add_correspondence(mvP3Dw[idx].x,mvP3Dw[idx].y,mvP3Dw[idx].z,mvP2D[idx].x,mvP2D[idx].y);
 
@@ -333,7 +332,6 @@ void PnPsolver::CheckInliers()
 
         if(error2<mvMaxError[i])
         {
-			std::cout << i << " ";
             mvbInliersi[i]=true;
             mnInliersi++;
         }
@@ -342,7 +340,6 @@ void PnPsolver::CheckInliers()
             mvbInliersi[i]=false;
         }
     }
-	std::cout << std::endl;
 }
 
 

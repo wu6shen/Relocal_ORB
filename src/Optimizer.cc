@@ -576,7 +576,7 @@ void Optimizer::LocalBundleAdjustment(KeyFrame *pKF, bool* pbStopFlag, Map* pMap
         vPoint->setEstimate(Converter::toVector3d(pMP->GetWorldPos()));
         int id = pMP->mnId+maxKFid+1;
         vPoint->setId(id);
-        //vPoint->setFixed(pMP->isLast);
+        vPoint->setFixed(pMP->isLast);
         vPoint->setMarginalized(true);
         optimizer.addVertex(vPoint);
 

@@ -529,8 +529,7 @@ void Tracking::RelocalInitialization() {
 			}
 			CreateInitialMapRelocal();
 		}
-		mpInitializer->Initialize(mCurrentFrame, mvIniMatches, R, t, mvIniP3D, vbTriangulated);
-		while (1);
+		//mpInitializer->Initialize(mCurrentFrame, mvIniMatches, R, t, mvIniP3D, vbTriangulated);
 
 	}
 
@@ -554,6 +553,7 @@ void Tracking::CreateInitialMapRelocal() {
 			if (lastMP2) {
 				if (lastMP && lastMP != lastMP2) continue;
 				MapPoint *pMP = new MapPoint(lastMP2->GetWorldPos(), pKFcur, mpMap);
+				pMP->isLast = true;
 				if (lastMP) {
 					pKFini->AddMapPoint(pMP, i);
 					pMP->AddObservation(pKFini, i);
@@ -569,6 +569,7 @@ void Tracking::CreateInitialMapRelocal() {
 				mpMap->AddMapPoint(pMP);
 			} else if (lastMP) {
 				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
+				pMP->isLast = true;
 				pKFini->AddMapPoint(pMP, i);
 				pMP->AddObservation(pKFini, i);
 
@@ -596,10 +597,13 @@ void Tracking::CreateInitialMapRelocal() {
 
 				//Add to Map
 				mpMap->AddMapPoint(pMP);
+				/**
+				*/
 			}
 
 		} else if (lastMP) {
 			MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
+			pMP->isLast = true;
 			pKFini->AddMapPoint(pMP, i);
 			pMP->AddObservation(pKFini, i);
 
@@ -615,6 +619,7 @@ void Tracking::CreateInitialMapRelocal() {
 			MapPoint *lastMP = mCurrentFrame.mvpLastMapPoints[i];
 			if (lastMP) {
 				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFcur, mpMap);
+				pMP->isLast = true;
 				pKFcur->AddMapPoint(pMP, i);
 				pMP->AddObservation(pKFcur, i);
 				mCurrentFrame.mvpMapPoints[i] = pMP;
@@ -631,7 +636,7 @@ void Tracking::CreateInitialMapRelocal() {
     pKFcur->UpdateConnections();
 
     cout << "New Map created with " << mpMap->MapPointsInMap() << " points" << endl;
-    Optimizer::GlobalBundleAdjustemnt(mpMap,20);
+    //Optimizer::GlobalBundleAdjustemnt(mpMap,20);
     mpLocalMapper->InsertKeyFrame(pKFini);
     mpLocalMapper->InsertKeyFrame(pKFcur);
 

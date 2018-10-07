@@ -326,6 +326,8 @@ int ORBmatcher::SearchByLastMap(ORB_SLAM2::Map *pMap, ORB_SLAM2::Frame &F, vecto
 		}
 	}
 	return matchnum;
+	/*
+	*/
     for (int i = 0; i < F.N; i++) {
         cv::Mat curDescriptor = F.mDescriptors.row(i);
         int bestDist1 = 256, bestDist2 = 256, bestIdx = -1;
@@ -378,18 +380,21 @@ int ORBmatcher::SearchByProjection(ORB_SLAM2::Map *pMap, ORB_SLAM2::Frame &F, ve
         const vector<size_t> vIndices =
                 F.GetFeaturesInArea(u, v, th);
         cv::Mat dMP = pMP->GetDescriptor();
-        int bestDist = 256, bestIdx = -1;
+        int bestDist1 = 256, bestIdx = -1, bestDist2 = 256;
         for (size_t j = 0; j < vIndices.size(); j++) {
             size_t idx = vIndices[j];
             const cv::Mat dF = F.mDescriptors.row(idx);
             int dist = DescriptorDistance(dMP, dF);
-            if (dist < bestDist) {
-                bestDist = dist;
+            if (dist < bestDist1) {
+				bestDist2 = bestDist1;
+                bestDist1 = dist;
                 bestIdx = idx;
-            }
+            } else if (dist < bestDist2) {
+				bestDist2 = dist;
+			}
         }
 
-        if (bestDist < bestTH) {
+        if (bestDist1 < bestTH && bestDist1 < mfNNratio * bestDist2) {
             vpMatches[bestIdx] = pMP;
             matchNum++;
         }

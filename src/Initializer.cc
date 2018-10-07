@@ -62,6 +62,11 @@ Initializer::Initializer(Map *pLastMap, Frame &ReferenceFrame, float sigma, int 
 	clock_t ed = clock();
 	if (inliersNum != 0) {
 		mInitFrame->SetPose(Tcw);
+		ORBmatcher matcher(0.9, true);
+		matcher.SearchByProjection(mpLastMap, *mInitFrame, mInitFrame->mvpLastMapPoints, 10, 100);
+		posesolver = new PoseSolver(*mInitFrame, mInitFrame->mvpLastMapPoints);
+		posesolver->SetRansacParameters(0.8, 5, 500, 4, 0.05, 5.991);
+		Tcw = posesolver->iterate(100, bNoMore, vbInliers, inliersNum);
 		std::cout << inliersNum << std::endl;
 	}
 	for (size_t i = 0; i < vbInliers.size(); i++) {
@@ -69,6 +74,7 @@ Initializer::Initializer(Map *pLastMap, Frame &ReferenceFrame, float sigma, int 
 			mInitFrame->mvpLastMapPoints[i] = static_cast<MapPoint*>(NULL);
 		}
 	}
+	std::cout <<Tcw << std::endl;
 }
 
 bool Initializer::Initialize(const Frame &CurrentFrame, const vector<int> &vMatches12, cv::Mat &R21, cv::Mat &t21,
@@ -1037,6 +1043,8 @@ void Initializer::CompareError(const Frame &last, const Frame &current, vector<p
 
 bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMatches12,
 		cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated) {
+
+	CurrentFrame.mvpLastMapPoints = vector<MapPoint*>(CurrentFrame.N, NULL);
     mvKeys2 = CurrentFrame.mvKeysUn;
 
     mvMatches12.clear();
@@ -1047,6 +1055,9 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMat
         if(vMatches12[i]>=0)
         {
             mvMatches12.push_back(make_pair(i,vMatches12[i]));
+			if (mInitFrame->mvpLastMapPoints[i]) {
+				CurrentFrame.mvpLastMapPoints[vMatches12[i]] = mInitFrame->mvpLastMapPoints[i];
+			}
             mvbMatched1[i]=true;
         }
         else
@@ -1054,10 +1065,10 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMat
     }
 
 	ORBmatcher matcher(0.9, true);
-	CurrentFrame.SetPose(mInitFrame->mTcw);
-	matcher.SearchByProjection(mpLastMap, CurrentFrame, CurrentFrame.mvpLastMapPoints, 20, 100);
+	///matcher.SearchByProjection(mpLastMap, CurrentFrame, CurrentFrame.mvpLastMapPoints, 100, 50);
+	//matcher.SearchByLastMap(mpLastMap, CurrentFrame, CurrentFrame.mvpLastMapPoints);
 	PoseSolver *posesolver = new PoseSolver(CurrentFrame, CurrentFrame.mvpLastMapPoints);
-	posesolver->SetRansacParameters(0.8, 10, 500, 4, 0.05, 5.991);
+	posesolver->SetRansacParameters(0.8, 5, 500, 4, 0.05, 5.991);
 	bool bNoMore;
 	int inliersNum;
 	std::vector<bool> vbInliers;
@@ -1066,6 +1077,13 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMat
 	if (inliersNum == 0) {
 		return false;
 	}
+
+	CurrentFrame.SetPose(Tcw);
+	matcher.SearchByProjection(mpLastMap, CurrentFrame, CurrentFrame.mvpLastMapPoints, 10, 100);
+	posesolver = new PoseSolver(CurrentFrame, CurrentFrame.mvpLastMapPoints);
+	posesolver->SetRansacParameters(0.8, 5, 500, 4, 0.05, 5.991);
+	Tcw = posesolver->iterate(1000, bNoMore, vbInliers, inliersNum);
+
 	for (size_t i = 0; i < vbInliers.size(); i++) {
 		if (!vbInliers[i]) {
 			CurrentFrame.mvpLastMapPoints[i] = static_cast<MapPoint*>(NULL);
@@ -1094,12 +1112,17 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMat
 	float score = CheckFundamental(F, inliers, mSigma);
 	inliersNum = 0;
 	for (auto inlier : inliers) if (inlier) inliersNum++;
-	if (inliersNum < 50) return false;
+	if (inliersNum < 100) return false;
 
 	float parallax;
-	int num = CheckRT(R21, t21, mvKeys1, mvKeys2, mvMatches12, inliers, mK, vP3D, 4.0 * mSigma2, vbTriangulated, parallax);
+	int num = CheckRT(R21, t21, mvKeys1, mvKeys2, mvMatches12, inliers, mK, vP3D, mSigma2, vbTriangulated, parallax);
 
-	std::cout << num << " " << inliers.size() << " " << mvMatches12.size() << std::endl;
+	if (num < 100) return false;
+
+	std::cout << R21 << "\n" << t21 << "\n"<< F<<std::endl;
+	std::cout << "Initialize May be success score : " << score << 
+				 " num : " << num << 
+				 " matchnum : " << inliers.size() << " " << mvMatches12.size() << std::endl;
 	CurrentFrame.SetPose(Tcw);
 	return true;
 }
