@@ -486,6 +486,44 @@ void Tracking::RelocalInitialization() {
 
 	ORBmatcher matcher(0.9, true);
 
+	if (mCanInitWithLastMap != 0) {
+		if (!mpInitializerLastMap) {
+			mpInitializerLastMap = new Initializer(mpLastMap, mCurrentFrame.mK, 1.0, 200);
+			mInitialFrameLastMap = Frame(mCurrentFrame);
+			mLastFrame = Frame(mCurrentFrame);
+			if (!mpInitializerLastMap->InitializeFirstFrame(mInitialFrameLastMap)) {
+				mCanInitWithLastMap--;
+				delete mpInitializerLastMap;
+				mpInitializerLastMap = NULL;
+				return ;
+			}
+			mCanInitWithLastMap++;
+			mvbPrevMatchedLastMap.resize(mCurrentFrame.mvKeysUn.size());
+			for (size_t i = 0; i < mCurrentFrame.mvKeysUn.size(); i++) {
+				mvbPrevMatchedLastMap[i] = mCurrentFrame.mvKeysUn[i].pt;
+			}
+		} else {
+			int nmatches = matcher.SearchForInitialization(mInitialFrameLastMap,mCurrentFrame,mvbPrevMatchedLastMap,mvIniMatchesLastMap,100);
+			std::cout << "Now matches : " << nmatches << std::endl;
+			if (nmatches < 100) {
+				delete mpInitializerLastMap;
+				mpInitializerLastMap = NULL;
+				return ;
+			}
+			cv::Mat R, t;
+			vector<bool> vbTriangulated;
+			if (mpInitializerLastMap->InitializeWithMap(mCurrentFrame, mvIniMatchesLastMap, R, t, mvIniP3DLastMap, vbTriangulated)) {
+				for (size_t i = 0; i < mvIniMatchesLastMap.size(); i++) {
+					if (!vbTriangulated[i]) {
+						mvIniMatchesLastMap[i] = -1;
+					}
+				}
+				CreateInitialMapRelocal();
+			}
+		}
+		return ;
+	}
+
 	if (!mpInitializer) {
 		if (mCurrentFrame.mvKeys.size() > 100) {
 
@@ -493,17 +531,13 @@ void Tracking::RelocalInitialization() {
             mInitialFrame = Frame(mCurrentFrame);
             mLastFrame = Frame(mCurrentFrame);
             mvbPrevMatched.resize(mCurrentFrame.mvKeysUn.size());
-			clock_t st = clock();
-			matcher.SearchByLastMap(mpLastMap, mInitialFrame, mInitialFrame.mvpLastMapPoints);
-			clock_t ed = clock();
-			std::cout << "match use time : " << 1.0 * (ed - st) / CLOCKS_PER_SEC << std::endl;
             for(size_t i=0; i<mCurrentFrame.mvKeysUn.size(); i++)
                 mvbPrevMatched[i]=mCurrentFrame.mvKeysUn[i].pt;
 
             if(mpInitializer)
                 delete mpInitializer;
 
-            mpInitializer =  new Initializer(mpLastMap, mInitialFrame,1.0,200);
+            mpInitializer =  new Initializer(mInitialFrame,1.0,200);
 
             fill(mvIniMatches.begin(),mvIniMatches.end(),-1);
 
@@ -518,25 +552,38 @@ void Tracking::RelocalInitialization() {
 		}
 
         int nmatches = matcher.SearchForInitialization(mInitialFrame,mCurrentFrame,mvbPrevMatched,mvIniMatches,100);
+		if (nmatches < 100) {
+			delete mpInitializer;
+			mpInitializer = NULL;
+			return ;
+		}
 		std::cout << "Now matches : " << nmatches << std::endl;
 		cv::Mat R, t;
 		vector<bool> vbTriangulated;
-		if (mpInitializer->InitializeWithMap(mCurrentFrame, mvIniMatches, R, t, mvIniP3D, vbTriangulated)) {
+		if (mpInitializer->Initialize(mCurrentFrame, mvIniMatches, R, t, mvIniP3D, vbTriangulated)) {
 			for (size_t i = 0; i < mvIniMatches.size(); i++) {
 				if (!vbTriangulated[i]) {
 					mvIniMatches[i] = -1;
 				}
 			}
-			CreateInitialMapRelocal();
+            mInitialFrame.SetPose(cv::Mat::eye(4,4,CV_32F));
+            cv::Mat Tcw = cv::Mat::eye(4,4,CV_32F);
+            R.copyTo(Tcw.rowRange(0,3).colRange(0,3));
+            t.copyTo(Tcw.rowRange(0,3).col(3));
+            mCurrentFrame.SetPose(Tcw);
+
+			CreateInitialMapMonocular();
 		}
 		//mpInitializer->Initialize(mCurrentFrame, mvIniMatches, R, t, mvIniP3D, vbTriangulated);
 
 	}
+	/*
+	*/
 
 }
 
 void Tracking::CreateInitialMapRelocal() {
-    KeyFrame* pKFini = new KeyFrame(mInitialFrame,mpMap,mpKeyFrameDB);
+    KeyFrame* pKFini = new KeyFrame(mInitialFrameLastMap,mpMap,mpKeyFrameDB);
     KeyFrame* pKFcur = new KeyFrame(mCurrentFrame,mpMap,mpKeyFrameDB);
 
     pKFini->ComputeBoW();
@@ -545,15 +592,20 @@ void Tracking::CreateInitialMapRelocal() {
     mpMap->AddKeyFrame(pKFini);
     mpMap->AddKeyFrame(pKFcur);
 
-	for (int i = 0; i < mInitialFrame.N; i++) {
-		int id = mvIniMatches[i];
-		MapPoint *lastMP = mInitialFrame.mvpLastMapPoints[i];
+	mInitFixedPointNum = 0;
+
+	for (int i = 0; i < mInitialFrameLastMap.N; i++) {
+		int id = mvIniMatchesLastMap[i];
+		MapPoint *lastMP = mInitialFrameLastMap.mvpLastMapPoints[i];
 		if (id >= 0) {
 			MapPoint *lastMP2 = mCurrentFrame.mvpLastMapPoints[id];
 			if (lastMP2) {
-				if (lastMP && lastMP != lastMP2) continue;
+				if (lastMP && lastMP != lastMP2){
+				   	continue;
+				}
 				MapPoint *pMP = new MapPoint(lastMP2->GetWorldPos(), pKFcur, mpMap);
 				pMP->isLast = true;
+				mInitFixedPointNum++;
 				if (lastMP) {
 					pKFini->AddMapPoint(pMP, i);
 					pMP->AddObservation(pKFini, i);
@@ -570,6 +622,7 @@ void Tracking::CreateInitialMapRelocal() {
 			} else if (lastMP) {
 				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
 				pMP->isLast = true;
+				mInitFixedPointNum++;
 				pKFini->AddMapPoint(pMP, i);
 				pMP->AddObservation(pKFini, i);
 
@@ -578,32 +631,33 @@ void Tracking::CreateInitialMapRelocal() {
 				mpMap->AddMapPoint(pMP);
 			} else {
 
-				cv::Mat worldPos(mvIniP3D[i]);
+				/**
+				*/
+				cv::Mat worldPos(mvIniP3DLastMap[i]);
 
 				MapPoint* pMP = new MapPoint(worldPos,pKFcur,mpMap);
 
 				pKFini->AddMapPoint(pMP,i);
-				pKFcur->AddMapPoint(pMP,mvIniMatches[i]);
+				pKFcur->AddMapPoint(pMP,mvIniMatchesLastMap[i]);
 
 				pMP->AddObservation(pKFini,i);
-				pMP->AddObservation(pKFcur,mvIniMatches[i]);
+				pMP->AddObservation(pKFcur,mvIniMatchesLastMap[i]);
 
 				pMP->ComputeDistinctiveDescriptors();
 				pMP->UpdateNormalAndDepth();
 
 				//Fill Current Frame structure
-				mCurrentFrame.mvpMapPoints[mvIniMatches[i]] = pMP;
-				mCurrentFrame.mvbOutlier[mvIniMatches[i]] = false;
+				mCurrentFrame.mvpMapPoints[mvIniMatchesLastMap[i]] = pMP;
+				mCurrentFrame.mvbOutlier[mvIniMatchesLastMap[i]] = false;
 
 				//Add to Map
 				mpMap->AddMapPoint(pMP);
-				/**
-				*/
 			}
 
 		} else if (lastMP) {
 			MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
 			pMP->isLast = true;
+			mInitFixedPointNum++;
 			pKFini->AddMapPoint(pMP, i);
 			pMP->AddObservation(pKFini, i);
 
@@ -620,6 +674,7 @@ void Tracking::CreateInitialMapRelocal() {
 			if (lastMP) {
 				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFcur, mpMap);
 				pMP->isLast = true;
+				mInitFixedPointNum++;
 				pKFcur->AddMapPoint(pMP, i);
 				pMP->AddObservation(pKFcur, i);
 				mCurrentFrame.mvpMapPoints[i] = pMP;
@@ -636,7 +691,8 @@ void Tracking::CreateInitialMapRelocal() {
     pKFcur->UpdateConnections();
 
     cout << "New Map created with " << mpMap->MapPointsInMap() << " points" << endl;
-    //Optimizer::GlobalBundleAdjustemnt(mpMap,20);
+    cout << "Last Map created with " << mInitFixedPointNum << " points" << endl;
+    Optimizer::GlobalBundleAdjustemnt(mpMap,20);
     mpLocalMapper->InsertKeyFrame(pKFini);
     mpLocalMapper->InsertKeyFrame(pKFcur);
 
@@ -657,7 +713,6 @@ void Tracking::CreateInitialMapRelocal() {
     mpMapDrawer->SetCurrentCameraPose(pKFcur->GetPose());
 
     mpMap->mvpKeyFrameOrigins.push_back(pKFini);
-    std::cout << mpMap->GetAllMapPoints().size() << std::endl;
 
     mState=OK;
 }
@@ -785,6 +840,11 @@ cv::Mat Tracking::RelocalUsePnP(const cv::Mat &im, int pnpFlag) {
 		mlbLost.push_back(mState==LOST);
 	}
 
+	if (mInitFixedPointNum != -1 && mpMap->MapPointsInMap() > 5 * mInitFixedPointNum) {
+		std::cout << "stop " << std::endl;
+		mInitFixedPointNum = -1;
+		mpMap->SetUnFix();
+	}
 	return cv::Mat();
 
 	
@@ -1636,7 +1696,7 @@ bool Tracking::TrackWithMotionModel()
 	int nmatches = matcher.SearchByProjection(mCurrentFrame,mLastFrame,th,mSensor==System::MONOCULAR);
 
 	// If few matches, uses a wider window search
-	if(nmatches<20)
+	if(nmatches<40)
 	{
 		fill(mCurrentFrame.mvpMapPoints.begin(),mCurrentFrame.mvpMapPoints.end(),static_cast<MapPoint*>(NULL));
 		nmatches = matcher.SearchByProjection(mCurrentFrame,mLastFrame,2*th,mSensor==System::MONOCULAR);
@@ -1815,6 +1875,7 @@ void Tracking::CreateNewKeyFrame()
 {
 	if(!mpLocalMapper->SetNotStop(true))
 		return;
+
 
 	KeyFrame* pKF = new KeyFrame(mCurrentFrame,mpMap,mpKeyFrameDB);
 

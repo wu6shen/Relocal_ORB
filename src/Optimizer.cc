@@ -96,6 +96,7 @@ void Optimizer::BundleAdjustment(const vector<KeyFrame *> &vpKFs, const vector<M
         const int id = pMP->mnId+maxKFid+1;
         vPoint->setId(id);
         vPoint->setMarginalized(true);
+        vPoint->setFixed(pMP->isLast);
         optimizer.addVertex(vPoint);
 
        const map<KeyFrame*,size_t> observations = pMP->GetObservations();
@@ -296,7 +297,7 @@ int Optimizer::PoseOptimization(Frame *pFrame)
 
                 e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(0)));
                 e->setMeasurement(obs);
-                const float invSigma2 = pFrame->mvInvLevelSigma2[kpUn.octave];
+                float invSigma2 = pFrame->mvInvLevelSigma2[kpUn.octave];
                 e->setInformation(Eigen::Matrix2d::Identity()*invSigma2);
 
                 g2o::RobustKernelHuber* rk = new g2o::RobustKernelHuber;

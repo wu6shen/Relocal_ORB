@@ -87,6 +87,7 @@ public:
 	DBoW2::BowVector mBowVec;
 	DBoW2::FeatureVector mFeatVec;
 	void ComputeBoW(ORBVocabulary *pVoc);
+	void SetUnFix();
 };
 
 } //namespace ORB_SLAM

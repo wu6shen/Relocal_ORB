@@ -22,6 +22,7 @@
 
 #include<opencv2/opencv.hpp>
 #include "Frame.h"
+#include "ORBmatcher.h"
 #include "PoseSolver.h"
 
 
@@ -98,15 +99,17 @@ private:
 public:
 	void CompareError(const Frame &last, const Frame &current, vector<pair<int, int> > &matches12, vector<bool> &inliers, cv::Mat &F);
 
-    bool InitializeWithMap(Frame &CurrentFrame, const vector<int> &vMatches12,
+	bool InitializeFirstFrame(Frame &frame);
+    bool InitializeWithMap(Frame &CurrentFrame, vector<int> &vMatches12,
                     cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated);
 
-    Initializer(Map *pLastMap, Frame &ReferenceFrame, float sigma = 1.0, int iterations = 200);
+    Initializer(Map *pLastMap, cv::Mat &K, float sigma = 1.0, int iterations = 200);
+	Frame *mInitFrame;
 
 protected:
 	Map *mpLastMap;
-	Frame *mInitFrame;
 	vector<bool>mHaveMatch;
+	ORBmatcher matcher;
 };
 
 } //namespace ORB_SLAM

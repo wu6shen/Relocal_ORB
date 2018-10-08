@@ -241,7 +241,14 @@ protected:
 
 	//Relocal
 	void CreateInitialMapRelocal();
+	int mInitFixedPointNum;
+    Initializer* mpInitializerLastMap;
+    Frame mInitialFrameLastMap;
+	vector<cv::Point2f> mvbPrevMatchedLastMap;
+	vector<int> mvIniMatchesLastMap;
+	vector<cv::Point3f> mvIniP3DLastMap;
 	
+	int mCanInitWithLastMap = 5;
 
 };
 

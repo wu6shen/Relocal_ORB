@@ -139,4 +139,10 @@ void Map::ComputeBoW(ORBVocabulary *pVoc) {
 	pVoc->transform(descriptors, mBowVec, mFeatVec, 4);
 }
 
+void Map::SetUnFix() {
+	for (auto mp : mspMapPoints) {
+		mp->isLast = false;
+	}
+}
+
 } //namespace ORB_SLAM
