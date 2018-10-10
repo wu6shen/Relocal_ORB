@@ -35,6 +35,8 @@
 #include "KeyFrameDatabase.h"
 #include "ORBVocabulary.h"
 #include "Viewer.h"
+
+#include "Registrating.h"
 //#include "Registration.h"
 
 namespace ORB_SLAM2
@@ -191,6 +193,9 @@ private:
     /** test*/
     //pcl::FPCS::FPCSRegistration test;
     //pcl::PointCloud<pcl::PointXYZ>::Ptr source, target;
+	//Relocal
+	Registrating *mpRegistrator;
+	std::thread *mptRegistrating;
 };
 
 }// namespace ORB_SLAM

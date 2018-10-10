@@ -38,6 +38,8 @@
 #include "MapDrawer.h"
 #include "System.h"
 
+#include "Registrating.h"
+
 #include <mutex>
 
 namespace ORB_SLAM2
@@ -249,6 +251,11 @@ protected:
 	vector<cv::Point3f> mvIniP3DLastMap;
 	
 	int mCanInitWithLastMap = 5;
+	
+	Registrating *mpRegistrator;
+
+public:
+	void SetRegistrator(Registrating *pRegistrator);
 
 };
 

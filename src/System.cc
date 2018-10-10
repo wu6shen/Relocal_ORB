@@ -185,6 +185,13 @@ System::System(const string &strSettingsFile, const string &strMapFile, const st
 
     mpLoopCloser->SetTracker(mpTracker);
     mpLoopCloser->SetLocalMapper(mpLocalMapper);
+
+	mpRegistrator = new Registrating(20);
+	mpRegistrator->SetLastMap(mpLastMap);
+	mptRegistrating = new thread(&ORB_SLAM2::Registrating::Run, mpRegistrator);
+
+	mpTracker->SetRegistrator(mpRegistrator);
+	
     /* test registration
         std::string map_file_test = "/home/wu6shen/Computer-Vision/Project/Relocal-ORB/kinect-mappoint-test";
     SetCurrentMap(map_file_test);

@@ -714,6 +714,7 @@ void Tracking::CreateInitialMapRelocal() {
 
     mpMap->mvpKeyFrameOrigins.push_back(pKFini);
 
+	mpRegistrator->SetCurrentMap(mpMap);
     mState=OK;
 }
 
@@ -2397,6 +2398,11 @@ void Tracking::ChangeCalibration(const string &strSettingPath)
 void Tracking::InformOnlyTracking(const bool &flag)
 {
 	mbOnlyTracking = flag;
+}
+
+//Relocal
+void Tracking::SetRegistrator(Registrating *pRegistrator) {
+	mpRegistrator = pRegistrator;
 }
 
 

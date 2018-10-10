@@ -17,11 +17,11 @@ find_package(OpenCV 3.1)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 # PCL
-# find_package(PCL 1.8.1 REQUIRED COMPONENTS common io registration visualization)
+find_package(PCL 1.8.1 REQUIRED COMPONENTS common io registration visualization)
 
-# include_directories(${PCL_INCLUDE_DIRS})
-# link_directories(${PCL_LIBRARY_DIRS})
-# add_definitions(${PCL_DEFINITIONS})
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 include_directories(${PROJECT_SOURCE_DIR}
                     ${PROJECT_SOURCE_DIR}/include )
@@ -46,12 +46,13 @@ add_library(relocal src/Converter.cc
 					src/Viewer.cc
                     src/System.cc
 					src/PoseSolver.cc
-                    src/Relocal.cc)
+					src/Registrating.cc)
 
 target_link_libraries(relocal
 ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
 ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
 ${EIGEN3_LIBS}
+${PCL_LIBRARIES}
 ${OpenCV_LIBS} 
 ${Pangolin_LIBRARIES})
 
