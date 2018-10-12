@@ -4,10 +4,9 @@
 #include "MapPoint.h"
 #include "Map.h"
 #include <mutex>
-#include <pcl/point_types.h>
-#include <pcl/point_cloud.h>
 
 namespace ORB_SLAM2 {
+	const int MAX_POINT_NUM = 10010;
 	class Registrating {
 	public:
 		Registrating(int enoughTh);
@@ -26,9 +25,10 @@ namespace ORB_SLAM2 {
 		std::vector<std::pair<int, int> > mMatches12;
 		bool mStop, mSetMap;
 
-		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1;
-		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2;
-		pcl::PointCloud<pcl::PointXYZ>::Ptr result;
+		float mLastPoints[3][MAX_POINT_NUM];
+		int mLastPointsNum;
+		float mCurrentPoints[3][MAX_POINT_NUM];
+		int mCurrentPointsNum;
 
 		bool CheckEnoughNewMapPoints();
 		bool CheckSetCurrentMap();

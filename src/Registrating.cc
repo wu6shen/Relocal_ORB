@@ -1,18 +1,19 @@
 #include "Registrating.h"
-#include <pcl/registration/gicp.h>
+#include "Thirdparty/sparseicp/ICP.h"
+#include <Eigen/Dense>
 
 namespace ORB_SLAM2 {
-	Registrating::Registrating(int enoughTh) : mStop(false), mSetMap(false), mEnoughTh(enoughTh) {
-		cloud1 = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
-		cloud2 = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
-		result = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+	Registrating::Registrating(int enoughTh) : mStop(false), mSetMap(false), mEnoughTh(enoughTh), mLastPointsNum(0), mCurrentPointsNum(0) {
 		return ;
 	}
 	void Registrating::SetLastMap(Map *lastMap) {
 		mvpLastMap = lastMap->GetAllMapPoints();
+		mLastPointsNum = (int)mvpLastMap.size();
 		for (size_t i = 0; i < mvpLastMap.size(); i++) {
 			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
-			cloud1->push_back(pcl::PointXYZ(mp.at<float>(0), mp.at<float>(1), mp.at<float>(2)));
+			for (int j = 0; j < 3; j++) {
+				mLastPoints[j][i] = mp.at<float>(j);
+			}
 		}
 	}
 
@@ -50,7 +51,10 @@ namespace ORB_SLAM2 {
 		if ((int)mvpNewMap.size() > mEnoughTh) {
 			for (size_t i = 0; i < mvpNewMap.size(); i++) {
 				cv::Mat mp = mvpNewMap[i]->GetWorldPos();
-				cloud2->push_back(pcl::PointXYZ(mp.at<float>(0), mp.at<float>(1), mp.at<float>(2)));
+				for (int j = 0; j < 3; j++) {
+					mCurrentPoints[j][mCurrentPointsNum] = mp.at<float>(j);
+				}
+				mCurrentPointsNum++;
 			}
 			mvpNewMap.clear();
 			return true;
@@ -61,10 +65,12 @@ namespace ORB_SLAM2 {
 	bool Registrating::CheckSetCurrentMap() {
 		std::unique_lock<std::mutex> lock(mMutexSetMap);
 		if (mSetMap) {
-			cloud2->clear();
+			mCurrentPointsNum = mvpCurrentMap.size();
 			for (size_t i = 0; i < mvpCurrentMap.size(); i++) {
 				cv::Mat mp = mvpCurrentMap[i]->GetWorldPos();
-				cloud2->push_back(pcl::PointXYZ(mp.at<float>(0), mp.at<float>(1), mp.at<float>(2)));
+				for (int j = 0; j < 3; j++) {
+					mCurrentPoints[j][i] = mp.at<float>(j);
+				}
 			}
 			mSetMap = false;
 			return true;
@@ -73,6 +79,33 @@ namespace ORB_SLAM2 {
 	}
 
 	void Registrating::ICP() {
+		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices_source;
+		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices_target;
+		vertices_source.resize(Eigen::NoChange, mLastPointsNum);
+		vertices_target.resize(Eigen::NoChange, mCurrentPointsNum);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < mLastPointsNum; j++) {
+				vertices_source(i, j) = mLastPoints[i][j];
+			}
+			for (int j = 0; j < mCurrentPointsNum; j++) {
+				vertices_target(i, j) = mCurrentPoints[i][j];
+			}
+		}
+		auto tic = std::chrono::steady_clock::now();
+		SICP::Parameters pars;
+		pars.p = .5;
+		pars.max_icp = 15;
+		pars.print_icpn = true;
+		SICP::point_to_point(vertices_source, vertices_target, pars);
+		auto toc = std::chrono::steady_clock::now();
+
+		double time_ms = std::chrono::duration <double, std::milli> (toc-tic).count();
+		std::cout << "sparseicp registered source to target in: " << time_ms << "ms" << std::endl;
+
+	}
+
+	/**
+	void Registrating::ICPUsePCL() {
 		std::cout << "----" << std::endl;
 		pcl::GeneralizedIterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
 		icp.setInputSource(cloud1);
@@ -91,4 +124,5 @@ namespace ORB_SLAM2 {
 			icp.getFitnessScore() << std::endl;
 		std::cout << icp.getFinalTransformation() << std::endl;
 	}
+	*/
 }
