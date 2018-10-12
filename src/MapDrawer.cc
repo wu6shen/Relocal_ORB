@@ -89,8 +89,8 @@ void MapDrawer::DrawMapPoints()
 
         glEnd();
     }
-    /**
 
+	/*
     */
     const vector<MapPoint *> &vpMPs = mpMap->GetAllMapPoints();
     const vector<MapPoint *> &vpRefMPs = mpMap->GetReferenceMapPoints();

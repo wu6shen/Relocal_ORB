@@ -115,6 +115,7 @@ void RunRelocal() {
         relocal->Relocal(img, num);
         //sleep(5);
     }
+	relocal->Save(m_input->map_save_file);
     while (1);
 }
 /**

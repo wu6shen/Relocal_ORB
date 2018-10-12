@@ -444,6 +444,9 @@ void LocalMapping::CreateNewMapPoints()
             pMP->UpdateNormalAndDepth();
 
             mpMap->AddMapPoint(pMP);
+			//Relocal
+			//mpRegistrator->InsertInCurrentMap(pMP);
+
             mlpRecentAddedMapPoints.push_back(pMP);
 
             nnew++;
@@ -755,6 +758,11 @@ bool LocalMapping::isFinished()
 {
     unique_lock<mutex> lock(mMutexFinish);
     return mbFinished;
+}
+
+void LocalMapping::SetRegistrator(Registrating *pRegistrator) {
+	mpRegistrator = pRegistrator;
+	return ;
 }
 
 } //namespace ORB_SLAM

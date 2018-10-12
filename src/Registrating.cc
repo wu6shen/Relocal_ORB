@@ -1,5 +1,5 @@
 #include "Registrating.h"
-#include <pcl/registration/icp.h>
+#include <pcl/registration/gicp.h>
 
 namespace ORB_SLAM2 {
 	Registrating::Registrating(int enoughTh) : mStop(false), mSetMap(false), mEnoughTh(enoughTh) {
@@ -52,16 +52,18 @@ namespace ORB_SLAM2 {
 				cv::Mat mp = mvpNewMap[i]->GetWorldPos();
 				cloud2->push_back(pcl::PointXYZ(mp.at<float>(0), mp.at<float>(1), mp.at<float>(2)));
 			}
+			mvpNewMap.clear();
+			return true;
 		}
+		return false;
 	}
 
 	bool Registrating::CheckSetCurrentMap() {
 		std::unique_lock<std::mutex> lock(mMutexSetMap);
 		if (mSetMap) {
 			cloud2->clear();
-			std::random_shuffle(mvpLastMap.begin(), mvpLastMap.end());
-			for (size_t i = 0; i < mvpLastMap.size(); i++) {
-				cv::Mat mp = mvpLastMap[i]->GetWorldPos();
+			for (size_t i = 0; i < mvpCurrentMap.size(); i++) {
+				cv::Mat mp = mvpCurrentMap[i]->GetWorldPos();
 				cloud2->push_back(pcl::PointXYZ(mp.at<float>(0), mp.at<float>(1), mp.at<float>(2)));
 			}
 			mSetMap = false;
@@ -72,12 +74,19 @@ namespace ORB_SLAM2 {
 
 	void Registrating::ICP() {
 		std::cout << "----" << std::endl;
-		pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
-		icp.setInputCloud(cloud1);
+		pcl::GeneralizedIterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
+		icp.setInputSource(cloud1);
 		icp.setInputTarget(cloud2);
+	icp.setEuclideanFitnessEpsilon (0.1);
 
 
 		icp.align(*result);
+		for (size_t i = 0; i < result->size(); i++) {
+			pcl::PointXYZ mp = result->points[i];
+			cv::Mat now(3, 1, CV_32F);
+			for (int j = 0; j < 3; j++) now.at<float>(j) = mp.data[j];
+			mvpLastMap[i]->SetWorldPos(now);
+		}
 		std::cout << "ICP information" << icp.hasConverged() << "score" <<
 			icp.getFitnessScore() << std::endl;
 		std::cout << icp.getFinalTransformation() << std::endl;

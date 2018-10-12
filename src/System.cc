@@ -191,6 +191,7 @@ System::System(const string &strSettingsFile, const string &strMapFile, const st
 	mptRegistrating = new thread(&ORB_SLAM2::Registrating::Run, mpRegistrator);
 
 	mpTracker->SetRegistrator(mpRegistrator);
+	mpLocalMapper->SetRegistrator(mpRegistrator);
 	
     /* test registration
         std::string map_file_test = "/home/wu6shen/Computer-Vision/Project/Relocal-ORB/kinect-mappoint-test";

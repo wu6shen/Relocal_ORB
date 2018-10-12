@@ -26,6 +26,7 @@
 #include "LoopClosing.h"
 #include "Tracking.h"
 #include "KeyFrameDatabase.h"
+#include "Registrating.h"
 
 #include <mutex>
 
@@ -121,6 +122,11 @@ protected:
 
     bool mbAcceptKeyFrames;
     std::mutex mMutexAccept;
+
+	//Relocal
+	Registrating *mpRegistrator;
+public:
+	void SetRegistrator(Registrating *pRegistrator);
 };
 
 } //namespace ORB_SLAM

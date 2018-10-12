@@ -48,7 +48,7 @@ namespace ORB_SLAM2
 Tracking::Tracking(System *pSys, ORBVocabulary* pVoc, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer, Map *pMap, KeyFrameDatabase* pKFDB, const string &strSettingPath, const int sensor):
         mState(NO_IMAGES_YET), mSensor(sensor), mbOnlyTracking(false), mbVO(false), mpORBVocabulary(pVoc),
         mpKeyFrameDB(pKFDB), mpInitializer(static_cast<Initializer*>(NULL)), mpSystem(pSys), mpViewer(NULL),
-        mpFrameDrawer(pFrameDrawer), mpMapDrawer(pMapDrawer), mpMap(pMap), mnLastRelocFrameId(0)
+        mpFrameDrawer(pFrameDrawer), mpMapDrawer(pMapDrawer), mpMap(pMap), mnLastRelocFrameId(0), mpLastMap(NULL), mpInitializerLastMap(NULL), mpRegistrator(NULL)
 {
     // Load camera parameters from settings file
 
@@ -153,7 +153,7 @@ Tracking::Tracking(System *pSys, ORBVocabulary* pVoc, FrameDrawer *pFrameDrawer,
 Tracking::Tracking(System *pSys, ORBVocabulary* pVoc, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer, Map *pMap, Map *pLastMap, KeyFrameDatabase* pKFDB, const string &strSettingPath, const int sensor):
     mState(NO_IMAGES_YET), mSensor(sensor), mbOnlyTracking(false), mbVO(false), mpORBVocabulary(pVoc),
     mpKeyFrameDB(pKFDB), mpInitializer(static_cast<Initializer*>(NULL)), mpSystem(pSys), mpViewer(NULL),
-    mpFrameDrawer(pFrameDrawer), mpMapDrawer(pMapDrawer), mpMap(pMap), mnLastRelocFrameId(0), mpLastMap(pLastMap)
+    mpFrameDrawer(pFrameDrawer), mpMapDrawer(pMapDrawer), mpMap(pMap), mnLastRelocFrameId(0), mpLastMap(pLastMap), mpInitializerLastMap(NULL), mpRegistrator(NULL)
 {
     // Load camera parameters from settings file
 
@@ -714,7 +714,7 @@ void Tracking::CreateInitialMapRelocal() {
 
     mpMap->mvpKeyFrameOrigins.push_back(pKFini);
 
-	mpRegistrator->SetCurrentMap(mpMap);
+	//mpRegistrator->SetCurrentMap(mpMap);
     mState=OK;
 }
 
@@ -841,7 +841,7 @@ cv::Mat Tracking::RelocalUsePnP(const cv::Mat &im, int pnpFlag) {
 		mlbLost.push_back(mState==LOST);
 	}
 
-	if (mInitFixedPointNum != -1 && mpMap->MapPointsInMap() > 5 * mInitFixedPointNum) {
+	if (mInitFixedPointNum != -1 && (int)mpMap->MapPointsInMap() > 2 * mInitFixedPointNum) {
 		std::cout << "stop " << std::endl;
 		mInitFixedPointNum = -1;
 		mpMap->SetUnFix();

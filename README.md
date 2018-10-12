@@ -24,8 +24,10 @@
 	- (10-9) 点的搜索 还是先ICP优化吧
 - 第四个线程:
 	- (10-9) //类写的差不多了
-	- ICP 优化3d-3d
+	- (10-12) //ICP 不好使 sprase ICP 还没读 好像还不错
+	- sprase ICP
 	- super4pcs(scale 先由descritor确定)
+	- sprase ICP 的尺度优化
 - 如何处理Reference Image
 
 - 机械臂
