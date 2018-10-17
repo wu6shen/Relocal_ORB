@@ -79,8 +79,6 @@ namespace ORB_SLAM2 {
 	}
 
 	void Registrating::ICP() {
-		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices_source;
-		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices_target;
 		vertices_source.resize(Eigen::NoChange, mLastPointsNum);
 		vertices_target.resize(Eigen::NoChange, mCurrentPointsNum);
 		for (int i = 0; i < 3; i++) {
@@ -96,12 +94,34 @@ namespace ORB_SLAM2 {
 		pars.p = .5;
 		pars.max_icp = 15;
 		pars.print_icpn = true;
+		//std::cout << mLastPoints[0][0] << " " << mLastPoints[1][0] << " " << mLastPoints[2][0] << std::endl;
 		SICP::point_to_point(vertices_source, vertices_target, pars);
+		//std::cout << vertices_source(0, 0) << " " << vertices_source(1, 0) << " " << vertices_source(2, 0) << std::endl;
 		auto toc = std::chrono::steady_clock::now();
 
 		double time_ms = std::chrono::duration <double, std::milli> (toc-tic).count();
 		std::cout << "sparseicp registered source to target in: " << time_ms << "ms" << std::endl;
 
+	}
+
+	void Registrating::SetNew() { 
+		for (size_t i = 0; i < mvpLastMap.size(); i++) {
+			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
+			for (int j = 0; j < 3; j++) {
+				mLastPoints[j][i] = mp.at<float>(j);
+			}
+		}
+		std::cout << mLastPoints[0][0] << " " << vertices_source(0, 0) << std::endl;
+		for (size_t i = 0; i < mvpLastMap.size(); i++) {
+			cv::Mat now(3, 1, CV_32F);
+			for (int j = 0; j < 3; j++) now.at<float>(j) = vertices_source(j, i);
+			mvpLastMap[i]->SetWorldPos(now);
+		}
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < mLastPointsNum; j++) {
+				vertices_source(i, j) = mLastPoints[i][j];
+			}
+		}
 	}
 
 	/**

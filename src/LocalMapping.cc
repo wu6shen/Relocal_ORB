@@ -30,7 +30,7 @@ namespace ORB_SLAM2
 
 LocalMapping::LocalMapping(Map *pMap, const float bMonocular):
     mbMonocular(bMonocular), mbResetRequested(false), mbFinishRequested(false), mbFinished(true), mpMap(pMap),
-    mbAbortBA(false), mbStopped(false), mbStopRequested(false), mbNotStop(false), mbAcceptKeyFrames(true)
+    mbAbortBA(false), mbStopped(false), mbStopRequested(false), mbNotStop(false), mbAcceptKeyFrames(true), mpRegistrator(NULL)
 {
 }
 
@@ -445,7 +445,8 @@ void LocalMapping::CreateNewMapPoints()
 
             mpMap->AddMapPoint(pMP);
 			//Relocal
-			//mpRegistrator->InsertInCurrentMap(pMP);
+			if (mpRegistrator)
+				mpRegistrator->InsertInCurrentMap(pMP);
 
             mlpRecentAddedMapPoints.push_back(pMP);
 

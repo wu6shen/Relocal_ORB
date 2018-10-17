@@ -31,7 +31,7 @@ namespace ORB_SLAM2
 
 System::System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor,
                const bool bUseViewer):mSensor(sensor), mpViewer(static_cast<Viewer*>(NULL)), mbReset(false),mbActivateLocalizationMode(false),
-        mbDeactivateLocalizationMode(false)
+        mbDeactivateLocalizationMode(false), mpRegistrator(NULL)
 {
     // Output welcome message
     cout << endl <<
@@ -115,7 +115,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
 }
 
 System::System(const string &strSettingsFile, const string &strMapFile, const string &gthFile, const bool bUseViewer) :
-    mSensor(MONOCULAR), mpViewer(static_cast<Viewer*>(NULL)), mbReset(false), mbActivateLocalizationMode(false), mbDeactivateLocalizationMode(false)
+    mSensor(MONOCULAR), mpViewer(static_cast<Viewer*>(NULL)), mbReset(false), mbActivateLocalizationMode(false), mbDeactivateLocalizationMode(false), mpRegistrator(NULL)
 {
     cout << "Relocal Test" << endl;
 
@@ -637,6 +637,13 @@ vector<cv::KeyPoint> System::GetTrackedKeyPointsUn()
 }
 
 void System::Save(const string &filename) {
+	/*
+	while (1) {
+		mpRegistrator->SetNew();
+		sleep(1);
+		std::cout << "--" << std::endl;
+	}
+	*/
     ofstream f;
 	Optimizer::GlobalBundleAdjustemnt(mpMap, 100);
     f.open(filename.c_str());

@@ -4,6 +4,7 @@
 #include "MapPoint.h"
 #include "Map.h"
 #include <mutex>
+#include <Eigen/Dense>
 
 namespace ORB_SLAM2 {
 	const int MAX_POINT_NUM = 10010;
@@ -16,6 +17,8 @@ namespace ORB_SLAM2 {
 		void Run();
 		void SetStop();
 		bool IsStopped();
+
+		void SetNew();
 		
 	protected:
 		std::vector<MapPoint*> mvpLastMap;
@@ -37,6 +40,9 @@ namespace ORB_SLAM2 {
 		int mEnoughTh;
 		cv::Mat R, t;
 		float scale;
+
+		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices_source;
+		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices_target;
 	};
 
 }

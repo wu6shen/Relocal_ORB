@@ -25,7 +25,7 @@
 - 第四个线程:
 	- (10-9) //类写的差不多了
 	- (10-12) //ICP 不好使 sprase ICP 还没读 好像还不错
-	- (10-12) /sprase ICP
+	- (10-18) /sprase ICP 有bug
 	- (10-12) Eigen 输入的优化
 	- super4pcs(scale 先由descritor确定)
 	- sprase ICP 的尺度优化

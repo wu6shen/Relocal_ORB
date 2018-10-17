@@ -714,7 +714,10 @@ void Tracking::CreateInitialMapRelocal() {
 
     mpMap->mvpKeyFrameOrigins.push_back(pKFini);
 
-	//mpRegistrator->SetCurrentMap(mpMap);
+	if (mpRegistrator) {
+		mpRegistrator->SetCurrentMap(mpMap);
+	}
+
     mState=OK;
 }
 
