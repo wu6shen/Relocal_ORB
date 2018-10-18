@@ -3,7 +3,7 @@
 #include <Eigen/Dense>
 
 namespace ORB_SLAM2 {
-	Registrating::Registrating(int enoughTh) : mStop(false), mSetMap(false), mEnoughTh(enoughTh), mLastPointsNum(0), mCurrentPointsNum(0) {
+	Registrating::Registrating(int enoughTh) : mStop(false), mSetMap(false), mEnoughTh(enoughTh), mLastPointsNum(0), mCurrentPointsNum(0), mpMap(NULL) {
 		return ;
 	}
 	void Registrating::SetLastMap(Map *lastMap) {
@@ -18,6 +18,7 @@ namespace ORB_SLAM2 {
 	}
 
 	void Registrating::SetCurrentMap(Map *currentMap) {
+		mpMap = currentMap;
 		mvpCurrentMap = currentMap->GetAllMapPoints();
 		std::unique_lock<std::mutex> lock(mMutexSetMap);
 		mSetMap = true;
@@ -50,6 +51,7 @@ namespace ORB_SLAM2 {
 		std::unique_lock<std::mutex> lock(mMutexNewMap);
 		if ((int)mvpNewMap.size() > mEnoughTh) {
 			for (size_t i = 0; i < mvpNewMap.size(); i++) {
+				mvpCurrentMap.push_back(mvpNewMap[i]);
 				cv::Mat mp = mvpNewMap[i]->GetWorldPos();
 				for (int j = 0; j < 3; j++) {
 					mCurrentPoints[j][mCurrentPointsNum] = mp.at<float>(j);
@@ -67,6 +69,7 @@ namespace ORB_SLAM2 {
 		if (mSetMap) {
 			mCurrentPointsNum = mvpCurrentMap.size();
 			for (size_t i = 0; i < mvpCurrentMap.size(); i++) {
+				if (mvpCurrentMap[i]->isBad()) continue;
 				cv::Mat mp = mvpCurrentMap[i]->GetWorldPos();
 				for (int j = 0; j < 3; j++) {
 					mCurrentPoints[j][i] = mp.at<float>(j);
@@ -81,13 +84,22 @@ namespace ORB_SLAM2 {
 	void Registrating::ICP() {
 		vertices_source.resize(Eigen::NoChange, mLastPointsNum);
 		vertices_target.resize(Eigen::NoChange, mCurrentPointsNum);
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < mLastPointsNum; j++) {
-				vertices_source(i, j) = mLastPoints[i][j];
+		int num = 0;
+		mvpCurrentMap = mpMap->GetAllMapPoints();
+		for (size_t i = 0; i < mvpCurrentMap.size(); i++) {
+			cv::Mat mp = mvpCurrentMap[i]->GetWorldPos();
+			for (int j = 0; j < 3; j++) {
+				vertices_target(j, i) = mp.at<float>(j);
 			}
-			for (int j = 0; j < mCurrentPointsNum; j++) {
-				vertices_target(i, j) = mCurrentPoints[i][j];
+			num++;
+		}
+		std::cout << num << " " << mLastPointsNum << std::endl;
+		for (size_t i = 0; i < mvpLastMap.size(); i++) {
+			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
+			for (int j = 0; j < 3; j++) {
+				vertices_source(j, i) = mp.at<float>(j);
 			}
+			num++;
 		}
 		auto tic = std::chrono::steady_clock::now();
 		SICP::Parameters pars;
@@ -96,6 +108,11 @@ namespace ORB_SLAM2 {
 		pars.print_icpn = true;
 		//std::cout << mLastPoints[0][0] << " " << mLastPoints[1][0] << " " << mLastPoints[2][0] << std::endl;
 		SICP::point_to_point(vertices_source, vertices_target, pars);
+		for (size_t i = 0; i < mvpLastMap.size(); i++) {
+			cv::Mat now(3, 1, CV_32F);
+			for (int j = 0; j < 3; j++) now.at<float>(j) = vertices_source(j, i);
+			mvpLastMap[i]->SetWorldPos(now);
+		}
 		//std::cout << vertices_source(0, 0) << " " << vertices_source(1, 0) << " " << vertices_source(2, 0) << std::endl;
 		auto toc = std::chrono::steady_clock::now();
 
@@ -105,22 +122,22 @@ namespace ORB_SLAM2 {
 	}
 
 	void Registrating::SetNew() { 
-		for (size_t i = 0; i < mvpLastMap.size(); i++) {
-			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
+		for (int i = 0; i < mLastPointsNum; i++) {
+			cv::Mat now = mvpLastMap[i]->GetWorldPos();
 			for (int j = 0; j < 3; j++) {
-				mLastPoints[j][i] = mp.at<float>(j);
+				mLastPoints[j][i] = now.at<float>(j);
 			}
 		}
-		std::cout << mLastPoints[0][0] << " " << vertices_source(0, 0) << std::endl;
+		
 		for (size_t i = 0; i < mvpLastMap.size(); i++) {
 			cv::Mat now(3, 1, CV_32F);
 			for (int j = 0; j < 3; j++) now.at<float>(j) = vertices_source(j, i);
 			mvpLastMap[i]->SetWorldPos(now);
 		}
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < mLastPointsNum; j++) {
-				vertices_source(i, j) = mLastPoints[i][j];
-			}
+
+		for (int i = 0; i < mLastPointsNum; i++) {
+			for (int j = 0; j < 3; j++)
+				vertices_source(j, i) = mLastPoints[j][i];
 		}
 	}
 

@@ -19,8 +19,10 @@ namespace ORB_SLAM2 {
 		bool IsStopped();
 
 		void SetNew();
+		void ICP();
 		
 	protected:
+		Map *mpMap;
 		std::vector<MapPoint*> mvpLastMap;
 		std::vector<MapPoint*> mvpCurrentMap;
 		std::vector<MapPoint*> mvpNewMap;
@@ -35,7 +37,6 @@ namespace ORB_SLAM2 {
 
 		bool CheckEnoughNewMapPoints();
 		bool CheckSetCurrentMap();
-		void ICP();
 
 		int mEnoughTh;
 		cv::Mat R, t;

@@ -186,7 +186,7 @@ System::System(const string &strSettingsFile, const string &strMapFile, const st
     mpLoopCloser->SetTracker(mpTracker);
     mpLoopCloser->SetLocalMapper(mpLocalMapper);
 
-	mpRegistrator = new Registrating(20);
+	mpRegistrator = new Registrating(100);
 	mpRegistrator->SetLastMap(mpLastMap);
 	mptRegistrating = new thread(&ORB_SLAM2::Registrating::Run, mpRegistrator);
 
@@ -638,11 +638,6 @@ vector<cv::KeyPoint> System::GetTrackedKeyPointsUn()
 
 void System::Save(const string &filename) {
 	/*
-	while (1) {
-		mpRegistrator->SetNew();
-		sleep(1);
-		std::cout << "--" << std::endl;
-	}
 	*/
     ofstream f;
 	Optimizer::GlobalBundleAdjustemnt(mpMap, 100);
@@ -659,6 +654,13 @@ void System::Save(const string &filename) {
     }
     f.close();
     cout << endl << "mappoint saved!" << endl;
+	sleep(2);
+	mpRegistrator->ICP();
+	while (1) {
+	mpRegistrator->SetNew();
+	sleep(1);
+	std::cout << "--" << std::endl;
+	}
 }
 
 void System::SetCurrentMap(const std::string &mapfile) {
