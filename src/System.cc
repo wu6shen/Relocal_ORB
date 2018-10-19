@@ -655,7 +655,6 @@ void System::Save(const string &filename) {
     f.close();
     cout << endl << "mappoint saved!" << endl;
 	sleep(2);
-	mpRegistrator->ICP();
 	while (1) {
 	mpRegistrator->SetNew();
 	sleep(1);
