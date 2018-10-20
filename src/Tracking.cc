@@ -519,6 +519,7 @@ void Tracking::RelocalInitialization() {
 					}
 				}
 				CreateInitialMapRelocal();
+				while (1);
 			}
 		}
 		return ;
@@ -605,6 +606,7 @@ void Tracking::CreateInitialMapRelocal() {
 				}
 				MapPoint *pMP = new MapPoint(lastMP2->GetWorldPos(), pKFcur, mpMap);
 				pMP->isLast = true;
+				pMP->SetQualifiedTrue();
 				mInitFixedPointNum++;
 				if (lastMP) {
 					pKFini->AddMapPoint(pMP, i);
@@ -622,6 +624,8 @@ void Tracking::CreateInitialMapRelocal() {
 			} else if (lastMP) {
 				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
 				pMP->isLast = true;
+				pMP->SetQualifiedTrue();
+
 				mInitFixedPointNum++;
 				pKFini->AddMapPoint(pMP, i);
 				pMP->AddObservation(pKFini, i);
@@ -657,6 +661,8 @@ void Tracking::CreateInitialMapRelocal() {
 		} else if (lastMP) {
 			MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
 			pMP->isLast = true;
+			pMP->SetQualifiedTrue();
+
 			mInitFixedPointNum++;
 			pKFini->AddMapPoint(pMP, i);
 			pMP->AddObservation(pKFini, i);
@@ -674,6 +680,8 @@ void Tracking::CreateInitialMapRelocal() {
 			if (lastMP) {
 				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFcur, mpMap);
 				pMP->isLast = true;
+				pMP->SetQualifiedTrue();
+
 				mInitFixedPointNum++;
 				pKFcur->AddMapPoint(pMP, i);
 				pMP->AddObservation(pKFcur, i);
@@ -1875,6 +1883,7 @@ bool Tracking::NeedNewKeyFrame()
 		return false;
 }
 
+// Don't add observation
 void Tracking::CreateNewKeyFrame()
 {
 	if(!mpLocalMapper->SetNotStop(true))

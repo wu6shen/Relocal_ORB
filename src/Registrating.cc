@@ -88,6 +88,7 @@ namespace ORB_SLAM2 {
 		mvpCurrentMap = mpMap->GetAllMapPoints();
 		for (size_t i = 0; i < mvpCurrentMap.size(); i++) {
 			cv::Mat mp = mvpCurrentMap[i]->GetWorldPos();
+			if (!mvpCurrentMap[i]->isQualified()) continue;
 			for (int j = 0; j < 3; j++) {
 				vertices_target(j, i) = mp.at<float>(j);
 			}

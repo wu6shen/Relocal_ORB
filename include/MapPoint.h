@@ -120,34 +120,41 @@ public:
 
 protected:    
 
-     // Position in absolute coordinates
-     cv::Mat mWorldPos;
+	// Position in absolute coordinates
+	cv::Mat mWorldPos;
 
-     // Keyframes observing the point and associated index in keyframe
-     std::map<KeyFrame*,size_t> mObservations;
+	// Keyframes observing the point and associated index in keyframe
+	std::map<KeyFrame*,size_t> mObservations;
 
-     // Mean viewing direction
-     cv::Mat mNormalVector;
+	// Mean viewing direction
+	cv::Mat mNormalVector;
 
-     // Best descriptor to fast matching
-     cv::Mat mDescriptor;
+	// Best descriptor to fast matching
+	cv::Mat mDescriptor;
 
-     // Tracking counters
-     int mnVisible;
-     int mnFound;
+	// Tracking counters
+	int mnVisible;
+	int mnFound;
 
-     // Bad flag (we do not currently erase MapPoint from memory)
-     bool mbBad;
-     MapPoint* mpReplaced;
+	// Bad flag (we do not currently erase MapPoint from memory)
+	bool mbBad;
+	MapPoint* mpReplaced;
 
-     // Scale invariance distances
-     float mfMinDistance;
-     float mfMaxDistance;
+	// Scale invariance distances
+	float mfMinDistance;
+	float mfMaxDistance;
 
-     Map* mpMap;
+	Map* mpMap;
 
-     std::mutex mMutexPos;
-     std::mutex mMutexFeatures;
+	std::mutex mMutexPos;
+	std::mutex mMutexFeatures;
+//Relocal
+	private:
+	bool mbQualified;
+	public:
+	bool isQualified();
+	void SetQualifiedTrue();
+
 };
 
 } //namespace ORB_SLAM

@@ -154,7 +154,8 @@ void LocalMapping::ProcessNewKeyFrame()
                 }
                 else // this can only happen for new stereo points inserted by the Tracking
                 {
-                    mlpRecentAddedMapPoints.push_back(pMP);
+					if (!pMP->isQualified())
+						mlpRecentAddedMapPoints.push_back(pMP);
                 }
             }
         }
@@ -197,8 +198,10 @@ void LocalMapping::MapPointCulling()
             pMP->SetBadFlag();
             lit = mlpRecentAddedMapPoints.erase(lit);
         }
-        else if(((int)nCurrentKFid-(int)pMP->mnFirstKFid)>=3)
+        else if(((int)nCurrentKFid-(int)pMP->mnFirstKFid)>=3) {
+			pMP->SetQualifiedTrue();
             lit = mlpRecentAddedMapPoints.erase(lit);
+		}
         else
             lit++;
     }
@@ -445,14 +448,14 @@ void LocalMapping::CreateNewMapPoints()
 
             mpMap->AddMapPoint(pMP);
 			//Relocal
-			if (mpRegistrator)
-				mpRegistrator->InsertInCurrentMap(pMP);
+			if (mpRegistrator) mpRegistrator->InsertInCurrentMap(pMP);
 
             mlpRecentAddedMapPoints.push_back(pMP);
 
             nnew++;
         }
     }
+	//std::cout << "New mappoint in localmap : " << nnew << std::endl;
 }
 
 void LocalMapping::SearchInNeighbors()
