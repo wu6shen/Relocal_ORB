@@ -88,6 +88,14 @@ public:
 	DBoW2::FeatureVector mFeatVec;
 	void ComputeBoW(ORBVocabulary *pVoc);
 	void SetUnFix();
+	void IncreaseChangeNum();
+	void DecreaseChangeNum();
+	void SetChangenumZero();
+	int GetChangeNum();
+
+private:
+	std::mutex mMutexChangeNum;
+	int mnChangeNum;
 };
 
 } //namespace ORB_SLAM

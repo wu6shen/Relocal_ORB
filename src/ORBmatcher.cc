@@ -1219,6 +1219,21 @@ int ORBmatcher::SearchForTriangulation(KeyFrame *pKF1, KeyFrame *pKF2, cv::Mat F
                         bestDist = dist;
                     }
                 }
+
+				//Relocal add 
+				for (size_t i2 = 0; i2 < f2it->second.size(); i2++) {
+					size_t idx2 = f2it->second[i2];
+                    const cv::Mat &d2 = pKF2->mDescriptors.row(idx2);
+
+					const int dist = DescriptorDistance(d1, d2);
+                    const cv::KeyPoint &kp2 = pKF2->mvKeysUn[idx2];
+					if (dist < bestDist ) {
+						if (CheckDistEpipolarLine(kp1, kp2, F12, pKF2)) {
+							bestIdx2 = -1;
+							break;
+						}
+					}
+				}
                 
                 if(bestIdx2>=0)
                 {

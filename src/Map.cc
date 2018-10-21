@@ -25,7 +25,7 @@
 namespace ORB_SLAM2
 {
 
-Map::Map():mnMaxKFid(0),mnBigChangeIdx(0)
+Map::Map():mnMaxKFid(0),mnBigChangeIdx(0), mnChangeNum(0)
 {
 }
 
@@ -46,6 +46,7 @@ void Map::AddMapPoint(MapPoint *pMP)
 void Map::EraseMapPoint(MapPoint *pMP)
 {
     unique_lock<mutex> lock(mMutexMap);
+	if (pMP->isQualified()) IncreaseChangeNum();
     mspMapPoints.erase(pMP);
 
     // TODO: This only erase the pointer.
@@ -143,6 +144,26 @@ void Map::SetUnFix() {
 	for (auto mp : mspMapPoints) {
 		mp->isLast = false;
 	}
+}
+
+void Map::IncreaseChangeNum() {
+	std::unique_lock<std::mutex> lock(mMutexChangeNum);
+	mnChangeNum++;
+}
+
+void Map::DecreaseChangeNum() {
+	std::unique_lock<std::mutex> lock(mMutexChangeNum);
+	mnChangeNum--;
+}
+
+void Map::SetChangenumZero() {
+	std::unique_lock<std::mutex> lock(mMutexChangeNum);
+	mnChangeNum = 0;
+}
+
+int Map::GetChangeNum() {
+	std::unique_lock<std::mutex> lock(mMutexChangeNum);
+	return mnChangeNum;
 }
 
 } //namespace ORB_SLAM

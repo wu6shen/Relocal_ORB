@@ -9,29 +9,27 @@ namespace ORB_SLAM2 {
 	void Registrating::SetLastMap(Map *lastMap) {
 		mvpLastMap = lastMap->GetAllMapPoints();
 		mLastPointsNum = (int)mvpLastMap.size();
-		for (size_t i = 0; i < mvpLastMap.size(); i++) {
-			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
-			for (int j = 0; j < 3; j++) {
-				mLastPoints[j][i] = mp.at<float>(j);
-			}
-		}
 	}
 
 	void Registrating::SetCurrentMap(Map *currentMap) {
-		mpMap = currentMap;
-		mvpCurrentMap = currentMap->GetAllMapPoints();
 		std::unique_lock<std::mutex> lock(mMutexSetMap);
+		mpMap = currentMap;
 		mSetMap = true;
 	}
 
-	void Registrating::InsertInCurrentMap(MapPoint *mp) {
-		std::unique_lock<std::mutex> lock(mMutexNewMap);
-		mvpNewMap.push_back(mp);
+	bool Registrating::NeedICP() {
+		std::unique_lock<std::mutex> lock(mMutexSetMap);
+		if (mpMap == NULL) return false;
+		if (mpMap->GetChangeNum() > mEnoughTh) {
+			mpMap->SetChangenumZero();
+			return true;
+		}
+		return false;
 	}
 
 	void Registrating::Run() {
 		while (1) {
-			if (CheckEnoughNewMapPoints() || CheckSetCurrentMap()) {
+			if (NeedICP()) {
 				ICP();
 			}
 		}
@@ -47,60 +45,30 @@ namespace ORB_SLAM2 {
 		return mStop;
 	}
 
-	bool Registrating::CheckEnoughNewMapPoints() {
-		std::unique_lock<std::mutex> lock(mMutexNewMap);
-		if ((int)mvpNewMap.size() > mEnoughTh) {
-			for (size_t i = 0; i < mvpNewMap.size(); i++) {
-				mvpCurrentMap.push_back(mvpNewMap[i]);
-				cv::Mat mp = mvpNewMap[i]->GetWorldPos();
-				for (int j = 0; j < 3; j++) {
-					mCurrentPoints[j][mCurrentPointsNum] = mp.at<float>(j);
-				}
-				mCurrentPointsNum++;
-			}
-			mvpNewMap.clear();
-			return true;
-		}
-		return false;
-	}
-
-	bool Registrating::CheckSetCurrentMap() {
-		std::unique_lock<std::mutex> lock(mMutexSetMap);
-		if (mSetMap) {
-			mCurrentPointsNum = mvpCurrentMap.size();
-			for (size_t i = 0; i < mvpCurrentMap.size(); i++) {
-				if (mvpCurrentMap[i]->isBad()) continue;
-				cv::Mat mp = mvpCurrentMap[i]->GetWorldPos();
-				for (int j = 0; j < 3; j++) {
-					mCurrentPoints[j][i] = mp.at<float>(j);
-				}
-			}
-			mSetMap = false;
-			return true;
-		}
-		return false;
-	}
-
 	void Registrating::ICP() {
-		vertices_source.resize(Eigen::NoChange, mLastPointsNum);
-		vertices_target.resize(Eigen::NoChange, mCurrentPointsNum);
-		int num = 0;
+		mCurrentPointsNum = 0;
 		mvpCurrentMap = mpMap->GetAllMapPoints();
 		for (size_t i = 0; i < mvpCurrentMap.size(); i++) {
 			cv::Mat mp = mvpCurrentMap[i]->GetWorldPos();
 			if (!mvpCurrentMap[i]->isQualified()) continue;
 			for (int j = 0; j < 3; j++) {
-				vertices_target(j, i) = mp.at<float>(j);
+				mCurrentPoints[j][mCurrentPointsNum] = mp.at<float>(j);
 			}
-			num++;
+			mCurrentPointsNum++;
 		}
-		std::cout << num << " " << mLastPointsNum << std::endl;
+		std::cout << "ICP Point num : " << mvpCurrentMap.size() << " " << mCurrentPointsNum << " " << mLastPointsNum << std::endl;
+		vertices_source.resize(Eigen::NoChange, mLastPointsNum);
+		vertices_target.resize(Eigen::NoChange, mCurrentPointsNum);
+		for (int i = 0; i < mCurrentPointsNum; i++) {
+			for (int j = 0; j < 3; j++) {
+				vertices_target(j, i) = mCurrentPoints[j][i];
+			}
+		}
 		for (size_t i = 0; i < mvpLastMap.size(); i++) {
 			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
 			for (int j = 0; j < 3; j++) {
 				vertices_source(j, i) = mp.at<float>(j);
 			}
-			num++;
 		}
 		auto tic = std::chrono::steady_clock::now();
 		SICP::Parameters pars;

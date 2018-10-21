@@ -447,8 +447,6 @@ void LocalMapping::CreateNewMapPoints()
             pMP->UpdateNormalAndDepth();
 
             mpMap->AddMapPoint(pMP);
-			//Relocal
-			if (mpRegistrator) mpRegistrator->InsertInCurrentMap(pMP);
 
             mlpRecentAddedMapPoints.push_back(pMP);
 

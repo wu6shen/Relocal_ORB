@@ -434,6 +434,7 @@ bool MapPoint::isQualified() {
 }
 
 void MapPoint::SetQualifiedTrue() {
+	mpMap->IncreaseChangeNum();
 	mbQualified = true;
 }
 
