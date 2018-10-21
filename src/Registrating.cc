@@ -9,6 +9,11 @@ namespace ORB_SLAM2 {
 	void Registrating::SetLastMap(Map *lastMap) {
 		mvpLastMap = lastMap->GetAllMapPoints();
 		mLastPointsNum = (int)mvpLastMap.size();
+
+		mMatches12.resize(mLastPointsNum);
+		for (auto &it : mMatches12) {
+			it = NULL;
+		}
 	}
 
 	void Registrating::SetCurrentMap(Map *currentMap) {
@@ -56,6 +61,16 @@ namespace ORB_SLAM2 {
 			}
 			mCurrentPointsNum++;
 		}
+		mLastPointsNum = 0;
+		for (size_t i = 0; i < mvpLastMap.size(); i++) {
+			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
+			if (mMatches12[i]) {
+				for (int j = 0; j < 3; j++) {
+					mLastPoints[j][mLastPointsNum] = mp.at<float>(j);
+				}
+				mLastPointsNum++;
+			}
+		}
 		std::cout << "ICP Point num : " << mvpCurrentMap.size() << " " << mCurrentPointsNum << " " << mLastPointsNum << std::endl;
 		vertices_source.resize(Eigen::NoChange, mLastPointsNum);
 		vertices_target.resize(Eigen::NoChange, mCurrentPointsNum);
@@ -64,10 +79,9 @@ namespace ORB_SLAM2 {
 				vertices_target(j, i) = mCurrentPoints[j][i];
 			}
 		}
-		for (size_t i = 0; i < mvpLastMap.size(); i++) {
-			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
+		for (int i = 0; i < mLastPointsNum; i++) {
 			for (int j = 0; j < 3; j++) {
-				vertices_source(j, i) = mp.at<float>(j);
+				vertices_source(j, i) = mLastPoints[j][i];
 			}
 		}
 		auto tic = std::chrono::steady_clock::now();
@@ -77,11 +91,13 @@ namespace ORB_SLAM2 {
 		pars.print_icpn = true;
 		//std::cout << mLastPoints[0][0] << " " << mLastPoints[1][0] << " " << mLastPoints[2][0] << std::endl;
 		SICP::point_to_point(vertices_source, vertices_target, pars);
+		/**
 		for (size_t i = 0; i < mvpLastMap.size(); i++) {
 			cv::Mat now(3, 1, CV_32F);
 			for (int j = 0; j < 3; j++) now.at<float>(j) = vertices_source(j, i);
 			mvpLastMap[i]->SetWorldPos(now);
 		}
+		*/
 		//std::cout << vertices_source(0, 0) << " " << vertices_source(1, 0) << " " << vertices_source(2, 0) << std::endl;
 		auto toc = std::chrono::steady_clock::now();
 
@@ -107,6 +123,23 @@ namespace ORB_SLAM2 {
 		for (int i = 0; i < mLastPointsNum; i++) {
 			for (int j = 0; j < 3; j++)
 				vertices_source(j, i) = mLastPoints[j][i];
+		}
+	}
+
+	int Registrating::GetLastMapID(const MapPoint *mp) {
+		auto fit = lower_bound(mvpLastMap.begin(), mvpLastMap.end(), mp);
+		if (fit == mvpLastMap.end()) return -1;
+		return fit - mvpLastMap.begin();
+	}
+
+	void Registrating::PushMatch(MapPoint *lastMp, MapPoint *curMp) {
+		int id = GetLastMapID(lastMp);
+		if (id != -1) {
+			if (mMatches12[id] == NULL) {
+				mMatches12[id] = curMp;
+			} else {
+			//	std::cout << "_____" << std::endl;
+			}
 		}
 	}
 

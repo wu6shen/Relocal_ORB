@@ -926,6 +926,12 @@ int ORBmatcher::SearchForInitialization(Frame &F1, Frame &F2, vector<cv::Point2f
             {
                 if(vnMatches21[bestIdx2]>=0)
                 {
+					cv::Mat dnow1 = F1.mDescriptors.row(vnMatches21[bestIdx2]);
+					cv::Mat dnow2 = F2.mDescriptors.row(bestIdx2);
+					int distnow = DescriptorDistance(dnow1, dnow2);
+					if (distnow < bestDist) {
+						continue;
+					}
                     vnMatches12[vnMatches21[bestIdx2]]=-1;
                     nmatches--;
                 }

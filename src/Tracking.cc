@@ -519,6 +519,7 @@ void Tracking::RelocalInitialization() {
 					}
 				}
 				CreateInitialMapRelocal();
+				while (1);
 			}
 		}
 		return ;
@@ -604,6 +605,7 @@ void Tracking::CreateInitialMapRelocal() {
 				   	continue;
 				}
 				MapPoint *pMP = new MapPoint(lastMP2->GetWorldPos(), pKFcur, mpMap);
+				mpRegistrator->PushMatch(lastMP2, pMP);
 				pMP->isLast = true;
 				pMP->SetQualifiedTrue();
 				mInitFixedPointNum++;
@@ -622,6 +624,8 @@ void Tracking::CreateInitialMapRelocal() {
 				mpMap->AddMapPoint(pMP);
 			} else if (lastMP) {
 				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
+				mpRegistrator->PushMatch(lastMP, pMP);
+
 				pMP->isLast = true;
 				pMP->SetQualifiedTrue();
 
@@ -659,6 +663,8 @@ void Tracking::CreateInitialMapRelocal() {
 
 		} else if (lastMP) {
 			MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
+			mpRegistrator->PushMatch(lastMP, pMP);
+
 			pMP->isLast = true;
 			pMP->SetQualifiedTrue();
 
@@ -678,6 +684,7 @@ void Tracking::CreateInitialMapRelocal() {
 			MapPoint *lastMP = mCurrentFrame.mvpLastMapPoints[i];
 			if (lastMP) {
 				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFcur, mpMap);
+				mpRegistrator->PushMatch(lastMP, pMP);
 				pMP->isLast = true;
 				pMP->SetQualifiedTrue();
 
@@ -851,7 +858,7 @@ cv::Mat Tracking::RelocalUsePnP(const cv::Mat &im, int pnpFlag) {
 		mlbLost.push_back(mState==LOST);
 	}
 
-	if (mInitFixedPointNum != -1 && (int)mpMap->MapPointsInMap() > 2 * mInitFixedPointNum) {
+	if (mInitFixedPointNum != -1 && (int)mpMap->MapPointsInMap() > 5 * mInitFixedPointNum) {
 		std::cout << "stop " << std::endl;
 		mInitFixedPointNum = -1;
 		mpMap->SetUnFix();

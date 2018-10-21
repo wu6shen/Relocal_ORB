@@ -1056,6 +1056,9 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, vector<int> &vMatches12
 		cv::Mat &R21, cv::Mat &t21, vector<cv::Point3f> &vP3D, vector<bool> &vbTriangulated) {
 	CurrentFrame.mvpLastMapPoints = vector<MapPoint*>(CurrentFrame.N, NULL);
     mvKeys2 = CurrentFrame.mvKeysUn;
+	std::vector<int> vMatches21;
+	vMatches21.resize(mvKeys2.size());
+	for (auto &it : vMatches21) it = -1;
 
     mvMatches12.clear();
     mvMatches12.reserve(mvKeys2.size());
@@ -1064,6 +1067,7 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, vector<int> &vMatches12
     {
         if(vMatches12[i]>=0)
         {
+			vMatches21[vMatches12[i]] = i;
             mvMatches12.push_back(make_pair(i,vMatches12[i]));
 			if (mInitFrame->mvpLastMapPoints[i]) {
 				CurrentFrame.mvpLastMapPoints[vMatches12[i]] = mInitFrame->mvpLastMapPoints[i];
@@ -1100,6 +1104,29 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, vector<int> &vMatches12
 	for (size_t i = 0; i < vbInliers.size(); i++) {
 		if (!vbInliers[i]) {
 			CurrentFrame.mvpLastMapPoints[i] = static_cast<MapPoint*>(NULL);
+		}
+	}
+
+	for (int i = 0; i < mInitFrame->N; i++) {
+		if (mInitFrame->mvpLastMapPoints[i]) {
+			for (int j = 0; j < CurrentFrame.N; j++) 
+				if (CurrentFrame.mvpLastMapPoints[j]) {
+					if (CurrentFrame.mvpLastMapPoints[j] == mInitFrame->mvpLastMapPoints[i]) {
+						if (vMatches12[i] == -1) {
+							if (vMatches21[j] == -1) {
+								vMatches12[i] = j;
+								vMatches21[j] = i;
+								mvMatches12.push_back(make_pair(i, j));
+							} else {
+								//CurrentFrame.mvpLastMapPoints[j] = NULL;
+								mInitFrame->mvpLastMapPoints[i] = NULL;
+							}
+						} else if (vMatches12[i] != j) {
+							CurrentFrame.mvpLastMapPoints[j] = NULL;
+							//mInitFrame->mvpLastMapPoints[i] = NULL;
+						}
+					}
+				}
 		}
 	}
 
@@ -1162,6 +1189,19 @@ bool Initializer::InitializeWithMap(Frame &CurrentFrame, vector<int> &vMatches12
 
 	float parallax;
 	int num = CheckRT(R21, t21, mvKeys1, mvKeys2, mvMatches12, inliers, mK, vP3D, mSigma2, vbTriangulated, parallax);
+
+	for (size_t i = 0; i < vbTriangulated.size(); i++) {
+		if (!vbTriangulated[i]) {
+			int id = vMatches12[i];
+			if (id != -1) {
+				MapPoint *mp1 = mInitFrame->mvpLastMapPoints[i];
+				MapPoint *mp2 = CurrentFrame.mvpLastMapPoints[id];
+				if (mp1 && mp1 == mp2) {
+					vbTriangulated[i] = true;
+				}
+			}
+		}
+	}
 
 	int lastNum = 0;
 	for (size_t i = 0; i < vbTriangulated.size(); i++) {

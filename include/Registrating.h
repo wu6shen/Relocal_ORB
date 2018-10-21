@@ -19,17 +19,21 @@ namespace ORB_SLAM2 {
 
 		void SetNew();
 		void ICP();
+
+		void PushMatch(MapPoint *lastMp, MapPoint *curMp);
 		
 	protected:
 
 		bool NeedICP(); 
+
+		int GetLastMapID(const MapPoint *mp);
 
 		Map *mpMap;
 		std::vector<MapPoint*> mvpLastMap;
 		std::vector<MapPoint*> mvpCurrentMap;
 		std::vector<MapPoint*> mvpNewMap;
 		std::mutex mMutexNewMap, mMutexStop, mMutexSetMap;
-		std::vector<std::pair<int, int> > mMatches12;
+		std::vector<MapPoint*> mMatches12;
 		bool mStop, mSetMap;
 
 		float mLastPoints[3][MAX_POINT_NUM];
