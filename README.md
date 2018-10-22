@@ -37,7 +37,9 @@
 		- 后面加上scale微调的SICP
 		- 所有目的是为了得到匹配点，最后用于联系reference与当前场景
 	- (10-12) Eigen 输入的优化
-	- super4pcs(scale 先由descritor确定)
+	- (10-22) super4pcs(scale 先由descritor确定)
+		- (10-22) //添加super4cps
+		- (10-22) /速度较慢，容易受到噪声的干扰、delta参数的不确定、怎么在点变化的情况下做、怎么判定当前的结果是合适的
 	- sprase ICP 的尺度优化
 - 如何处理Reference Image
 

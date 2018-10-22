@@ -519,7 +519,6 @@ void Tracking::RelocalInitialization() {
 					}
 				}
 				CreateInitialMapRelocal();
-				//while (1);
 			}
 		}
 		return ;
@@ -584,6 +583,19 @@ void Tracking::RelocalInitialization() {
 }
 
 void Tracking::CreateInitialMapRelocal() {
+	//Test super4pcs
+	cv::Mat Ri = mInitialFrameLastMap.mTcw.rowRange(0,3).colRange(0,3);
+	cv::Mat ti = mInitialFrameLastMap.mTcw.rowRange(0,3).col(3);
+	cv::Mat Rinv = mInitialFrameLastMap.GetRotationInverse();
+	cv::Mat tinv = mInitialFrameLastMap.GetCameraCenter();
+	cv::Mat Tinv = cv::Mat::eye(4, 4, CV_32F);
+	Rinv.copyTo(Tinv.rowRange(0, 3).colRange(0, 3));
+	tinv.copyTo(Tinv.rowRange(0, 3).col(3));
+
+	std::cout << Tinv << std::endl;
+	
+	mInitialFrameLastMap.SetPose(mInitialFrameLastMap.mTcw * Tinv);
+	mCurrentFrame.SetPose(mCurrentFrame.mTcw * Tinv);
     KeyFrame* pKFini = new KeyFrame(mInitialFrameLastMap,mpMap,mpKeyFrameDB);
     KeyFrame* pKFcur = new KeyFrame(mCurrentFrame,mpMap,mpKeyFrameDB);
 
@@ -604,7 +616,7 @@ void Tracking::CreateInitialMapRelocal() {
 				if (lastMP && lastMP != lastMP2){
 				   	continue;
 				}
-				MapPoint *pMP = new MapPoint(lastMP2->GetWorldPos(), pKFcur, mpMap);
+				MapPoint *pMP = new MapPoint(Ri * lastMP2->GetWorldPos() + ti, pKFcur, mpMap);
 				mpRegistrator->PushMatch(lastMP2, pMP);
 				pMP->isLast = true;
 				pMP->SetQualifiedTrue();
@@ -623,7 +635,7 @@ void Tracking::CreateInitialMapRelocal() {
 
 				mpMap->AddMapPoint(pMP);
 			} else if (lastMP) {
-				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
+				MapPoint *pMP = new MapPoint(Ri * lastMP->GetWorldPos() + ti, pKFini, mpMap);
 				mpRegistrator->PushMatch(lastMP, pMP);
 
 				pMP->isLast = true;
@@ -642,7 +654,7 @@ void Tracking::CreateInitialMapRelocal() {
 				*/
 				cv::Mat worldPos(mvIniP3DLastMap[i]);
 
-				MapPoint* pMP = new MapPoint(worldPos,pKFcur,mpMap);
+				MapPoint* pMP = new MapPoint(Ri * worldPos + ti,pKFcur,mpMap);
 
 				pKFini->AddMapPoint(pMP,i);
 				pKFcur->AddMapPoint(pMP,mvIniMatchesLastMap[i]);
@@ -662,7 +674,7 @@ void Tracking::CreateInitialMapRelocal() {
 			}
 
 		} else if (lastMP) {
-			MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
+			MapPoint *pMP = new MapPoint(Ri * lastMP->GetWorldPos() + ti, pKFini, mpMap);
 			mpRegistrator->PushMatch(lastMP, pMP);
 
 			pMP->isLast = true;
@@ -683,7 +695,7 @@ void Tracking::CreateInitialMapRelocal() {
 		if (!mCurrentFrame.mvpMapPoints[i]) {
 			MapPoint *lastMP = mCurrentFrame.mvpLastMapPoints[i];
 			if (lastMP) {
-				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFcur, mpMap);
+				MapPoint *pMP = new MapPoint(Ri * lastMP->GetWorldPos() + ti, pKFcur, mpMap);
 				mpRegistrator->PushMatch(lastMP, pMP);
 				pMP->isLast = true;
 				pMP->SetQualifiedTrue();

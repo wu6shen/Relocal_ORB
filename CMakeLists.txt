@@ -16,8 +16,10 @@ include_directories("/usr/include/eigen3-3")
 find_package(OpenCV 3.1)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-# PCL
-find_package(PCL 1.8.1 REQUIRED COMPONENTS common io registration visualization)
+#Super4PCS
+set(Super4PCS_DIR "/usr/local/lib/cmake/")
+find_package(Super4PCS REQUIRED)
+include_directories(${Super4PCS_INCLUDE_DIR})
 
 # NanoFLann 
 set(NANOFLANN_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Thirdparty/sparseicp/include)
@@ -58,7 +60,8 @@ ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
 ${EIGEN3_LIBS}
 # ${PCL_LIBRARIES}
 ${OpenCV_LIBS} 
-${Pangolin_LIBRARIES})
+${Pangolin_LIBRARIES}
+${Super4PCS_LIBRARIES})
 
 add_executable(main main.cc)
 target_link_libraries(main relocal)

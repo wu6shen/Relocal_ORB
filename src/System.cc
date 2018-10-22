@@ -641,6 +641,16 @@ void System::Save(const string &filename) {
 	*/
     ofstream f;
 	Optimizer::GlobalBundleAdjustemnt(mpMap, 100);
+
+	sleep(2);
+	//while (1) {
+	//mpRegistrator->SetNew();
+	//sleep(1);
+	//std::cout << "--" << std::endl;
+//	}
+	mpRegistrator->RunSuper4PCS();
+	while (1);
+
     f.open(filename.c_str());
     std::vector<MapPoint*> allPoints = mpMap->GetAllMapPoints();
     for (auto point : allPoints) {
@@ -654,12 +664,6 @@ void System::Save(const string &filename) {
     }
     f.close();
     cout << endl << "mappoint saved!" << endl;
-	sleep(2);
-	while (1) {
-	mpRegistrator->SetNew();
-	sleep(1);
-	std::cout << "--" << std::endl;
-	}
 }
 
 void System::SetCurrentMap(const std::string &mapfile) {

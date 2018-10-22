@@ -1720,7 +1720,6 @@ CanVectorizeRhs	./Thirdparty/sparseicp/include/Eigen/src/Core/products/CoeffBase
 ChangeCalibration	./src/Tracking.cc	/^void Tracking::ChangeCalibration(const string &strSettingPath)$/;"	f	class:ORB_SLAM2::Tracking
 ChangeParent	./src/KeyFrame.cc	/^void KeyFrame::ChangeParent(KeyFrame *pKF)$/;"	f	class:ORB_SLAM2::KeyFrame
 CheckDistEpipolarLine	./src/ORBmatcher.cc	/^bool ORBmatcher::CheckDistEpipolarLine(const cv::KeyPoint &kp1,const cv::KeyPoint &kp2,const cv::Mat &F12,const KeyFrame* pKF2)$/;"	f	class:ORB_SLAM2::ORBmatcher
-CheckEnoughNewMapPoints	./src/Registrating.cc	/^	bool Registrating::CheckEnoughNewMapPoints() {$/;"	f	class:ORB_SLAM2::Registrating
 CheckFinish	./src/LocalMapping.cc	/^bool LocalMapping::CheckFinish()$/;"	f	class:ORB_SLAM2::LocalMapping
 CheckFinish	./src/LoopClosing.cc	/^bool LoopClosing::CheckFinish()$/;"	f	class:ORB_SLAM2::LoopClosing
 CheckFinish	./src/Viewer.cc	/^bool Viewer::CheckFinish()$/;"	f	class:ORB_SLAM2::Viewer
@@ -1733,7 +1732,6 @@ CheckNewKeyFrames	./src/LocalMapping.cc	/^bool LocalMapping::CheckNewKeyFrames()
 CheckNewKeyFrames	./src/LoopClosing.cc	/^bool LoopClosing::CheckNewKeyFrames()$/;"	f	class:ORB_SLAM2::LoopClosing
 CheckRT	./src/Initializer.cc	/^int Initializer::CheckRT(const cv::Mat &R, const cv::Mat &t, const vector<cv::KeyPoint> &vKeys1, const vector<cv::KeyPoint> &vKeys2,$/;"	f	class:ORB_SLAM2::Initializer
 CheckReplacedInLastFrame	./src/Tracking.cc	/^void Tracking::CheckReplacedInLastFrame()$/;"	f	class:ORB_SLAM2::Tracking
-CheckSetCurrentMap	./src/Registrating.cc	/^	bool Registrating::CheckSetCurrentMap() {$/;"	f	class:ORB_SLAM2::Registrating
 CholMatrixType	./Thirdparty/sparseicp/include/Eigen/src/CholmodSupport/CholmodSupport.h	/^    typedef MatrixType CholMatrixType;$/;"	t	class:Eigen::CholmodBase
 CholMatrixType	./Thirdparty/sparseicp/include/Eigen/src/SparseCholesky/SimplicialCholesky.h	/^    typedef SparseMatrix<Scalar,ColMajor,Index> CholMatrixType;$/;"	t	class:Eigen::SimplicialCholesky
 CholMatrixType	./Thirdparty/sparseicp/include/Eigen/src/SparseCholesky/SimplicialCholesky.h	/^    typedef SparseMatrix<Scalar,ColMajor,Index> CholMatrixType;$/;"	t	class:Eigen::SimplicialCholeskyBase
@@ -2181,6 +2179,7 @@ DecompositionType	./Thirdparty/sparseicp/include/Eigen/src/misc/Image.h	/^  type
 DecompositionType	./Thirdparty/sparseicp/include/Eigen/src/misc/Kernel.h	/^  typedef _DecompositionType DecompositionType;$/;"	t	struct:Eigen::internal::kernel_retval_base
 DecompositionType	./Thirdparty/sparseicp/include/Eigen/src/misc/Solve.h	/^  typedef _DecompositionType DecompositionType;$/;"	t	struct:Eigen::internal::solve_retval_base
 DecompositionType	./Thirdparty/sparseicp/include/Eigen/src/misc/SparseSolve.h	/^  typedef _DecompositionType DecompositionType;$/;"	t	struct:Eigen::internal::sparse_solve_retval_base
+DecreaseChangeNum	./src/Map.cc	/^void Map::DecreaseChangeNum() {$/;"	f	class:ORB_SLAM2::Map
 Default	./Thirdparty/sparseicp/include/Eigen/src/Core/util/Constants.h	/^enum Default_t    { Default };$/;"	e	enum:Eigen::Default_t
 DefaultTraversal	./Thirdparty/sparseicp/include/Eigen/src/Core/util/Constants.h	/^  DefaultTraversal,$/;"	e	enum:Eigen::__anon72
 Default_t	./Thirdparty/sparseicp/include/Eigen/src/Core/util/Constants.h	/^enum Default_t    { Default };$/;"	g	namespace:Eigen
@@ -3409,6 +3408,7 @@ GetAllMapPoints	./src/Map.cc	/^vector<MapPoint*> Map::GetAllMapPoints()$/;"	f	cl
 GetBestCovisibilityKeyFrames	./src/KeyFrame.cc	/^vector<KeyFrame*> KeyFrame::GetBestCovisibilityKeyFrames(const int &N)$/;"	f	class:ORB_SLAM2::KeyFrame
 GetCameraCenter	./include/Frame.h	/^    inline cv::Mat GetCameraCenter(){$/;"	f	class:ORB_SLAM2::Frame
 GetCameraCenter	./src/KeyFrame.cc	/^cv::Mat KeyFrame::GetCameraCenter()$/;"	f	class:ORB_SLAM2::KeyFrame
+GetChangeNum	./src/Map.cc	/^int Map::GetChangeNum() {$/;"	f	class:ORB_SLAM2::Map
 GetChilds	./src/KeyFrame.cc	/^set<KeyFrame*> KeyFrame::GetChilds()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetConnectedKeyFrames	./src/KeyFrame.cc	/^set<KeyFrame*> KeyFrame::GetConnectedKeyFrames()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetCovisiblesByWeight	./src/KeyFrame.cc	/^vector<KeyFrame*> KeyFrame::GetCovisiblesByWeight(const int &w)$/;"	f	class:ORB_SLAM2::KeyFrame
@@ -3426,6 +3426,7 @@ GetIndexInKeyFrame	./src/MapPoint.cc	/^int MapPoint::GetIndexInKeyFrame(KeyFrame
 GetInverseScaleFactors	./include/ORBextractor.h	/^    std::vector<float> inline GetInverseScaleFactors(){$/;"	f	class:ORB_SLAM2::ORBextractor::std
 GetInverseScaleSigmaSquares	./include/ORBextractor.h	/^    std::vector<float> inline GetInverseScaleSigmaSquares(){$/;"	f	class:ORB_SLAM2::ORBextractor::std
 GetLastBigChangeIdx	./src/Map.cc	/^int Map::GetLastBigChangeIdx()$/;"	f	class:ORB_SLAM2::Map
+GetLastMapID	./src/Registrating.cc	/^	int Registrating::GetLastMapID(const MapPoint *mp) {$/;"	f	class:ORB_SLAM2::Registrating
 GetLevels	./include/ORBextractor.h	/^    int inline GetLevels(){$/;"	f	class:ORB_SLAM2::ORBextractor
 GetLoopEdges	./src/KeyFrame.cc	/^set<KeyFrame*> KeyFrame::GetLoopEdges()$/;"	f	class:ORB_SLAM2::KeyFrame
 GetMapPoint	./src/KeyFrame.cc	/^MapPoint* KeyFrame::GetMapPoint(const size_t &idx)$/;"	f	class:ORB_SLAM2::KeyFrame
@@ -3715,6 +3716,7 @@ Impl	./Thirdparty/sparseicp/include/Eigen/src/Core/Block.h	/^    typedef interna
 IncompleteLUT	./Thirdparty/sparseicp/include/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h	/^    IncompleteLUT()$/;"	f	class:Eigen::IncompleteLUT
 IncompleteLUT	./Thirdparty/sparseicp/include/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h	/^    IncompleteLUT(const MatrixType& mat, const RealScalar& droptol=NumTraits<Scalar>::dummy_precision(), int fillfactor = 10)$/;"	f	class:Eigen::IncompleteLUT
 IncompleteLUT	./Thirdparty/sparseicp/include/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h	/^class IncompleteLUT : internal::noncopyable$/;"	c	namespace:Eigen
+IncreaseChangeNum	./src/Map.cc	/^void Map::IncreaseChangeNum() {$/;"	f	class:ORB_SLAM2::Map
 IncreaseFound	./src/MapPoint.cc	/^void MapPoint::IncreaseFound(int n)$/;"	f	class:ORB_SLAM2::MapPoint
 IncreaseVisible	./src/MapPoint.cc	/^void MapPoint::IncreaseVisible(int n)$/;"	f	class:ORB_SLAM2::MapPoint
 Indefinite	./Thirdparty/sparseicp/include/Eigen/src/Cholesky/LDLT.h	/^  enum SignMatrix { PositiveSemiDef, NegativeSemiDef, ZeroSign, Indefinite };$/;"	e	enum:Eigen::internal::SignMatrix
@@ -3987,7 +3989,6 @@ InnerVectorReturnType	./Thirdparty/sparseicp/include/Eigen/src/SparseCore/Sparse
 InnerVectorizedTraversal	./Thirdparty/sparseicp/include/Eigen/src/Core/util/Constants.h	/^  InnerVectorizedTraversal,$/;"	e	enum:Eigen::__anon72
 Input	./main.cc	/^} Input;$/;"	t	typeref:struct:__anon469	file:
 InputScalar	./Thirdparty/sparseicp/include/Eigen/src/Core/VectorwiseOp.h	/^  typedef typename MatrixType::Scalar InputScalar;$/;"	t	struct:Eigen::internal::traits
-InsertInCurrentMap	./src/Registrating.cc	/^	void Registrating::InsertInCurrentMap(MapPoint *mp) {$/;"	f	class:ORB_SLAM2::Registrating
 InsertKeyFrame	./src/LocalMapping.cc	/^void LocalMapping::InsertKeyFrame(KeyFrame *pKF)$/;"	f	class:ORB_SLAM2::LocalMapping
 InsertKeyFrame	./src/LoopClosing.cc	/^void LoopClosing::InsertKeyFrame(KeyFrame *pKF)$/;"	f	class:ORB_SLAM2::LoopClosing
 IntBlockMap	./Thirdparty/g2o/g2o/core/sparse_block_matrix.h	/^    typedef std::map<int, SparseMatrixBlock*> IntBlockMap;$/;"	t	class:g2o::SparseBlockMatrix
@@ -4331,7 +4332,7 @@ Map	./Thirdparty/sparseicp/include/Eigen/src/SparseCore/SparseMatrix.h	/^    typ
 Map	./Thirdparty/sparseicp/include/Eigen/src/SuperLUSupport/SuperLUSupport.h	/^  static SluMatrix Map(MatrixBase<MatrixType>& _mat)$/;"	f	struct:Eigen::SluMatrix
 Map	./Thirdparty/sparseicp/include/Eigen/src/SuperLUSupport/SuperLUSupport.h	/^  static SluMatrix Map(SparseMatrixBase<MatrixType>& mat)$/;"	f	struct:Eigen::SluMatrix
 Map	./include/Map.h	/^class Map$/;"	c	namespace:ORB_SLAM2
-Map	./src/Map.cc	/^Map::Map():mnMaxKFid(0),mnBigChangeIdx(0)$/;"	f	class:ORB_SLAM2::Map
+Map	./src/Map.cc	/^Map::Map():mnMaxKFid(0),mnBigChangeIdx(0), mnChangeNum(0)$/;"	f	class:ORB_SLAM2::Map
 MapAligned	./Thirdparty/sparseicp/include/Eigen/src/Core/PlainObjectBase.h	/^    static inline AlignedMapType MapAligned(Scalar* data)$/;"	f	class:Eigen::PlainObjectBase
 MapAligned	./Thirdparty/sparseicp/include/Eigen/src/Core/PlainObjectBase.h	/^    static inline AlignedMapType MapAligned(Scalar* data, Index rows, Index cols)$/;"	f	class:Eigen::PlainObjectBase
 MapAligned	./Thirdparty/sparseicp/include/Eigen/src/Core/PlainObjectBase.h	/^    static inline AlignedMapType MapAligned(Scalar* data, Index size)$/;"	f	class:Eigen::PlainObjectBase
@@ -4737,6 +4738,7 @@ NO_IMAGES_YET	./include/Tracking.h	/^        NO_IMAGES_YET=0,$/;"	e	enum:ORB_SLA
 NRowsBlockXpr	./Thirdparty/sparseicp/include/Eigen/src/plugins/BlockMethods.h	/^template<int N> struct NRowsBlockXpr { typedef Block<Derived, N, internal::traits<Derived>::ColsAtCompileTime, IsRowMajor> Type; };$/;"	s
 NUMERIC_TYPE_MUST_BE_REAL	./Thirdparty/sparseicp/include/Eigen/src/Core/util/StaticAssert.h	/^        NUMERIC_TYPE_MUST_BE_REAL,$/;"	e	enum:Eigen::internal::static_assertion::__anon82
 NaturalOrdering	./Thirdparty/sparseicp/include/Eigen/src/OrderingMethods/Ordering.h	/^class NaturalOrdering$/;"	c	namespace:Eigen
+NeedICP	./src/Registrating.cc	/^	bool Registrating::NeedICP() {$/;"	f	class:ORB_SLAM2::Registrating
 NeedNewKeyFrame	./src/Tracking.cc	/^bool Tracking::NeedNewKeyFrame()$/;"	f	class:ORB_SLAM2::Tracking
 NeedToConjugate	./Thirdparty/sparseicp/include/Eigen/src/Core/util/BlasUtil.h	/^    NeedToConjugate = Base::NeedToConjugate ? 0 : IsComplex$/;"	e	enum:Eigen::internal::blas_traits::__anon80
 NeedToConjugate	./Thirdparty/sparseicp/include/Eigen/src/Core/util/BlasUtil.h	/^    NeedToConjugate = false,$/;"	e	enum:Eigen::internal::blas_traits::__anon79
@@ -5560,6 +5562,7 @@ Property	./Thirdparty/g2o/g2o/stuff/property.h	/^  class Property: public BasePr
 PropertyMap	./Thirdparty/g2o/g2o/stuff/property.h	/^  class  PropertyMap : protected std::map<std::string, BaseProperty*>$/;"	c	namespace:g2o
 PropertyMapConstIterator	./Thirdparty/g2o/g2o/stuff/property.h	/^      typedef BaseClass::const_iterator                   PropertyMapConstIterator;$/;"	t	class:g2o::PropertyMap
 PropertyMapIterator	./Thirdparty/g2o/g2o/stuff/property.h	/^      typedef BaseClass::iterator                         PropertyMapIterator;$/;"	t	class:g2o::PropertyMap
+PushMatch	./src/Registrating.cc	/^	void Registrating::PushMatch(MapPoint *lastMp, MapPoint *curMp) {$/;"	f	class:ORB_SLAM2::Registrating
 QR	./Thirdparty/sparseicp/include/Eigen/src/Eigen2Support/QR.h	/^    QR() : Base() {}$/;"	f	class:Eigen::QR
 QR	./Thirdparty/sparseicp/include/Eigen/src/Eigen2Support/QR.h	/^    explicit QR(const T& t) : Base(t) {}$/;"	f	class:Eigen::QR
 QR	./Thirdparty/sparseicp/include/Eigen/src/Eigen2Support/QR.h	/^class QR : public HouseholderQR<MatrixType>$/;"	c	namespace:Eigen
@@ -5745,7 +5748,7 @@ RegisterRobustKernelProxy	./Thirdparty/g2o/g2o/core/robust_kernel_factory.h	/^  
 RegisterTypeProxy	./Thirdparty/g2o/g2o/core/factory.h	/^      RegisterTypeProxy(const std::string& name) : _name(name)$/;"	f	class:g2o::RegisterTypeProxy
 RegisterTypeProxy	./Thirdparty/g2o/g2o/core/factory.h	/^  class RegisterTypeProxy$/;"	c	namespace:g2o
 Registrating	./include/Registrating.h	/^	class Registrating {$/;"	c	namespace:ORB_SLAM2
-Registrating	./src/Registrating.cc	/^	Registrating::Registrating(int enoughTh) : mStop(false), mSetMap(false), mEnoughTh(enoughTh), mLastPointsNum(0), mCurrentPointsNum(0) {$/;"	f	class:ORB_SLAM2::Registrating
+Registrating	./src/Registrating.cc	/^	Registrating::Registrating(int enoughTh) : mStop(false), mSetMap(false), mEnoughTh(enoughTh), mLastPointsNum(0), mCurrentPointsNum(0), mpMap(NULL) {$/;"	f	class:ORB_SLAM2::Registrating
 Release	./src/LocalMapping.cc	/^void LocalMapping::Release()$/;"	f	class:ORB_SLAM2::LocalMapping
 Release	./src/Viewer.cc	/^void Viewer::Release()$/;"	f	class:ORB_SLAM2::Viewer
 Relocal	./include/Relocal.h	/^    class Relocal {$/;"	c	namespace:ORB_SLAM2
@@ -6041,6 +6044,7 @@ RunGlobalBundleAdjustment	./src/LoopClosing.cc	/^void LoopClosing::RunGlobalBund
 RunRelocal	./main.cc	/^void RunRelocal() {$/;"	f
 RunSlam	./main.cc	/^void RunSlam() {$/;"	f
 RunSlamUseCamera	./main.cc	/^void RunSlamUseCamera() {$/;"	f
+RunSuper4PCS	./src/Registrating.cc	/^	void Registrating::RunSuper4PCS() {$/;"	f	class:ORB_SLAM2::Registrating
 S	./Thirdparty/sparseicp/include/Eigen/src/Core/SolveTriangular.h	/^    S = IsLower ? 0     : I+1$/;"	e	enum:Eigen::internal::triangular_solver_unroller::__anon240
 SCMatrix	./Thirdparty/sparseicp/include/Eigen/src/SparseLU/SparseLU.h	/^    typedef internal::MappedSuperNodalMatrix<Scalar, Index> SCMatrix; $/;"	t	class:Eigen::SparseLU
 SDP_IsDiagonal	./Thirdparty/sparseicp/include/Eigen/src/SparseCore/SparseDiagonalProduct.h	/^enum {SDP_IsDiagonal, SDP_IsSparseRowMajor, SDP_IsSparseColMajor};$/;"	e	enum:Eigen::internal::__anon408
@@ -6495,6 +6499,7 @@ SetAcceptKeyFrames	./src/LocalMapping.cc	/^void LocalMapping::SetAcceptKeyFrames
 SetAction	./Thirdparty/sparseicp/include/Eigen/src/Core/util/Constants.h	/^enum Action {GetAction, SetAction};$/;"	e	enum:Eigen::Action
 SetBadFlag	./src/KeyFrame.cc	/^void KeyFrame::SetBadFlag()$/;"	f	class:ORB_SLAM2::KeyFrame
 SetBadFlag	./src/MapPoint.cc	/^void MapPoint::SetBadFlag()$/;"	f	class:ORB_SLAM2::MapPoint
+SetChangenumZero	./src/Map.cc	/^void Map::SetChangenumZero() {$/;"	f	class:ORB_SLAM2::Map
 SetCurrentCameraPose	./src/MapDrawer.cc	/^void MapDrawer::SetCurrentCameraPose(const cv::Mat &Tcw)$/;"	f	class:ORB_SLAM2::MapDrawer
 SetCurrentMap	./src/Registrating.cc	/^	void Registrating::SetCurrentMap(Map *currentMap) {$/;"	f	class:ORB_SLAM2::Registrating
 SetCurrentMap	./src/System.cc	/^void System::SetCurrentMap(const std::string &mapfile) {$/;"	f	class:ORB_SLAM2::System
@@ -6514,6 +6519,7 @@ SetLocalMapper	./src/LoopClosing.cc	/^void LoopClosing::SetLocalMapper(LocalMapp
 SetLocalMapper	./src/Tracking.cc	/^void Tracking::SetLocalMapper(LocalMapping *pLocalMapper)$/;"	f	class:ORB_SLAM2::Tracking
 SetLoopCloser	./src/LocalMapping.cc	/^void LocalMapping::SetLoopCloser(LoopClosing* pLoopCloser)$/;"	f	class:ORB_SLAM2::LocalMapping
 SetLoopClosing	./src/Tracking.cc	/^void Tracking::SetLoopClosing(LoopClosing *pLoopClosing)$/;"	f	class:ORB_SLAM2::Tracking
+SetNew	./src/Registrating.cc	/^	void Registrating::SetNew() { $/;"	f	class:ORB_SLAM2::Registrating
 SetNotErase	./src/KeyFrame.cc	/^void KeyFrame::SetNotErase()$/;"	f	class:ORB_SLAM2::KeyFrame
 SetNotStop	./src/LocalMapping.cc	/^bool LocalMapping::SetNotStop(bool flag)$/;"	f	class:ORB_SLAM2::LocalMapping
 SetNumOfIteration	./4pcs/Registration.h	/^            void SetNumOfIteration(const int num) { iterations_ = num; }$/;"	f	class:pcl::FPCS::FPCSRegistration
@@ -6521,6 +6527,7 @@ SetOffsetGT	./4pcs/Registration.h	/^            void SetOffsetGT(const Eigen::Ve
 SetOverlap	./4pcs/Registration.h	/^            void SetOverlap(const float overlap) { overlap_ = overlap; }$/;"	f	class:pcl::FPCS::FPCSRegistration
 SetPose	./src/Frame.cc	/^void Frame::SetPose(cv::Mat Tcw)$/;"	f	class:ORB_SLAM2::Frame
 SetPose	./src/KeyFrame.cc	/^void KeyFrame::SetPose(const cv::Mat &Tcw_)$/;"	f	class:ORB_SLAM2::KeyFrame
+SetQualifiedTrue	./src/MapPoint.cc	/^void MapPoint::SetQualifiedTrue() {$/;"	f	class:ORB_SLAM2::MapPoint
 SetRansacParameters	./src/PnPsolver.cc	/^void PnPsolver::SetRansacParameters(double probability, int minInliers, int maxIterations, int minSet, float epsilon, float th2)$/;"	f	class:ORB_SLAM2::PnPsolver
 SetRansacParameters	./src/PoseSolver.cc	/^void PoseSolver::SetRansacParameters(double probability, int minInliers, int maxIterations, int minSet, float epsilon, float th2)$/;"	f	class:ORB_SLAM2::PoseSolver
 SetRansacParameters	./src/Sim3Solver.cc	/^void Sim3Solver::SetRansacParameters(double probability, int minInliers, int maxIterations)$/;"	f	class:ORB_SLAM2::Sim3Solver
@@ -10313,6 +10320,7 @@ isPlane	./4pcs/Registration.cc	/^        bool FPCSRegistration::isPlane(Set4 bas
 isPositive	./Thirdparty/sparseicp/include/Eigen/src/Cholesky/LDLT.h	/^    inline bool isPositive() const$/;"	f	class:Eigen::LDLT
 isPositiveDefinite	./Thirdparty/sparseicp/include/Eigen/src/Cholesky/LDLT.h	/^    inline bool isPositiveDefinite() const$/;"	f	class:Eigen::LDLT
 isPositiveDefinite	./Thirdparty/sparseicp/include/Eigen/src/Cholesky/LLT.h	/^    bool isPositiveDefinite() const { return true; }$/;"	f	class:Eigen::LLT
+isQualified	./src/MapPoint.cc	/^bool MapPoint::isQualified() {$/;"	f	class:ORB_SLAM2::MapPoint
 isRValue	./Thirdparty/sparseicp/include/Eigen/src/SparseCore/SparseMatrixBase.h	/^    bool isRValue() const { return m_isRValue; }$/;"	f	class:Eigen::SparseMatrixBase
 isRunningGBA	./include/LoopClosing.h	/^    bool isRunningGBA(){$/;"	f	class:ORB_SLAM2::LoopClosing
 isSolverSuitable	./Thirdparty/g2o/g2o/core/optimizable_graph.cpp	/^bool OptimizableGraph::isSolverSuitable(const OptimizationAlgorithmProperty& solverProperty, const std::set<int>& vertDims_) const$/;"	f	class:g2o::OptimizableGraph
@@ -10522,7 +10530,7 @@ mCurrentFrame	./include/Tracking.h	/^    Frame mCurrentFrame;$/;"	m	class:ORB_SL
 mCurrentPoints	./include/Registrating.h	/^		float mCurrentPoints[3][MAX_POINT_NUM];$/;"	m	class:ORB_SLAM2::Registrating
 mCurrentPointsNum	./include/Registrating.h	/^		int mCurrentPointsNum;$/;"	m	class:ORB_SLAM2::Registrating
 mDepthMapFactor	./include/Tracking.h	/^    float mDepthMapFactor;$/;"	m	class:ORB_SLAM2::Tracking
-mDescriptor	./include/MapPoint.h	/^     cv::Mat mDescriptor;$/;"	m	class:ORB_SLAM2::MapPoint
+mDescriptor	./include/MapPoint.h	/^	cv::Mat mDescriptor;$/;"	m	class:ORB_SLAM2::MapPoint
 mDescriptors	./include/Frame.h	/^    cv::Mat mDescriptors, mDescriptorsRight;$/;"	m	class:ORB_SLAM2::Frame
 mDescriptors	./include/KeyFrame.h	/^    const cv::Mat mDescriptors;$/;"	m	class:ORB_SLAM2::KeyFrame
 mDescriptorsRight	./include/Frame.h	/^    cv::Mat mDescriptors, mDescriptorsRight;$/;"	m	class:ORB_SLAM2::Frame
@@ -10561,7 +10569,7 @@ mLastPoints	./include/Registrating.h	/^		float mLastPoints[3][MAX_POINT_NUM];$/;
 mLastPointsNum	./include/Registrating.h	/^		int mLastPointsNum;$/;"	m	class:ORB_SLAM2::Registrating
 mLastProcessedState	./include/Tracking.h	/^    eTrackingState mLastProcessedState;$/;"	m	class:ORB_SLAM2::Tracking
 mLoopScore	./include/KeyFrame.h	/^    float mLoopScore;$/;"	m	class:ORB_SLAM2::KeyFrame
-mMatches12	./include/Registrating.h	/^		std::vector<std::pair<int, int> > mMatches12;$/;"	m	class:ORB_SLAM2::Registrating
+mMatches12	./include/Registrating.h	/^		std::vector<MapPoint*> mMatches12;$/;"	m	class:ORB_SLAM2::Registrating
 mMaxFrames	./include/Tracking.h	/^    int mMaxFrames;$/;"	m	class:ORB_SLAM2::Tracking
 mMaxIterations	./include/Initializer.h	/^    int mMaxIterations;$/;"	m	class:ORB_SLAM2::Initializer
 mMinFrames	./include/Tracking.h	/^    int mMinFrames;$/;"	m	class:ORB_SLAM2::Tracking
@@ -10569,9 +10577,10 @@ mMutex	./include/FrameDrawer.h	/^    std::mutex mMutex;$/;"	m	class:ORB_SLAM2::F
 mMutex	./include/KeyFrameDatabase.h	/^  std::mutex mMutex;$/;"	m	class:ORB_SLAM2::KeyFrameDatabase
 mMutexAccept	./include/LocalMapping.h	/^    std::mutex mMutexAccept;$/;"	m	class:ORB_SLAM2::LocalMapping
 mMutexCamera	./include/MapDrawer.h	/^    std::mutex mMutexCamera;$/;"	m	class:ORB_SLAM2::MapDrawer
+mMutexChangeNum	./include/Map.h	/^	std::mutex mMutexChangeNum;$/;"	m	class:ORB_SLAM2::Map
 mMutexConnections	./include/KeyFrame.h	/^    std::mutex mMutexConnections;$/;"	m	class:ORB_SLAM2::KeyFrame
 mMutexFeatures	./include/KeyFrame.h	/^    std::mutex mMutexFeatures;$/;"	m	class:ORB_SLAM2::KeyFrame
-mMutexFeatures	./include/MapPoint.h	/^     std::mutex mMutexFeatures;$/;"	m	class:ORB_SLAM2::MapPoint
+mMutexFeatures	./include/MapPoint.h	/^	std::mutex mMutexFeatures;$/;"	m	class:ORB_SLAM2::MapPoint
 mMutexFinish	./include/LocalMapping.h	/^    std::mutex mMutexFinish;$/;"	m	class:ORB_SLAM2::LocalMapping
 mMutexFinish	./include/LoopClosing.h	/^    std::mutex mMutexFinish;$/;"	m	class:ORB_SLAM2::LoopClosing
 mMutexFinish	./include/Viewer.h	/^    std::mutex mMutexFinish;$/;"	m	class:ORB_SLAM2::Viewer
@@ -10583,7 +10592,7 @@ mMutexMode	./include/System.h	/^    std::mutex mMutexMode;$/;"	m	class:ORB_SLAM2
 mMutexNewKFs	./include/LocalMapping.h	/^    std::mutex mMutexNewKFs;$/;"	m	class:ORB_SLAM2::LocalMapping
 mMutexNewMap	./include/Registrating.h	/^		std::mutex mMutexNewMap, mMutexStop, mMutexSetMap;$/;"	m	class:ORB_SLAM2::Registrating
 mMutexPointCreation	./include/Map.h	/^    std::mutex mMutexPointCreation;$/;"	m	class:ORB_SLAM2::Map
-mMutexPos	./include/MapPoint.h	/^     std::mutex mMutexPos;$/;"	m	class:ORB_SLAM2::MapPoint
+mMutexPos	./include/MapPoint.h	/^	std::mutex mMutexPos;$/;"	m	class:ORB_SLAM2::MapPoint
 mMutexPose	./include/KeyFrame.h	/^    std::mutex mMutexPose;$/;"	m	class:ORB_SLAM2::KeyFrame
 mMutexReset	./include/LocalMapping.h	/^    std::mutex mMutexReset;$/;"	m	class:ORB_SLAM2::LocalMapping
 mMutexReset	./include/LoopClosing.h	/^    std::mutex mMutexReset;$/;"	m	class:ORB_SLAM2::LoopClosing
@@ -10594,8 +10603,8 @@ mMutexStop	./include/LocalMapping.h	/^    std::mutex mMutexStop;$/;"	m	class:ORB
 mMutexStop	./include/Registrating.h	/^		std::mutex mMutexNewMap, mMutexStop, mMutexSetMap;$/;"	m	class:ORB_SLAM2::Registrating
 mMutexStop	./include/Viewer.h	/^    std::mutex mMutexStop;$/;"	m	class:ORB_SLAM2::Viewer
 mN1	./include/Sim3Solver.h	/^    int mN1;$/;"	m	class:ORB_SLAM2::Sim3Solver
-mNormalVector	./include/MapPoint.h	/^     cv::Mat mNormalVector;$/;"	m	class:ORB_SLAM2::MapPoint
-mObservations	./include/MapPoint.h	/^     std::map<KeyFrame*,size_t> mObservations;$/;"	m	class:ORB_SLAM2::MapPoint
+mNormalVector	./include/MapPoint.h	/^	cv::Mat mNormalVector;$/;"	m	class:ORB_SLAM2::MapPoint
+mObservations	./include/MapPoint.h	/^	std::map<KeyFrame*,size_t> mObservations;$/;"	m	class:ORB_SLAM2::MapPoint
 mOw	./include/Frame.h	/^    cv::Mat mOw; \/\/==mtwc$/;"	m	class:ORB_SLAM2::Frame
 mPointSize	./include/MapDrawer.h	/^    float mPointSize;$/;"	m	class:ORB_SLAM2::MapDrawer
 mPosGBA	./include/MapPoint.h	/^    cv::Mat mPosGBA;$/;"	m	class:ORB_SLAM2::MapPoint
@@ -10659,7 +10668,7 @@ mViewpointF	./include/Viewer.h	/^    float mViewpointX, mViewpointY, mViewpointZ
 mViewpointX	./include/Viewer.h	/^    float mViewpointX, mViewpointY, mViewpointZ, mViewpointF;$/;"	m	class:ORB_SLAM2::Viewer
 mViewpointY	./include/Viewer.h	/^    float mViewpointX, mViewpointY, mViewpointZ, mViewpointF;$/;"	m	class:ORB_SLAM2::Viewer
 mViewpointZ	./include/Viewer.h	/^    float mViewpointX, mViewpointY, mViewpointZ, mViewpointF;$/;"	m	class:ORB_SLAM2::Viewer
-mWorldPos	./include/MapPoint.h	/^     cv::Mat mWorldPos;$/;"	m	class:ORB_SLAM2::MapPoint
+mWorldPos	./include/MapPoint.h	/^	cv::Mat mWorldPos;$/;"	m	class:ORB_SLAM2::MapPoint
 m_E	./Thirdparty/sparseicp/include/Eigen/src/SPQRSupport/SuiteSparseQRSupport.h	/^    mutable Index *m_E; \/\/ The permutation applied to columns$/;"	m	class:Eigen::SPQR
 m_H	./Thirdparty/sparseicp/include/Eigen/src/SPQRSupport/SuiteSparseQRSupport.h	/^    mutable cholmod_sparse *m_H;  \/\/The householder vectors$/;"	m	class:Eigen::SPQR
 m_HPinv	./Thirdparty/sparseicp/include/Eigen/src/SPQRSupport/SuiteSparseQRSupport.h	/^    mutable Index *m_HPinv; \/\/ The row permutation of H$/;"	m	class:Eigen::SPQR
@@ -11502,7 +11511,7 @@ mbAbortBA	./include/LocalMapping.h	/^    bool mbAbortBA;$/;"	m	class:ORB_SLAM2::
 mbAcceptKeyFrames	./include/LocalMapping.h	/^    bool mbAcceptKeyFrames;$/;"	m	class:ORB_SLAM2::LocalMapping
 mbActivateLocalizationMode	./include/System.h	/^    bool mbActivateLocalizationMode;$/;"	m	class:ORB_SLAM2::System
 mbBad	./include/KeyFrame.h	/^    bool mbBad;    $/;"	m	class:ORB_SLAM2::KeyFrame
-mbBad	./include/MapPoint.h	/^     bool mbBad;$/;"	m	class:ORB_SLAM2::MapPoint
+mbBad	./include/MapPoint.h	/^	bool mbBad;$/;"	m	class:ORB_SLAM2::MapPoint
 mbCheckOrientation	./include/ORBmatcher.h	/^    bool mbCheckOrientation;$/;"	m	class:ORB_SLAM2::ORBmatcher
 mbDeactivateLocalizationMode	./include/System.h	/^    bool mbDeactivateLocalizationMode;$/;"	m	class:ORB_SLAM2::System
 mbFinishRequested	./include/LocalMapping.h	/^    bool mbFinishRequested;$/;"	m	class:ORB_SLAM2::LocalMapping
@@ -11522,6 +11531,7 @@ mbNotErase	./include/KeyFrame.h	/^    bool mbNotErase;$/;"	m	class:ORB_SLAM2::Ke
 mbNotStop	./include/LocalMapping.h	/^    bool mbNotStop;$/;"	m	class:ORB_SLAM2::LocalMapping
 mbOnlyTracking	./include/FrameDrawer.h	/^    bool mbOnlyTracking;$/;"	m	class:ORB_SLAM2::FrameDrawer
 mbOnlyTracking	./include/Tracking.h	/^    bool mbOnlyTracking;$/;"	m	class:ORB_SLAM2::Tracking
+mbQualified	./include/MapPoint.h	/^	bool mbQualified;$/;"	m	class:ORB_SLAM2::MapPoint
 mbRGB	./include/Tracking.h	/^    bool mbRGB;$/;"	m	class:ORB_SLAM2::Tracking
 mbReset	./include/System.h	/^    bool mbReset;$/;"	m	class:ORB_SLAM2::System
 mbResetRequested	./include/LocalMapping.h	/^    bool mbResetRequested;$/;"	m	class:ORB_SLAM2::LocalMapping
@@ -11565,8 +11575,8 @@ mfGridElementWidthInv	./include/KeyFrame.h	/^    const float mfGridElementWidthI
 mfGridElementWidthInv	./src/Frame.cc	/^float Frame::mfGridElementWidthInv, Frame::mfGridElementHeightInv;$/;"	m	class:ORB_SLAM2::Frame	file:
 mfLogScaleFactor	./include/Frame.h	/^    float mfLogScaleFactor;$/;"	m	class:ORB_SLAM2::Frame
 mfLogScaleFactor	./include/KeyFrame.h	/^    const float mfLogScaleFactor;$/;"	m	class:ORB_SLAM2::KeyFrame
-mfMaxDistance	./include/MapPoint.h	/^     float mfMaxDistance;$/;"	m	class:ORB_SLAM2::MapPoint
-mfMinDistance	./include/MapPoint.h	/^     float mfMinDistance;$/;"	m	class:ORB_SLAM2::MapPoint
+mfMaxDistance	./include/MapPoint.h	/^	float mfMaxDistance;$/;"	m	class:ORB_SLAM2::MapPoint
+mfMinDistance	./include/MapPoint.h	/^	float mfMinDistance;$/;"	m	class:ORB_SLAM2::MapPoint
 mfNNratio	./include/ORBmatcher.h	/^    float mfNNratio;$/;"	m	class:ORB_SLAM2::ORBmatcher
 mfScaleFactor	./include/Frame.h	/^    float mfScaleFactor;$/;"	m	class:ORB_SLAM2::Frame
 mfScaleFactor	./include/KeyFrame.h	/^    const float mfScaleFactor;$/;"	m	class:ORB_SLAM2::KeyFrame
@@ -11617,13 +11627,14 @@ mnBestInliers	./include/PnPsolver.h	/^  int mnBestInliers;$/;"	m	class:ORB_SLAM2
 mnBestInliers	./include/PoseSolver.h	/^  int mnBestInliers;$/;"	m	class:ORB_SLAM2::PoseSolver
 mnBestInliers	./include/Sim3Solver.h	/^    int mnBestInliers;$/;"	m	class:ORB_SLAM2::Sim3Solver
 mnBigChangeIdx	./include/Map.h	/^    int mnBigChangeIdx;$/;"	m	class:ORB_SLAM2::Map
+mnChangeNum	./include/Map.h	/^	int mnChangeNum;$/;"	m	class:ORB_SLAM2::Map
 mnCorrectedByKF	./include/MapPoint.h	/^    long unsigned int mnCorrectedByKF;$/;"	m	class:ORB_SLAM2::MapPoint
 mnCorrectedReference	./include/MapPoint.h	/^    long unsigned int mnCorrectedReference;    $/;"	m	class:ORB_SLAM2::MapPoint
 mnCovisibilityConsistencyTh	./include/LoopClosing.h	/^    float mnCovisibilityConsistencyTh;$/;"	m	class:ORB_SLAM2::LoopClosing
 mnFeaturesPerLevel	./include/ORBextractor.h	/^    std::vector<int> mnFeaturesPerLevel;$/;"	m	class:ORB_SLAM2::ORBextractor
 mnFirstFrame	./include/MapPoint.h	/^    long int mnFirstFrame;$/;"	m	class:ORB_SLAM2::MapPoint
 mnFirstKFid	./include/MapPoint.h	/^    long int mnFirstKFid;$/;"	m	class:ORB_SLAM2::MapPoint
-mnFound	./include/MapPoint.h	/^     int mnFound;$/;"	m	class:ORB_SLAM2::MapPoint
+mnFound	./include/MapPoint.h	/^	int mnFound;$/;"	m	class:ORB_SLAM2::MapPoint
 mnFrameId	./include/KeyFrame.h	/^    const long unsigned int mnFrameId;$/;"	m	class:ORB_SLAM2::KeyFrame
 mnFullBAIdx	./include/LoopClosing.h	/^    bool mnFullBAIdx;$/;"	m	class:ORB_SLAM2::LoopClosing
 mnFuseCandidateForKF	./include/MapPoint.h	/^    long unsigned int mnFuseCandidateForKF;$/;"	m	class:ORB_SLAM2::MapPoint
@@ -11670,7 +11681,7 @@ mnTrackReferenceForFrame	./include/MapPoint.h	/^    long unsigned int mnTrackRef
 mnTrackScaleLevel	./include/MapPoint.h	/^    int mnTrackScaleLevel;$/;"	m	class:ORB_SLAM2::MapPoint
 mnTracked	./include/FrameDrawer.h	/^    int mnTracked, mnTrackedVO;$/;"	m	class:ORB_SLAM2::FrameDrawer
 mnTrackedVO	./include/FrameDrawer.h	/^    int mnTracked, mnTrackedVO;$/;"	m	class:ORB_SLAM2::FrameDrawer
-mnVisible	./include/MapPoint.h	/^     int mnVisible;$/;"	m	class:ORB_SLAM2::MapPoint
+mnVisible	./include/MapPoint.h	/^	int mnVisible;$/;"	m	class:ORB_SLAM2::MapPoint
 mpCurrentKF	./include/LoopClosing.h	/^    KeyFrame* mpCurrentKF;$/;"	m	class:ORB_SLAM2::LoopClosing
 mpCurrentKeyFrame	./include/LocalMapping.h	/^    KeyFrame* mpCurrentKeyFrame;$/;"	m	class:ORB_SLAM2::LocalMapping
 mpFrameDrawer	./include/System.h	/^    FrameDrawer* mpFrameDrawer;$/;"	m	class:ORB_SLAM2::System
@@ -11702,7 +11713,8 @@ mpMap	./include/KeyFrame.h	/^    Map* mpMap;$/;"	m	class:ORB_SLAM2::KeyFrame
 mpMap	./include/LocalMapping.h	/^    Map* mpMap;$/;"	m	class:ORB_SLAM2::LocalMapping
 mpMap	./include/LoopClosing.h	/^    Map* mpMap;$/;"	m	class:ORB_SLAM2::LoopClosing
 mpMap	./include/MapDrawer.h	/^    Map* mpMap;$/;"	m	class:ORB_SLAM2::MapDrawer
-mpMap	./include/MapPoint.h	/^     Map* mpMap;$/;"	m	class:ORB_SLAM2::MapPoint
+mpMap	./include/MapPoint.h	/^	Map* mpMap;$/;"	m	class:ORB_SLAM2::MapPoint
+mpMap	./include/Registrating.h	/^		Map *mpMap;$/;"	m	class:ORB_SLAM2::Registrating
 mpMap	./include/System.h	/^    Map* mpMap;$/;"	m	class:ORB_SLAM2::System
 mpMap	./include/Tracking.h	/^    Map* mpMap;$/;"	m	class:ORB_SLAM2::Tracking
 mpMapDrawer	./include/System.h	/^    MapDrawer* mpMapDrawer;$/;"	m	class:ORB_SLAM2::System
@@ -11724,7 +11736,7 @@ mpReferenceKF	./include/Tracking.h	/^    KeyFrame* mpReferenceKF;$/;"	m	class:OR
 mpRegistrator	./include/LocalMapping.h	/^	Registrating *mpRegistrator;$/;"	m	class:ORB_SLAM2::LocalMapping
 mpRegistrator	./include/System.h	/^	Registrating *mpRegistrator;$/;"	m	class:ORB_SLAM2::System
 mpRegistrator	./include/Tracking.h	/^	Registrating *mpRegistrator;$/;"	m	class:ORB_SLAM2::Tracking
-mpReplaced	./include/MapPoint.h	/^     MapPoint* mpReplaced;$/;"	m	class:ORB_SLAM2::MapPoint
+mpReplaced	./include/MapPoint.h	/^	MapPoint* mpReplaced;$/;"	m	class:ORB_SLAM2::MapPoint
 mpSystem	./include/Tracking.h	/^    System* mpSystem;$/;"	m	class:ORB_SLAM2::Tracking
 mpSystem	./include/Viewer.h	/^    System* mpSystem;$/;"	m	class:ORB_SLAM2::Viewer
 mpThreadGBA	./include/LoopClosing.h	/^    std::thread* mpThreadGBA;$/;"	m	class:ORB_SLAM2::LoopClosing
@@ -12976,6 +12988,7 @@ point_to_point	./Thirdparty/sparseicp/ICP.h	/^    Eigen::Affine3d point_to_point
 point_to_point	./Thirdparty/sparseicp/ICP.h	/^    inline Eigen::Affine3d point_to_point(Eigen::MatrixBase<Derived1>& X,$/;"	f	namespace:RigidMotionEstimator
 point_to_point	./Thirdparty/sparseicp/ICP.h	/^    void point_to_point(Eigen::Matrix3Xd& X,$/;"	f	namespace:ICP
 point_to_point	./Thirdparty/sparseicp/ICP.h	/^    void point_to_point(Eigen::MatrixBase<Derived1>& X,$/;"	f	namespace:SICP
+point_to_point	./Thirdparty/sparseicp/ICP.h	/^    void point_to_point(const Eigen::MatrixBase<Derived1>& Xt,$/;"	f	namespace:SICP
 pointer	./Thirdparty/sparseicp/include/Eigen/src/Core/util/Memory.h	/^    typedef T*        pointer;$/;"	t	class:Eigen::aligned_allocator
 pointer	./Thirdparty/sparseicp/include/Eigen/src/StlSupport/details.h	/^    typedef T*        pointer;$/;"	t	class:Eigen::aligned_allocator_indirection
 pool	./Thirdparty/sparseicp/include/nanoflann.hpp	/^		PooledAllocator pool;$/;"	m	class:nanoflann::KDTreeSingleIndexAdaptor
@@ -15242,6 +15255,8 @@ vertices	./Thirdparty/g2o/g2o/core/hyper_graph.h	/^          VertexContainer& ve
 vertices	./Thirdparty/g2o/g2o/core/hyper_graph.h	/^          const VertexContainer& vertices() const { return _vertices;}$/;"	f	class:g2o::HyperGraph::Edge
 vertices	./Thirdparty/g2o/g2o/core/hyper_graph.h	/^      VertexIDMap& vertices() {return _vertices;}$/;"	f	class:g2o::HyperGraph
 vertices	./Thirdparty/g2o/g2o/core/hyper_graph.h	/^      const VertexIDMap& vertices() const {return _vertices;}$/;"	f	class:g2o::HyperGraph
+vertices_source	./include/Registrating.h	/^		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices_source;$/;"	m	class:ORB_SLAM2::Registrating
+vertices_target	./include/Registrating.h	/^		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices_target;$/;"	m	class:ORB_SLAM2::Registrating
 viewAsCholmod	./Thirdparty/sparseicp/include/Eigen/src/CholmodSupport/CholmodSupport.h	/^cholmod_dense viewAsCholmod(MatrixBase<Derived>& mat)$/;"	f	namespace:Eigen
 viewAsCholmod	./Thirdparty/sparseicp/include/Eigen/src/CholmodSupport/CholmodSupport.h	/^cholmod_sparse viewAsCholmod(SparseMatrix<_Scalar,_Options,_Index>& mat)$/;"	f	namespace:Eigen
 viewAsCholmod	./Thirdparty/sparseicp/include/Eigen/src/CholmodSupport/CholmodSupport.h	/^cholmod_sparse viewAsCholmod(const SparseSelfAdjointView<SparseMatrix<_Scalar,_Options,_Index>, UpLo>& mat)$/;"	f	namespace:Eigen

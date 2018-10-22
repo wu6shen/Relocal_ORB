@@ -19,6 +19,7 @@ namespace ORB_SLAM2 {
 
 		void SetNew();
 		void ICP();
+		void RunSuper4PCS();
 
 		void PushMatch(MapPoint *lastMp, MapPoint *curMp);
 		
