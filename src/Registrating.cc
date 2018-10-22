@@ -64,24 +64,24 @@ namespace ORB_SLAM2 {
 		mLastPointsNum = 0;
 		for (size_t i = 0; i < mvpLastMap.size(); i++) {
 			cv::Mat mp = mvpLastMap[i]->GetWorldPos();
-			if (mMatches12[i]) {
 				for (int j = 0; j < 3; j++) {
 					mLastPoints[j][mLastPointsNum] = mp.at<float>(j);
 				}
 				mLastPointsNum++;
+			if (mMatches12[i]) {
 			}
 		}
 		std::cout << "ICP Point num : " << mvpCurrentMap.size() << " " << mCurrentPointsNum << " " << mLastPointsNum << std::endl;
-		vertices_source.resize(Eigen::NoChange, mLastPointsNum);
-		vertices_target.resize(Eigen::NoChange, mCurrentPointsNum);
+		vertices_source.resize(Eigen::NoChange, mCurrentPointsNum);
+		vertices_target.resize(Eigen::NoChange, mLastPointsNum);
 		for (int i = 0; i < mCurrentPointsNum; i++) {
 			for (int j = 0; j < 3; j++) {
-				vertices_target(j, i) = mCurrentPoints[j][i];
+				vertices_source(j, i) = mCurrentPoints[j][i];
 			}
 		}
 		for (int i = 0; i < mLastPointsNum; i++) {
 			for (int j = 0; j < 3; j++) {
-				vertices_source(j, i) = mLastPoints[j][i];
+				vertices_target(j, i) = mLastPoints[j][i];
 			}
 		}
 		auto tic = std::chrono::steady_clock::now();
@@ -89,8 +89,11 @@ namespace ORB_SLAM2 {
 		pars.p = .5;
 		pars.max_icp = 15;
 		pars.print_icpn = true;
+		Eigen::Affine3d trans;
 		//std::cout << mLastPoints[0][0] << " " << mLastPoints[1][0] << " " << mLastPoints[2][0] << std::endl;
-		SICP::point_to_point(vertices_source, vertices_target, pars);
+		SICP::point_to_point(vertices_source, vertices_target, trans, pars);
+		std::cout << trans.translation() << std::endl;
+		std::cout << trans.linear() << std::endl;
 		/**
 		for (size_t i = 0; i < mvpLastMap.size(); i++) {
 			cv::Mat now(3, 1, CV_32F);
@@ -107,6 +110,7 @@ namespace ORB_SLAM2 {
 	}
 
 	void Registrating::SetNew() { 
+		/**
 		for (int i = 0; i < mLastPointsNum; i++) {
 			cv::Mat now = mvpLastMap[i]->GetWorldPos();
 			for (int j = 0; j < 3; j++) {
@@ -124,6 +128,7 @@ namespace ORB_SLAM2 {
 			for (int j = 0; j < 3; j++)
 				vertices_source(j, i) = mLastPoints[j][i];
 		}
+		*/
 	}
 
 	int Registrating::GetLastMapID(const MapPoint *mp) {
