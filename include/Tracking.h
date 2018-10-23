@@ -243,6 +243,7 @@ protected:
 
 	//Relocal
 	void CreateInitialMapRelocal();
+	void CreateInitialMapRelocalTestSuper4PCS();
 	int mInitFixedPointNum;
     Initializer* mpInitializerLastMap;
     Frame mInitialFrameLastMap;

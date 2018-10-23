@@ -582,7 +582,7 @@ void Tracking::RelocalInitialization() {
 
 }
 
-void Tracking::CreateInitialMapRelocal() {
+void Tracking::CreateInitialMapRelocalTestSuper4PCS() {
 	//Test super4pcs
 	cv::Mat Ri = mInitialFrameLastMap.mTcw.rowRange(0,3).colRange(0,3);
 	cv::Mat ti = mInitialFrameLastMap.mTcw.rowRange(0,3).col(3);
@@ -593,17 +593,17 @@ void Tracking::CreateInitialMapRelocal() {
 	tinv.copyTo(Tinv.rowRange(0, 3).col(3));
 
 	std::cout << Tinv << std::endl;
-	
+
 	mInitialFrameLastMap.SetPose(mInitialFrameLastMap.mTcw * Tinv);
 	mCurrentFrame.SetPose(mCurrentFrame.mTcw * Tinv);
-    KeyFrame* pKFini = new KeyFrame(mInitialFrameLastMap,mpMap,mpKeyFrameDB);
-    KeyFrame* pKFcur = new KeyFrame(mCurrentFrame,mpMap,mpKeyFrameDB);
+	KeyFrame* pKFini = new KeyFrame(mInitialFrameLastMap,mpMap,mpKeyFrameDB);
+	KeyFrame* pKFcur = new KeyFrame(mCurrentFrame,mpMap,mpKeyFrameDB);
 
-    pKFini->ComputeBoW();
-    pKFcur->ComputeBoW();
+	pKFini->ComputeBoW();
+	pKFcur->ComputeBoW();
 
-    mpMap->AddKeyFrame(pKFini);
-    mpMap->AddKeyFrame(pKFcur);
+	mpMap->AddKeyFrame(pKFini);
+	mpMap->AddKeyFrame(pKFcur);
 
 	mInitFixedPointNum = 0;
 
@@ -614,7 +614,7 @@ void Tracking::CreateInitialMapRelocal() {
 			MapPoint *lastMP2 = mCurrentFrame.mvpLastMapPoints[id];
 			if (lastMP2) {
 				if (lastMP && lastMP != lastMP2){
-				   	continue;
+					continue;
 				}
 				MapPoint *pMP = new MapPoint(Ri * lastMP2->GetWorldPos() + ti, pKFcur, mpMap);
 				mpRegistrator->PushMatch(lastMP2, pMP);
@@ -696,6 +696,158 @@ void Tracking::CreateInitialMapRelocal() {
 			MapPoint *lastMP = mCurrentFrame.mvpLastMapPoints[i];
 			if (lastMP) {
 				MapPoint *pMP = new MapPoint(Ri * lastMP->GetWorldPos() + ti, pKFcur, mpMap);
+				mpRegistrator->PushMatch(lastMP, pMP);
+				pMP->isLast = true;
+				pMP->SetQualifiedTrue();
+
+				mInitFixedPointNum++;
+				pKFcur->AddMapPoint(pMP, i);
+				pMP->AddObservation(pKFcur, i);
+				mCurrentFrame.mvpMapPoints[i] = pMP;
+				mCurrentFrame.mvbOutlier[i] = false;
+
+				pMP->ComputeDistinctiveDescriptors();
+				pMP->UpdateNormalAndDepth();
+
+				mpMap->AddMapPoint(pMP);
+			}
+		}
+	}
+	pKFini->UpdateConnections();
+	pKFcur->UpdateConnections();
+
+	cout << "New Map created with " << mpMap->MapPointsInMap() << " points" << endl;
+	cout << "Last Map created with " << mInitFixedPointNum << " points" << endl;
+	Optimizer::GlobalBundleAdjustemnt(mpMap,20);
+	mpLocalMapper->InsertKeyFrame(pKFini);
+	mpLocalMapper->InsertKeyFrame(pKFcur);
+
+	mCurrentFrame.SetPose(pKFcur->GetPose());
+	mnLastKeyFrameId=mCurrentFrame.mnId;
+	mpLastKeyFrame = pKFcur;
+
+	mvpLocalKeyFrames.push_back(pKFcur);
+	mvpLocalKeyFrames.push_back(pKFini);
+	mvpLocalMapPoints=mpMap->GetAllMapPoints();
+	mpReferenceKF = pKFcur;
+	mCurrentFrame.mpReferenceKF = pKFcur;
+
+	mLastFrame = Frame(mCurrentFrame);
+
+	mpMap->SetReferenceMapPoints(mvpLocalMapPoints);
+
+	mpMapDrawer->SetCurrentCameraPose(pKFcur->GetPose());
+
+	mpMap->mvpKeyFrameOrigins.push_back(pKFini);
+
+	if (mpRegistrator) {
+		mpRegistrator->SetCurrentMap(mpMap);
+	}
+
+	mState=OK;
+}
+
+void Tracking::CreateInitialMapRelocal() {
+    KeyFrame* pKFini = new KeyFrame(mInitialFrameLastMap,mpMap,mpKeyFrameDB);
+    KeyFrame* pKFcur = new KeyFrame(mCurrentFrame,mpMap,mpKeyFrameDB);
+
+    pKFini->ComputeBoW();
+    pKFcur->ComputeBoW();
+
+    mpMap->AddKeyFrame(pKFini);
+    mpMap->AddKeyFrame(pKFcur);
+
+	mInitFixedPointNum = 0;
+
+	for (int i = 0; i < mInitialFrameLastMap.N; i++) {
+		int id = mvIniMatchesLastMap[i];
+		MapPoint *lastMP = mInitialFrameLastMap.mvpLastMapPoints[i];
+		if (id >= 0) {
+			MapPoint *lastMP2 = mCurrentFrame.mvpLastMapPoints[id];
+			if (lastMP2) {
+				if (lastMP && lastMP != lastMP2){
+				   	continue;
+				}
+				MapPoint *pMP = new MapPoint(lastMP2->GetWorldPos(), pKFcur, mpMap);
+				mpRegistrator->PushMatch(lastMP2, pMP);
+				pMP->isLast = true;
+				pMP->SetQualifiedTrue();
+				mInitFixedPointNum++;
+				if (lastMP) {
+					pKFini->AddMapPoint(pMP, i);
+					pMP->AddObservation(pKFini, i);
+				}
+				pKFcur->AddMapPoint(pMP, id);
+				pMP->AddObservation(pKFcur, id);
+				mCurrentFrame.mvpMapPoints[id] = pMP;
+				mCurrentFrame.mvbOutlier[id] = false;
+
+				pMP->ComputeDistinctiveDescriptors();
+				pMP->UpdateNormalAndDepth();
+
+				mpMap->AddMapPoint(pMP);
+			} else if (lastMP) {
+				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
+				mpRegistrator->PushMatch(lastMP, pMP);
+
+				pMP->isLast = true;
+				pMP->SetQualifiedTrue();
+
+				mInitFixedPointNum++;
+				pKFini->AddMapPoint(pMP, i);
+				pMP->AddObservation(pKFini, i);
+
+				pMP->ComputeDistinctiveDescriptors();
+				pMP->UpdateNormalAndDepth();
+				mpMap->AddMapPoint(pMP);
+			} else {
+
+				/**
+				*/
+				cv::Mat worldPos(mvIniP3DLastMap[i]);
+
+				MapPoint* pMP = new MapPoint(worldPos,pKFcur,mpMap);
+
+				pKFini->AddMapPoint(pMP,i);
+				pKFcur->AddMapPoint(pMP,mvIniMatchesLastMap[i]);
+
+				pMP->AddObservation(pKFini,i);
+				pMP->AddObservation(pKFcur,mvIniMatchesLastMap[i]);
+
+				pMP->ComputeDistinctiveDescriptors();
+				pMP->UpdateNormalAndDepth();
+
+				//Fill Current Frame structure
+				mCurrentFrame.mvpMapPoints[mvIniMatchesLastMap[i]] = pMP;
+				mCurrentFrame.mvbOutlier[mvIniMatchesLastMap[i]] = false;
+
+				//Add to Map
+				mpMap->AddMapPoint(pMP);
+			}
+
+		} else if (lastMP) {
+			MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFini, mpMap);
+			mpRegistrator->PushMatch(lastMP, pMP);
+
+			pMP->isLast = true;
+			pMP->SetQualifiedTrue();
+
+			mInitFixedPointNum++;
+			pKFini->AddMapPoint(pMP, i);
+			pMP->AddObservation(pKFini, i);
+
+			pMP->ComputeDistinctiveDescriptors();
+			pMP->UpdateNormalAndDepth();
+
+			mpMap->AddMapPoint(pMP);
+		}
+	}
+
+	for (int i = 0; i < mCurrentFrame.N; i++)  {
+		if (!mCurrentFrame.mvpMapPoints[i]) {
+			MapPoint *lastMP = mCurrentFrame.mvpLastMapPoints[i];
+			if (lastMP) {
+				MapPoint *pMP = new MapPoint(lastMP->GetWorldPos(), pKFcur, mpMap);
 				mpRegistrator->PushMatch(lastMP, pMP);
 				pMP->isLast = true;
 				pMP->SetQualifiedTrue();
@@ -870,7 +1022,7 @@ cv::Mat Tracking::RelocalUsePnP(const cv::Mat &im, int pnpFlag) {
 		mlbLost.push_back(mState==LOST);
 	}
 
-	if (mInitFixedPointNum != -1 && (int)mpMap->MapPointsInMap() > 5 * mInitFixedPointNum) {
+	if (mInitFixedPointNum != -1 && (int)mpMap->MapPointsInMap() > 2 * mInitFixedPointNum) {
 		std::cout << "stop " << std::endl;
 		mInitFixedPointNum = -1;
 		mpMap->SetUnFix();

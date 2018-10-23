@@ -648,7 +648,7 @@ void System::Save(const string &filename) {
 	//sleep(1);
 	//std::cout << "--" << std::endl;
 //	}
-	mpRegistrator->RunSuper4PCS();
+	mpRegistrator->ICP();
 	while (1);
 
     f.open(filename.c_str());

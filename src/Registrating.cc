@@ -1,5 +1,5 @@
 #include "Registrating.h"
-#include "Thirdparty/sparseicp/ICP.h"
+#include "MySparseICP.h"
 #include "Converter.h"
 #include <Eigen/Dense>
 #include <super4pcs/algorithms/4pcs.h>
@@ -57,7 +57,7 @@ struct TransformVisitor {
 	void Registrating::Run() {
 		while (1) {
 			if (NeedICP()) {
-				//ICP();
+				ICP();
 			}
 		}
 	}
@@ -136,11 +136,14 @@ struct TransformVisitor {
 	}
 
 	void Registrating::ICP() {
+		vector<pair<int, int> > matches12;
+		std::map<MapPoint*, int> ptId;
 		mCurrentPointsNum = 0;
 		mvpCurrentMap = mpMap->GetAllMapPoints();
 		for (size_t i = 0; i < mvpCurrentMap.size(); i++) {
 			cv::Mat mp = mvpCurrentMap[i]->GetWorldPos();
 			if (!mvpCurrentMap[i]->isQualified()) continue;
+			ptId[mvpCurrentMap[i]] = mCurrentPointsNum;
 			for (int j = 0; j < 3; j++) {
 				mCurrentPoints[j][mCurrentPointsNum] = mp.at<float>(j);
 			}
@@ -154,39 +157,68 @@ struct TransformVisitor {
 				}
 				mLastPointsNum++;
 			if (mMatches12[i]) {
+				if (ptId.count(mMatches12[i])) {
+					int id = ptId[mMatches12[i]];
+					matches12.push_back(make_pair(i, id));
+				}
 			}
 		}
 		std::cout << "ICP Point num : " << mvpCurrentMap.size() << " " << mCurrentPointsNum << " " << mLastPointsNum << std::endl;
-		vertices_source.resize(Eigen::NoChange, mCurrentPointsNum);
-		vertices_target.resize(Eigen::NoChange, mLastPointsNum);
+		vertices_source.resize(Eigen::NoChange, mLastPointsNum);
+		vertices_target.resize(Eigen::NoChange, mCurrentPointsNum);
+
+		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices1;
+		Eigen::Matrix<double, 3, Eigen::Dynamic> vertices2;
+		vertices1.resize(Eigen::NoChange, matches12.size());
+		vertices2.resize(Eigen::NoChange, matches12.size());
 		for (int i = 0; i < mCurrentPointsNum; i++) {
 			for (int j = 0; j < 3; j++) {
-				vertices_source(j, i) = mCurrentPoints[j][i];
+				vertices_target(j, i) = mCurrentPoints[j][i];
 			}
 		}
 		for (int i = 0; i < mLastPointsNum; i++) {
 			for (int j = 0; j < 3; j++) {
-				vertices_target(j, i) = mLastPoints[j][i];
+				vertices_source(j, i) = mLastPoints[j][i];
+			}
+		}
+		for (size_t i = 0; i < matches12.size(); i++) {
+			int lid = matches12[i].first;
+			int rid = matches12[i].second;
+			for (int j = 0; j < 3; j++) {
+				vertices1(j, i) = mLastPoints[j][lid];
+			}
+			for (int j = 0; j < 3; j++) {
+				vertices2(j, i) = mCurrentPoints[j][rid];
 			}
 		}
 		auto tic = std::chrono::steady_clock::now();
-		SICP::Parameters pars;
-		pars.p = .5;
-		pars.max_icp = 15;
-		pars.print_icpn = true;
 		Eigen::Affine3d trans;
 		//std::cout << mLastPoints[0][0] << " " << mLastPoints[1][0] << " " << mLastPoints[2][0] << std::endl;
-		SICP::point_to_point(vertices_source, vertices_target, trans, pars);
-		trans = trans.inverse();
-		std::cout << trans.translation() << std::endl;
-		std::cout << trans.linear() << std::endl;
+
+		trans = RigidMotionEstimator::point_to_point_scale(vertices1, vertices2, Eigen::VectorXd::Ones(vertices1.cols()));
+		
+        nanoflann::KDTreeAdaptor<Eigen::Matrix<double, 3, Eigen::Dynamic>, 3, nanoflann::metric_L2_Simple> kdtree(vertices_target);
+		vertices_source = trans * vertices_source;
+		for (size_t i = 0; i < matches12.size(); i++) {
+			int lid = matches12[i].first;
+			int rid = matches12[i].second;
+			int id[2];
+		    double dist[2];
+			kdtree.query(vertices_source.col(lid).data(), 2, id, dist);
+			std::cout << (int)(rid == id[0]) << " ";
+			//std::cout << id[0] << " " << id[1] << std::endl;
+			//std::cout << dist[0] << " " << dist[1] << std::endl;
+		}
+			puts("");
 		/**
+		*/
 		for (size_t i = 0; i < mvpLastMap.size(); i++) {
 			cv::Mat now(3, 1, CV_32F);
-			for (int j = 0; j < 3; j++) now.at<float>(j) = vertices_source(j, i);
+			Eigen::Vector3d p = vertices_source.col(i);
+			//p = trans * p;
+			for (int j = 0; j < 3; j++) now.at<float>(j) = p(j);
 			mvpLastMap[i]->SetWorldPos(now);
 		}
-		*/
 		//std::cout << vertices_source(0, 0) << " " << vertices_source(1, 0) << " " << vertices_source(2, 0) << std::endl;
 		auto toc = std::chrono::steady_clock::now();
 
